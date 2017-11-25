@@ -1018,14 +1018,18 @@ $return_html .= '<li>
 
 //artistic display post from notifiacation  start
 //Notification count select & update for apply,save,like,comment,contact and follow start
-    public function select_notification() { //echo "hello"; die();
+    public function select_notification($to_id='') { //echo "hello"; die();
+        
+        $to_id = $this->db->select('user_id')->get_where('business_profile', array('business_profile_id'=>$to_id))->row()->user_id;
+        
+        
         $userid = $this->session->userdata('aileenuser');
-        $contition_array = array('not_read' => '2', 'not_to_id' => $userid, 'not_type !=' => '1', 'not_type !=' => '2');
+        $contition_array = array('not_read' => '2', 'not_to_id' => $to_id, 'not_type !=' => '1', 'not_type !=' => '2');
         $result = $this->common->select_data_by_condition('notification', $contition_array, $data = 'count(*) as total', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         //echo '<pre>'; print_r($result); 
         $count = $result[0]['total'];
-        echo $count;
+        echo json_encode(array('count'=>$count,'to_id'=>$to_id));
     }
 
     public function update_notification() {

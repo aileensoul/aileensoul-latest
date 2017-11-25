@@ -11,6 +11,15 @@ server.listen(port, function () {
 
 
 io.on('connection', function (socket) {
+    
+     socket.on( 'notification_count', function( data ) {
+         console.log(data);
+    io.sockets.emit( 'notification_count', { 
+    	notification_count: data.notification_count,
+        to_id: data.to_id,
+    });
+  });
+  
 
   socket.on( 'new_count_message', function( data ) {
     io.sockets.emit( 'new_count_message', { 

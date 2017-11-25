@@ -486,6 +486,7 @@ $s3 = new S3(awsAccessKey, awsSecretKey);
         <!-- <footer> -->
             <?php echo $footer; ?>
         <!-- </footer> -->
+        <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
         <script src="<?php echo base_url('assets/js/croppie.js?ver=' . time()); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver=' . time()); ?>"></script>
@@ -501,6 +502,23 @@ $s3 = new S3(awsAccessKey, awsSecretKey);
         <script type="text/javascript" src="<?php echo base_url('assets/as-videoplayer/demo.js?ver=' . time()); ?>"></script>
         <!-- POST BOX JAVASCRIPT END --> 
         <script>
+            
+             var socket = io.connect( 'http://'+window.location.hostname+':3000' );
+
+  socket.on( 'notification_count', function( data ) {
+  
+      $( "#notification_count" + data.to_id ).html( data.notification_count );
+      // $('#notification_count').html(msg);
+            $('#notification_count'  + data.to_id).css({
+                "background-color": "#FF4500",
+                "padding": "5px 6px"
+            });
+            $('#notificationLink').addClass('notification_available');
+            //   document.getElementById('message_count').style.display = "none";
+            document.getElementById('notification_count' + data.to_id).style.display = 'block';
+   //   $('#notif_audio')[0].play();
+
+  });
                                         var base_url = '<?php echo base_url(); ?>';
                                         var slug = '<?php echo $slugid; ?>';
                                         var no_business_post_html = '<?php echo $no_business_post_html ?>';
