@@ -102,13 +102,9 @@ body {
 
 <!--post save success pop up style end -->
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css'); ?>">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-3.min.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-<script src="<?php echo base_url('js/fb_login.js'); ?>"></script>
+<!--<link rel="stylesheet" href="<?php// echo base_url('assets/css/bootstrap-3.min.css'); ?>">-->
 
 
 <style type="text/css" media="screen">
@@ -673,6 +669,7 @@ function text2link($text){
         </div>
         </div>
     </section>
+    
     <div class="modal fade message-box" id="bidmodal-2" role="dialog">
     <div class="modal-dialog modal-lm">
         <div class="modal-content">
@@ -697,16 +694,12 @@ function text2link($text){
 
 </html>
 <!-- 
- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> -->
 
- <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-   <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-    <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-    <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-       <script src="<?php echo base_url('assets/js/croppie.js'); ?>"></script>
-
-  <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css'); ?>">
+ 
+   
+    
+    
+       
 <script>
 
 var data= <?php echo json_encode($demo); ?>;
@@ -791,7 +784,7 @@ $('#searchplace').select2({
 
   </script>
 
-  <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 <script>
     function removepopup(id) {
         $('.biderror .mes').html("<div class='pop_content'>Are you sure want to remove this post?<div class='model_ok_cancel'><a class='okbtn' id=" + id + " onClick='remove_post(" + id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");

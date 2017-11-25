@@ -9,26 +9,22 @@ class Business_userprofile extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
         $this->load->library('form_validation');
+        $this->load->library('user_agent');
         $this->load->model('email_model');
         $this->lang->load('message', 'english');
-        include ('include.php');
-
-// DEACTIVATE PROFILE START
+        $this->load->helper('smiley');
+        //AWS access info start
+        $this->load->library('S3');
+        //AWS access info end
 
         $userid = $this->session->userdata('aileenuser');
+        include ('business_profile_include.php');
 
-// IF USER DEACTIVE PROFILE THEN REDIRECT TO BUSINESS-PROFILE/INDEX UNTILL ACTIVE PROFILE START
+        // FIX BUSINESS PROFILE NO POST DATA
 
-        $contition_array = array('user_id' => $userid, 'status' => '0', 'is_deleted' => '0');
-        $business_deactive = $this->data['business_deactive'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '	business_profile_id', $sortby = '', $orderby = '', $limit = '', $offset = '', $$join_str = array(), $groupby);
-
-        if ($business_deactive) {
-            redirect('business-profile/');
-        }
-// IF USER DEACTIVE PROFILE THEN REDIRECT TO BUSINESS-PROFILE/INDEX UNTILL ACTIVE PROFILE END
-// DEACTIVATE PROFILE END
+        $this->data['no_business_post_html'] = '<div class="art_no_post_avl"><h3>Business Post</h3><div class="art-img-nn"><div class="art_no_post_img"><img src=' . base_url('assets/img/bui-no.png') . '></div><div class="art_no_post_text">No Post Available.</div></div></div>';
+        $this->data['no_business_contact_html'] = '<div class="art-img-nn"><div class="art_no_post_img"><img src="' . base_url('assets/img/No_Contact_Request.png') . '"></div><div class="art_no_post_text">No Contacts Available.</div></div>';
     }
 
     public function index() {
@@ -46,15 +42,15 @@ class Business_userprofile extends CI_Controller {
             $userdata = $this->common->select_data_by_condition('business_profile', $contition_array, $data = 'business_step', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
 // GET COUNTRY DATA
-            $contition_array = array('status' => 1);
+            $contition_array = array('status' => '1');
             $this->data['countries'] = $this->common->select_data_by_condition('countries', $contition_array, $data = 'country_id,country_name', $sortby = 'country_name', $orderby = 'ASC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
 // GET STATE DATA
-            $contition_array = array('status' => 1);
+            $contition_array = array('status' => '1');
             $this->data['states'] = $this->common->select_data_by_condition('states', $contition_array, $data = 'state_id,state_name,country_id', $sortby = 'state_name', $orderby = 'ASC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
 // GET CITY DATA
-            $contition_array = array('status' => 1);
+            $contition_array = array('status' => '1');
             $this->data['cities'] = $this->common->select_data_by_condition('cities', $contition_array, $data = 'city_id,city_name,state_id', $sortby = 'city_name', $orderby = 'ASC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
             if (count($userdata) > 0) {
@@ -81,7 +77,7 @@ class Business_userprofile extends CI_Controller {
 
         $id = $_POST['bus_slug'];
 
-        $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => 4);
+        $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => '4');
         $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = 'user_id', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         $join_str[0]['table'] = 'post_files';
@@ -115,104 +111,263 @@ class Business_userprofile extends CI_Controller {
 
     public function bus_user_videos() {
 
+        $s3 = new S3(awsAccessKey, awsSecretKey);
         $id = $_POST['bus_slug'];
+// manage post start
+        $userid = $this->session->userdata('aileenuser');
+        $user_name = $this->session->userdata('user_name');
 
-        $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => 4);
-        $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = 'user_id', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        $contition_array = array('user_id' => $userid, 'status' => '1');
+        $slug_data = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
-        $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => 4);
-        $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        $slug_id = $slug_data[0]['business_slug'];
 
-        $contition_array = array('user_id' => $businessdata1[0]['user_id']);
-        $busvideo = $this->data['busvideo'] = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        if ($id == $slug_id || $id == '') {
 
-        foreach ($busvideo as $val) {
-            $contition_array = array('post_id' => $val['business_profile_post_id'], 'is_deleted' => '1', 'insert_profile' => '2');
-            $busmultivideo = $this->data['busmultivideo'] = $this->common->select_data_by_condition('post_files', $contition_array, $data = '*', $sortby = 'created_date', $orderby = 'DESC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+            $contition_array = array('business_slug' => $slug_id, 'status' => '1');
+            $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        } else {
 
-            $multiplevideo[] = $busmultivideo;
+            $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => '4');
+            $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         }
 
-        $allowesvideo = array('mp4', 'webm');
-        foreach ($multiplevideo as $mke => $mval) {
-            foreach ($mval as $mke1 => $mval1) {
-                $ext = pathinfo($mval1['file_name'], PATHINFO_EXTENSION);
+        $join_str[0]['table'] = 'post_files';
+        $join_str[0]['join_table_id'] = 'post_files.post_id';
+        $join_str[0]['from_table_id'] = 'business_profile_post.business_profile_post_id';
+        $join_str[0]['join_type'] = '';
 
-                if (in_array($ext, $allowesvideo)) {
-                    $singlearray1[] = $mval1;
-                }
-            }
-        }
-        if ($singlearray1) {
+        $contition_array = array('user_id' => $businessdata1[0]['user_id'], 'business_profile_post.is_delete' => '0', 'post_files.insert_profile' => '2', 'post_format' => 'video');
+        $businessvideo = $this->data['businessvideo'] = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = 'file_name', $sortby = 'post_files.created_date', $orderby = 'desc', $limit = '6', $offset = '', $join_str, $groupby = '');
+
+        if ($businessvideo) {
             $fetch_video .= '<tr>';
 
-            if ($singlearray1[0]['file_name']) {
-                $fetch_video .= '<td class="image_profile">';
-                $fetch_video .= '<video controls>';
+            if ($businessvideo[0]['file_name']) {
 
-                $fetch_video .= '<source src="' . BUS_POST_MAIN_UPLOAD_URL . $singlearray1[0]['file_name'] . '" type="video/mp4">';
-                $fetch_video .= '<source src="movie.ogg" type="video/ogg">';
-                $fetch_video .= 'Your browser does not support the video tag.';
-                $fetch_video .= '</video>';
-                $fetch_video .= '</td>';
+                $post_poster = $businessvideo[0]['file_name'];
+                $post_poster1 = explode('.', $post_poster);
+                $post_poster2 = end($post_poster1);
+                $post_poster = str_replace($post_poster2, 'png', $post_poster);
+
+                if (IMAGEPATHFROM == 'upload') {
+                    $fetch_video .= '<td class = "image_profile">';
+                    if (file_exists($this->config->item('bus_post_main_upload_path') . $post_poster)) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[0]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                } else {
+                    $fetch_video .= '<td class = "image_profile">';
+
+                    $filename = $this->config->item('bus_profile_thumb_upload_path') . $posted_business_user_image;
+                    $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                    if ($info) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[0]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                }
             }
 
-            if ($singlearray1[1]['file_name']) {
-                $fetch_video .= '<td class="image_profile">';
-                $fetch_video .= '<video  controls>';
-                $fetch_video .= '<source src="' . BUS_POST_MAIN_UPLOAD_URL . $singlearray1[1]['file_name'] . '" type="video/mp4">';
-                $fetch_video .= '<source src="movie.ogg" type="video/ogg">';
-                $fetch_video .= 'Your browser does not support the video tag.';
-                $fetch_video .= '</video>';
-                $fetch_video .= '</td>';
+            if ($businessvideo[1]['file_name']) {
+                $post_poster = $businessvideo[1]['file_name'];
+                $post_poster1 = explode('.', $post_poster);
+                $post_poster2 = end($post_poster1);
+                $post_poster = str_replace($post_poster2, 'png', $post_poster);
+
+                if (IMAGEPATHFROM == 'upload') {
+                    $fetch_video .= '<td class = "image_profile">';
+                    if (file_exists($this->config->item('bus_profile_thumb_upload_path') . $post_poster)) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[1]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                } else {
+                    $fetch_video .= '<td class = "image_profile">';
+
+                    $filename = $this->config->item('bus_profile_thumb_upload_path') . $posted_business_user_image;
+                    $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                    if ($info) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[1]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                }
             }
-            if ($singlearray1[2]['file_name']) {
-                $fetch_video .= '<td class="image_profile">';
-                $fetch_video .= '<video  controls>';
-                $fetch_video .= '<source src="' . BUS_POST_MAIN_UPLOAD_URL . $singlearray1[2]['file_name'] . '" type="video/mp4">';
-                $fetch_video .= '<source src="movie.ogg" type="video/ogg">';
-                $fetch_video .= 'Your browser does not support the video tag.';
-                $fetch_video .= '</video>';
-                $fetch_video .= '</td>';
+            if ($businessvideo[2]['file_name']) {
+
+                $post_poster = $businessvideo[2]['file_name'];
+                $post_poster1 = explode('.', $post_poster);
+                $post_poster2 = end($post_poster1);
+                $post_poster = str_replace($post_poster2, 'png', $post_poster);
+
+                if (IMAGEPATHFROM == 'upload') {
+                    $fetch_video .= '<td class = "image_profile">';
+                    if (file_exists($this->config->item('bus_profile_thumb_upload_path') . $post_poster)) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[2]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                } else {
+                    $fetch_video .= '<td class = "image_profile">';
+
+                    $filename = $this->config->item('bus_profile_thumb_upload_path') . $posted_business_user_image;
+                    $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                    if ($info) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[2]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                }
             }
             $fetch_video .= '</tr>';
             $fetch_video .= '<tr>';
 
-            if ($singlearray1[3]['file_name']) {
-                $fetch_video .= '<td class="image_profile">';
-                $fetch_video .= '<video  controls>';
-                $fetch_video .= '<source src="' . BUS_POST_MAIN_UPLOAD_URL . $singlearray1[3]['file_name'] . '" type="video/mp4">';
-                $fetch_video .= '<source src="movie.ogg" type="video/ogg">';
-                $fetch_video .= 'Your browser does not support the video tag.';
-                $fetch_video .= '</video>';
-                $fetch_video .= '</td>';
+            if ($businessvideo[3]['file_name']) {
+
+                $post_poster = $businessvideo[3]['file_name'];
+                $post_poster1 = explode('.', $post_poster);
+                $post_poster2 = end($post_poster1);
+                $post_poster = str_replace($post_poster2, 'png', $post_poster);
+
+                if (IMAGEPATHFROM == 'upload') {
+                    $fetch_video .= '<td class = "image_profile">';
+                    if (file_exists($this->config->item('bus_profile_thumb_upload_path') . $post_poster)) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[3]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                } else {
+                    $fetch_video .= '<td class = "image_profile">';
+
+                    $filename = $this->config->item('bus_profile_thumb_upload_path') . $posted_business_user_image;
+                    $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                    if ($info) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[3]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                }
             }
-            if ($singlearray1[4]['file_name']) {
-                $fetch_video .= '<td class="image_profile">';
-                $fetch_video .= '<video  controls>';
-                $fetch_video .= '<source src="' . BUS_POST_MAIN_UPLOAD_URL . $singlearray1[4]['file_name'] . '" type="video/mp4">';
-                $fetch_video .= '<source src="movie.ogg" type="video/ogg">';
-                $fetch_video .= 'Your browser does not support the video tag.';
-                $fetch_video .= '</video>';
-                $fetch_video .= '</td>';
+            if ($businessvideo[4]['file_name']) {
+
+                $post_poster = $businessvideo[4]['file_name'];
+                $post_poster1 = explode('.', $post_poster);
+                $post_poster2 = end($post_poster1);
+                $post_poster = str_replace($post_poster2, 'png', $post_poster);
+
+                if (IMAGEPATHFROM == 'upload') {
+                    $fetch_video .= '<td class = "image_profile">';
+                    if (file_exists($this->config->item('bus_profile_thumb_upload_path') . $post_poster)) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[4]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                } else {
+                    $fetch_video .= '<td class = "image_profile">';
+
+                    $filename = $this->config->item('bus_profile_thumb_upload_path') . $posted_business_user_image;
+                    $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                    if ($info) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[4]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                }
             }
-            if ($singlearray1[5]['file_name']) {
-                $fetch_video .= '<td class="image_profile">';
-                $fetch_video .= '<video  controls>';
-                $fetch_video .= '<source src="' . BUS_POST_MAIN_UPLOAD_URL . $singlearray1[5]['file_name'] . '" type="video/mp4">';
-                $fetch_video .= '<source src="movie.ogg" type="video/ogg">';
-                $fetch_video .= 'Your browser does not support the video tag.';
-                $fetch_video .= '</video>';
-                $fetch_video .= '</td>';
+            if ($businessvideo[5]['file_name']) {
+
+                $post_poster = $businessvideo[5]['file_name'];
+                $post_poster1 = explode('.', $post_poster);
+                $post_poster2 = end($post_poster1);
+                $post_poster = str_replace($post_poster2, 'png', $post_poster);
+
+                if (IMAGEPATHFROM == 'upload') {
+                    $fetch_video .= '<td class = "image_profile">';
+                    if (file_exists($this->config->item('bus_profile_thumb_upload_path') . $post_poster)) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[5]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                } else {
+                    $fetch_video .= '<td class = "image_profile">';
+
+                    $filename = $this->config->item('bus_profile_thumb_upload_path') . $posted_business_user_image;
+                    $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                    if ($info) {
+                        $fetch_video .= '<video controls poster="' . BUS_POST_MAIN_UPLOAD_URL . $post_poster . '">';
+                    } else {
+                        $fetch_video .= '<video controls>';
+                    }
+                    $fetch_video .= '<source src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessvideo[5]['file_name'] . '" type = "video/mp4">';
+                    //$fetch_video .= '<source src = "movie.ogg" type = "video/ogg">';
+                    $fetch_video .= 'Your browser does not support the video tag.';
+                    $fetch_video .= '</video>';
+                    $fetch_video .= '</td>';
+                }
             }
             $fetch_video .= '</tr>';
         } else {
-
-
-            $fetch_video .= '<div class="not_available">  <p>     Video Not Available </p></div>';
+            //$fetch_video .= '<div class = "not_available"> <p> Video Not Available </p></div>';
         }
 
-        $fetch_video .= '<div class="dataconvideo"></div>';
+        $fetch_video .= '<div class = "dataconvideo"></div>';
 
 
         echo $fetch_video;
@@ -233,7 +388,7 @@ class Business_userprofile extends CI_Controller {
             $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         } else {
 
-            $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => 4);
+            $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => '4');
             $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         }
 
@@ -333,6 +488,7 @@ class Business_userprofile extends CI_Controller {
     }
 
     public function bus_user_pdf() {
+        $s3 = new S3(awsAccessKey, awsSecretKey);
         $id = $_POST['bus_slug'];
 // manage post start
         $userid = $this->session->userdata('aileenuser');
@@ -346,36 +502,23 @@ class Business_userprofile extends CI_Controller {
             $contition_array = array('business_slug' => $slug_id, 'status' => '1');
             $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         } else {
-            $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => 4);
+            $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => '4');
             $businessdata1 = $this->data['businessdata1'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         }
-        $contition_array = array('user_id' => $businessdata1[0]['user_id']);
-        $businessimage = $this->data['businessimage'] = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
-        foreach ($businessimage as $val) {
-            $contition_array = array('post_id' => $val['business_profile_post_id'], 'is_deleted' => '1', 'insert_profile' => '2');
-            $busmultipdf = $this->data['busmultipdf'] = $this->common->select_data_by_condition('post_files', $contition_array, $data = '*', $sortby = 'post_id', $orderby = 'DESC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
-            $multiplepdf[] = $busmultipdf;
-        }
-        $allowed = array('pdf');
-        foreach ($multiplepdf as $mke => $mval) {
+        $join_str[0]['table'] = 'post_files';
+        $join_str[0]['join_table_id'] = 'post_files.post_id';
+        $join_str[0]['from_table_id'] = 'business_profile_post.business_profile_post_id';
+        $join_str[0]['join_type'] = '';
 
-            foreach ($mval as $mke1 => $mval1) {
-                $ext = pathinfo($mval1['file_name'], PATHINFO_EXTENSION);
+        $contition_array = array('user_id' => $businessdata1[0]['user_id'], 'business_profile_post.is_delete' => '0', 'post_files.insert_profile' => '2', 'post_format' => 'pdf');
+        $businesspdf = $this->data['businessaudio'] = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = 'file_name', $sortby = 'post_files.created_date', $orderby = 'desc', $limit = '6', $offset = '', $join_str, $groupby = '');
 
-                if (in_array($ext, $allowed)) {
-                    $singlearray3[] = $mval1;
-                }
-            }
-        }
-
-        if ($singlearray3) {
-
+        if ($businesspdf) {
             $i = 0;
-            foreach ($singlearray3 as $mi) {
-
+            foreach ($businesspdf as $mi) {
                 $fetch_pdf .= '<div class = "image_profile">';
-                $fetch_pdf .= '<a href = "' . BUS_POST_MAIN_UPLOAD_URL . $singlearray3[0]['file_name'] . '"><div class = "pdf_img">';
-                $fetch_pdf .= '<embed src="' . BUS_POST_MAIN_UPLOAD_URL . $singlearray3[0]['file_name'] . '"/>';
+                $fetch_pdf .= '<a href = "javascript:void(0)" target="_blank" onclick="open_profile();"><div class = "pdf_img">';
+                $fetch_pdf .= '<img src = "' . base_url('assets/images/PDF.jpg') . '" style = "height: 50%; width: 50%;">';
                 $fetch_pdf .= '</div></a>';
                 $fetch_pdf .= '</div>';
 
@@ -384,9 +527,9 @@ class Business_userprofile extends CI_Controller {
                     break;
             }
         } else {
-            $fetch_pdf .= '<div class="not_available">  <p> Pdf Not Available </p></div>';
+            
         }
-        $fetch_pdf .= '<div class="dataconpdf"></div>';
+        $fetch_pdf .= '<div class = "dataconpdf"></div>';
         echo $fetch_pdf;
     }
 
@@ -406,28 +549,28 @@ class Business_userprofile extends CI_Controller {
         $userid = $this->session->userdata('aileenuser');
         $user_name = $this->session->userdata('user_name');
 
-        $contition_array = array('user_id' => $userid, 'status' => '1');
+        $contition_array = array('user_id' => $userid, 'is_deleted' => '0', 'status' => '1');
         $slug_data = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         $slug_id = $slug_data[0]['business_slug'];
         if ($id == $slug_id || $id == '') {
-            $contition_array = array('business_slug' => $slug_id, 'status' => '1');
+            $contition_array = array('business_slug' => $slug_id, 'is_deleted' => '0', 'status' => '1', 'business_step' => '4');
             $businessdata1 = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
             $limit = $perpage;
             $offset = $start;
 
-            $contition_array = array('user_id' => $businessdata1[0]['user_id'], 'status' => 1, 'is_delete' => '0');
+            $contition_array = array('user_id' => $businessdata1[0]['user_id'], 'status' => '1', 'is_delete' => '0');
             $business_profile_data = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'DESC', $limit, $offset, $join_str = array(), $groupby = '');
             $business_profile_data1 = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'DESC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         } else {
-            $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => 4);
+            $contition_array = array('business_slug' => $id, 'status' => '1', 'business_step' => '4');
             $businessdata1 = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
             $limit = $perpage;
             $offset = $start;
 
-            $contition_array = array('user_id' => $businessdata1[0]['user_id'], 'status' => 1, 'is_delete' => '0');
+            $contition_array = array('user_id' => $businessdata1[0]['user_id'], 'status' => '1', 'is_delete' => '0');
             $business_profile_data = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'DESC', $limit, $offset, $join_str = array(), $groupby = '');
             $business_profile_data1 = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'DESC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         }
@@ -494,11 +637,11 @@ class Business_userprofile extends CI_Controller {
 <div class = "post-design-name fl col-xs-8 col-md-10">
 <ul>';
                 $companyname = $this->db->get_where('business_profile', array('user_id' => $row['user_id']))->row()->company_name;
-                $slugname = $this->db->get_where('business_profile', array('user_id' => $row['user_id'], 'status' => 1))->row()->business_slug;
-                $categoryid = $this->db->get_where('business_profile', array('user_id' => $row['user_id'], 'status' => 1))->row()->industriyal;
-                $category = $this->db->get_where('industry_type', array('industry_id' => $categoryid, 'status' => 1))->row()->industry_name;
+                $slugname = $this->db->get_where('business_profile', array('user_id' => $row['user_id'], 'status' => '1'))->row()->business_slug;
+                $categoryid = $this->db->get_where('business_profile', array('user_id' => $row['user_id'], 'status' => '1'))->row()->industriyal;
+                $category = $this->db->get_where('industry_type', array('industry_id' => $categoryid, 'status' => '1'))->row()->industry_name;
                 $companynameposted = $this->db->get_where('business_profile', array('user_id' => $row['posted_user_id']))->row()->company_name;
-                $slugnameposted = $this->db->get_where('business_profile', array('user_id' => $row['posted_user_id'], 'status' => 1))->row()->business_slug;
+                $slugnameposted = $this->db->get_where('business_profile', array('user_id' => $row['posted_user_id'], 'status' => '1'))->row()->business_slug;
                 if ($row['posted_user_id']) {
                     $return_html .= '<li>
 <div class = "else_post_d">
@@ -518,7 +661,7 @@ class Business_userprofile extends CI_Controller {
 </div>
 </li>';
                 }
-                $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' => 1))->row()->industry_name;
+                $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' => '1'))->row()->industry_name;
                 $return_html .= '<li><div class = "post-design-product"> <a class = "buuis_desc_a" title = "Category">';
 
                 if ($category) {
@@ -609,25 +752,34 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                 if (count($businessmultiimage) == 1) {
 
                     $allowed = array('jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg');
+                    //$allowed = VALID_IMAGE;
                     $allowespdf = array('pdf');
-                    $allowesvideo = array('mp4', 'webm');
+                    $allowesvideo = array('mp4', 'webm', 'qt', 'mov', 'MP4');
                     $allowesaudio = array('mp3');
                     $filename = $businessmultiimage[0]['file_name'];
                     $ext = pathinfo($filename, PATHINFO_EXTENSION);
                     if (in_array($ext, $allowed)) {
 
 
-                        $return_html .= '<a href="javascript:void(0);"  onclick="login_profile();">
+                        $return_html .= '<a href="javascript:void(0);"  onclick="open_profile();">
 <img src = "' . BUS_POST_MAIN_UPLOAD_URL . $businessmultiimage[0]['file_name'] . '">
 </a>
 </div>';
                     } elseif (in_array($ext, $allowespdf)) {
-                        $return_html .= '<div>
-<a title = "click to open" href = "' . BUS_POST_MAIN_UPLOAD_URL . $businessmultiimage[0]['file_name'] . '"><div class = "pdf_img">
-    <embed src="' . BUS_POST_MAIN_UPLOAD_URL . $businessmultiimage[0]['file_name'] . '" width="100%" height="450px" />
+//                        $return_html .= '<div>
+//<a title = "click to open" href = "' . BUS_POST_MAIN_UPLOAD_URL . $businessmultiimage[0]['file_name'] . '"><div class = "pdf_img">
+//    <embed src="' . BUS_POST_MAIN_UPLOAD_URL . $businessmultiimage[0]['file_name'] . '" width="100%" height="450px" />
+//</div>
+//</a>
+//</div>';
+                        
+                $return_html .= '<div>
+<a title = "click to open" href = "javascript:void(0);" onclick="open_profile();"><div class = "pdf_img">
+    <img src="' . base_url('assets/images/PDF.jpg') . '" alt="PDF">
 </div>
 </a>
 </div>';
+        
                     } elseif (in_array($ext, $allowesvideo)) {
                         $return_html .= '<div>
             <video class="video" width="100%" height="350" controls>
@@ -639,7 +791,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                     } elseif (in_array($ext, $allowesaudio)) {
                         $return_html .= '<div class="audio_main_div">
             <div class="audio_img">
-                <img src="' . base_url('images/music-icon.png') . '">  
+                <img src="' . base_url('assets/images/music-icon.png') . '">  
             </div>
             <div class="audio_source">
                 <audio  controls>
@@ -656,24 +808,24 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                 } elseif (count($businessmultiimage) == 2) {
                     foreach ($businessmultiimage as $multiimage) {
                         $return_html .= '<div  class="two-images" >
-            <a href="javascript:void(0);"  onclick="login_profile();"><img class="two-columns" src="' . BUS_POST_RESIZE1_UPLOAD_URL . $multiimage['file_name'] . '"> </a>
+            <a href="javascript:void(0);"  onclick="open_profile();"><img class="two-columns" src="' . BUS_POST_RESIZE1_UPLOAD_URL . $multiimage['file_name'] . '"> </a>
         </div>';
                     }
                 } elseif (count($businessmultiimage) == 3) {
                     $return_html .= '<div class="three-image-top" >
-            <a href="javascript:void(0);"  onclick="login_profile();"><img class="three-columns" src="' . BUS_POST_RESIZE4_UPLOAD_URL . $businessmultiimage[0]['file_name'] . '"> </a>
+            <a href="javascript:void(0);"  onclick="open_profile();"><img class="three-columns" src="' . BUS_POST_RESIZE4_UPLOAD_URL . $businessmultiimage[0]['file_name'] . '"> </a>
         </div>
         <div class="three-image" >
-            <a href="javascript:void(0);"  onclick="login_profile();"><img class="three-columns" src="' . BUS_POST_RESIZE1_UPLOAD_URL . $businessmultiimage[1]['file_name'] . '"> </a>
+            <a href="javascript:void(0);"  onclick="open_profile();"><img class="three-columns" src="' . BUS_POST_RESIZE1_UPLOAD_URL . $businessmultiimage[1]['file_name'] . '"> </a>
         </div>
         <div class="three-image" >
-            <a href="javascript:void(0);"  onclick="login_profile();"><img class="three-columns" src="' . BUS_POST_RESIZE1_UPLOAD_URL . $businessmultiimage[2]['file_name'] . '"> </a>
+            <a href="javascript:void(0);"  onclick="open_profile();"><img class="three-columns" src="' . BUS_POST_RESIZE1_UPLOAD_URL . $businessmultiimage[2]['file_name'] . '"> </a>
         </div>';
                 } elseif (count($businessmultiimage) == 4) {
 
                     foreach ($businessmultiimage as $multiimage) {
                         $return_html .= '<div class="four-image">
-            <a href="javascript:void(0);"  onclick="login_profile();"><img class="breakpoint" src="' . BUS_POST_RESIZE2_UPLOAD_URL . $multiimage['file_name'] . '"> </a>
+            <a href="javascript:void(0);"  onclick="open_profile();"><img class="breakpoint" src="' . BUS_POST_RESIZE2_UPLOAD_URL . $multiimage['file_name'] . '"> </a>
         </div>';
                     }
                 } elseif (count($businessmultiimage) > 4) {
@@ -681,15 +833,15 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                     $i = 0;
                     foreach ($businessmultiimage as $multiimage) {
                         $return_html .= '<div class="four-image">
-            <a href="javascript:void(0);"  onclick="login_profile();"><img src="' . BUS_POST_RESIZE2_UPLOAD_URL . $multiimage['file_name'] . '" > </a>
+            <a href="javascript:void(0);"  onclick="open_profile();"><img src="' . BUS_POST_RESIZE2_UPLOAD_URL . $multiimage['file_name'] . '" > </a>
         </div>';
                         $i++;
                         if ($i == 3)
                             break;
                     }
                     $return_html .= '<div class="four-image">
-            <a href="javascript:void(0);"  onclick="login_profile();"><img src="' . BUS_POST_RESIZE2_UPLOAD_URL . $businessmultiimage[3]['file_name'] . '"> </a>
-            <a href="javascript:void(0);"  onclick="login_profile();">
+            <a href="javascript:void(0);"  onclick="open_profile();"><img src="' . BUS_POST_RESIZE2_UPLOAD_URL . $businessmultiimage[3]['file_name'] . '"> </a>
+            <a href="javascript:void(0);"  onclick="open_profile();">
                 <div class="more-image" >
                     <span> View All (+' . (count($businessmultiimage) - 4) . ')
                     </span></div>
@@ -704,7 +856,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
     <div class="post-design-menu">
         <ul class="col-md-6">
             <li class="likepost' . $row['business_profile_post_id'] . '">
-                <a class="ripple like_h_w" id="' . $row['business_profile_post_id'] . '"   onClick="post_like(this.id)">';
+                <a class="ripple like_h_w" id="' . $row['business_profile_post_id'] . '"   onClick="open_profile();">';
                 $userid = $this->session->userdata('aileenuser');
                 $contition_array = array('business_profile_post_id' => $row['business_profile_post_id'], 'status' => '1');
                 $active = $this->data['active'] = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
@@ -730,7 +882,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                 $contition_array = array('business_profile_post_id' => $row['business_profile_post_id'], 'status' => '1', 'is_delete' => '0');
                 $commnetcount = $this->common->select_data_by_condition('business_profile_post_comment', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
-                $return_html .= '<a class="ripple like_h_w" onClick="commentall(this.id)" id="' . $row['business_profile_post_id'] . '"><i class="fa fa-comment-o" aria-hidden="true">';
+                $return_html .= '<a class="ripple like_h_w" onClick="open_profile();" id="' . $row['business_profile_post_id'] . '"><i class="fa fa-comment-o" aria-hidden="true">';
                 $return_html .= '</i> 
                 </a>
             </li> 
@@ -769,9 +921,9 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                     $countlike = $commnetcount[0]['business_likes_count'] - 1;
                     $likelistarray = explode(',', $likeuser);
                     foreach ($likelistarray as $key => $value) {
-                        $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => 1))->row()->company_name;
+                        $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => '1'))->row()->company_name;
                     }
-                    $return_html .= '<a href="javascript:void(0);"  onclick="login_profile();">';
+                    $return_html .= '<a href="javascript:void(0);"  onclick="open_profile();">';
                     $contition_array = array('business_profile_post_id' => $row['business_profile_post_id'], 'status' => '1', 'is_delete' => '0');
                     $commnetcount = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
@@ -779,7 +931,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                     $countlike = $commnetcount[0]['business_likes_count'] - 1;
                     $likelistarray = explode(',', $likeuser);
 
-                    $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => 1))->row()->company_name;
+                    $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => '1'))->row()->company_name;
                     $return_html .= '<div class="like_one_other">';
                     if ($userid == $value) {
                         $return_html .= "You";
@@ -806,9 +958,9 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                 $countlike = $commnetcount[0]['business_likes_count'] - 1;
                 $likelistarray = explode(',', $likeuser);
                 foreach ($likelistarray as $key => $value) {
-                    $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => 1))->row()->company_name;
+                    $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => '1'))->row()->company_name;
                 }
-                $return_html .= '<a href="javascript:void(0);"  onclick="login_profile();">';
+                $return_html .= '<a href="javascript:void(0);"  onclick="open_profile();">';
                 $contition_array = array('business_profile_post_id' => $row['business_profile_post_id'], 'status' => '1', 'is_delete' => '0');
                 $commnetcount = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
@@ -816,7 +968,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                 $countlike = $commnetcount[0]['business_likes_count'] - 1;
                 $likelistarray = explode(',', $likeuser);
 
-                $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => 1))->row()->company_name;
+                $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => '1'))->row()->company_name;
                 $return_html .= '<div class="like_one_other">';
                 $return_html .= ucfirst(strtolower($business_fname1));
                 $return_html .= "&nbsp;";
@@ -844,7 +996,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                         $companyslug = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id']))->row()->business_slug;
                         $return_html .= '<div class="all-comment-comment-box">
                 <div class="post-design-pro-comment-img">';
-                        $business_userimage = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id'], 'status' => 1))->row()->business_user_image;
+                        $business_userimage = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id'], 'status' => '1'))->row()->business_user_image;
                         if ($business_userimage) {
 
                             if (!file_exists($this->config->item('bus_profile_thumb_upload_path') . $business_userimage)) {
@@ -862,7 +1014,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                         }
                         $return_html .= '</div>
                 <div class="comment-name">
-                    <a href="javascript:void(0);"  onclick="login_profile();"><b>';
+                    <a href="javascript:void(0);"  onclick="open_profile();"><b>';
                         $return_html .= '' . ucfirst(strtolower($companyname)) . '';
                         $return_html .= '</br>';
 
@@ -891,7 +1043,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                 </div>
                 <div class="art-comment-menu-design"> 
                     <div class="comment-details-menu" id="likecomment1' . $rowdata['business_profile_post_comment_id'] . '">
-                        <a id="' . $rowdata['business_profile_post_comment_id'] . '" onClick="comment_like1(this.id)">';
+                        <a id="' . $rowdata['business_profile_post_comment_id'] . '" onClick="open_profile();">';
                         $userid = $this->session->userdata('aileenuser');
                         $contition_array = array('business_profile_post_comment_id' => $rowdata['business_profile_post_comment_id'], 'status' => '1');
                         $businesscommentlike = $this->data['businesscommentlike'] = $this->common->select_data_by_condition('business_profile_post_comment', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
@@ -924,7 +1076,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                     </div>';
                         }
                         $userid = $this->session->userdata('aileenuser');
-                        $business_userid = $this->db->get_where('business_profile_post', array('business_profile_post_id' => $rowdata['business_profile_post_id'], 'status' => 1))->row()->user_id;
+                        $business_userid = $this->db->get_where('business_profile_post', array('business_profile_post_id' => $rowdata['business_profile_post_id'], 'status' => '1'))->row()->user_id;
                         if ($rowdata['user_id'] == $userid || $business_userid == $userid) {
                             $return_html .= '<span role="presentation" aria-hidden="true"> · </span>
                     <div class="comment-details-menu">
@@ -956,7 +1108,7 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
                                 <div class="art-img-nn">
                                     <div class="art_no_post_img">
 
-                                        <img src="' . base_url('img/bui-no.png') . '">
+                                        <img src="' . base_url('assets/img/bui-no.png') . '">
 
                                     </div>
                                     <div class="art_no_post_text">
@@ -968,6 +1120,119 @@ onblur = check_lengthedit(' . $row['business_profile_post_id'] . ')>';
         $return_html .= '<div class="nofoundpost">
 </div>';
         echo $return_html;
+    }
+    public function business_profile_active_check() {
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $userid = $this->session->userdata('aileenuser');
+        if (!$userid) {
+            redirect('login');
+        }
+        // IF USER DEACTIVE PROFILE THEN REDIRECT TO BUSINESS-PROFILE/INDEX UNTILL ACTIVE PROFILE START
+
+        $contition_array = array('user_id' => $userid, 'status' => '0', 'is_deleted' => '0');
+        $business_deactive = $this->data['business_deactive'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = ' business_profile_id', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby);
+
+        if ($business_deactive) {
+            redirect('business-profile');
+        }
+
+
+// IF USER DEACTIVE PROFILE THEN REDIRECT TO BUSINESS-PROFILE/INDEX UNTILL ACTIVE PROFILE END
+// DEACTIVATE PROFILE END
+    }
+
+    public function is_business_profile_register() {
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $userid = $this->session->userdata('aileenuser');
+        $contition_array = array('user_id' => $userid, 'status' => '1', 'is_deleted' => '0');
+        $business_check = $this->data['business_deactive'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = ' business_profile_id,business_step', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby);
+
+        if ($business_check) {
+
+            if ($business_check[0]['business_step'] == 1) {
+                redirect('business-profile/contact-information', refresh);
+            } else if ($business_check[0]['business_step'] == 2) {
+                redirect('business-profile/description', refresh);
+            } else if ($business_check[0]['business_step'] == 3) {
+                redirect('business-profile/image', refresh);
+            }
+        } else {
+            redirect('business-profile/business-information-update', refresh);
+        }
+
+// IF USER DEACTIVE PROFILE THEN REDIRECT TO BUSINESS-PROFILE/INDEX UNTILL ACTIVE PROFILE END
+// DEACTIVATE PROFILE END
+    }
+
+    // BUSIENSS PROFILE USER FOLLOWING COUNT START
+
+    public function business_user_following_count($business_profile_id = '') {
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $userid = $this->session->userdata('aileenuser');
+        if ($business_profile_id == '') {
+            $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => '1'))->row()->business_profile_id;
+        }
+
+        $contition_array = array('follow_from' => $business_profile_id, 'follow_status' => '1', 'follow_type' => '2', 'business_profile.status' => '1', 'business_profile.is_deleted' => '0');
+
+        $join_str_following[0]['table'] = 'follow';
+        $join_str_following[0]['join_table_id'] = 'follow.follow_to';
+        $join_str_following[0]['from_table_id'] = 'business_profile.business_profile_id';
+        $join_str_following[0]['join_type'] = '';
+
+        $bus_user_f_ing_count = $this->common->select_data_by_condition('business_profile', $contition_array, $data = 'count(*) as following_count', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str_following, $groupby = '');
+
+        $following_count = $bus_user_f_ing_count[0]['following_count'];
+
+        return $following_count;
+    }
+
+    // BUSIENSS PROFILE USER FOLLOWING COUNT END
+    // BUSIENSS PROFILE USER FOLLOWER COUNT START
+
+    public function business_user_follower_count($business_profile_id = '') {
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $userid = $this->session->userdata('aileenuser');
+        if ($business_profile_id == '') {
+            $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => '1'))->row()->business_profile_id;
+        }
+
+        $contition_array = array('follow_to' => $business_profile_id, 'follow_status' => '1', 'follow_type' => '2', 'business_profile.status' => '1', 'business_profile.is_deleted' => '0');
+
+        $join_str_following[0]['table'] = 'follow';
+        $join_str_following[0]['join_table_id'] = 'follow.follow_from';
+        $join_str_following[0]['from_table_id'] = 'business_profile.business_profile_id';
+        $join_str_following[0]['join_type'] = '';
+
+        $bus_user_f_er_count = $this->common->select_data_by_condition('business_profile', $contition_array, $data = 'count(*) as follower_count', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str_following, $groupby = '');
+
+        $follower_count = $bus_user_f_er_count[0]['follower_count'];
+
+        return $follower_count;
+    }
+
+    // BUSIENSS PROFILE USER FOLLOWER COUNT END
+    // 
+    public function business_user_contacts_count($business_profile_id = '') {
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $userid = $this->session->userdata('aileenuser');
+        if ($business_profile_id != '') {
+            $userid = $this->db->get_where('business_profile', array('business_profile_id' => $business_profile_id, 'status' => '1'))->row()->user_id;
+        }
+
+        $contition_array = array('contact_type' => '2', 'contact_person.status' => 'confirm', 'business_profile.status' => '1', 'business_profile.is_deleted' => '0');
+        $search_condition = "((contact_from_id = ' $userid') OR (contact_to_id = '$userid'))";
+
+        $join_str_contact[0]['table'] = 'business_profile';
+        $join_str_contact[0]['join_table_id'] = 'business_profile.user_id';
+        $join_str_contact[0]['from_table_id'] = 'contact_person.contact_from_id';
+        $join_str_contact[0]['join_type'] = '';
+
+        $contacts_count = $this->common->select_data_by_search('contact_person', $search_condition, $contition_array, $data = 'count(*) as contact_count', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str_contact, $groupby = '');
+
+        $contacts_count = $contacts_count[0]['contact_count'];
+
+        return $contacts_count;
     }
 
 }

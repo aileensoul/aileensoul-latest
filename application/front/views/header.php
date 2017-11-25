@@ -34,7 +34,7 @@
    </script>-->
 <!-- header -->
 <header class="">
-  <?php if (($this->uri->segment(1) == 'recruiter' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'job' && $this->uri->segment(2) == 'job_all_post') || ($this->uri->segment(1) == 'freelancer' && $this->uri->segment(2) == 'recommen_candidate') || ($this->uri->segment(1) == 'freelancer' && $this->uri->segment(2) == 'freelancer_apply_post') || ($this->uri->segment(1) == 'business-profile' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'artistic' && $this->uri->segment(2) == 'art_post')) { ?>
+  <?php if (($this->uri->segment(1) == 'recruiter' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'job' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'freelancer-hire' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'freelancer-work' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'business-profile' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'artistic' && $this->uri->segment(2) == 'home')) { ?>
    <div class="header animated fadeInDownBig">
     <?php
 }
@@ -95,7 +95,7 @@ else{
                            <!-- <div id="hi" class="notifications"> -->
                            <?php if ($userdata[0]['user_image'] != '') { ?>
                            <div id="profile-photohead" class="profile-head">
-                           <img alt="" class="img-circle" src="<?php echo base_url($this->config->item('user_thumb_upload_path') . $userdata[0]['user_image']); ?>" height="50" width="50" alt="Smiley face" />
+                           <img alt="" class="img-circle" src="<?php echo USER_THUMB_UPLOAD_URL . $userdata[0]['user_image']; ?>" height="50" width="50" alt="Smiley face" />
                          </div>
 
                            <?php

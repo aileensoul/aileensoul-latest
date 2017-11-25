@@ -16,7 +16,7 @@ color: #1b8ab9 !important;}
             <div class="user-midd-section" id="paddingtop_fixed">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="">
                             <div class="col-lg-3 col-md-4 col-sm-4">
                                 <div class="">
                                     <div class="left-side-bar" id="bs-collapse" >
@@ -168,13 +168,14 @@ color: #1b8ab9 !important;}
             </div>
         </section>
         <!-- Calender JS Start-->
-        <footer>
+        <!-- <footer> -->
+            <?php //echo $login_footer ?>
             <?php echo $footer; ?>
-        </footer>
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery-1.11.1.min.js'); ?>"></script>
+        <!-- </footer> -->
+        <script src="<?php echo base_url('assets/js/jquery.js'); ?>"></script>
+       
         <script type="text/javascript" src="<?php echo base_url() ?>js/jquery.validate.min.js"></script>
-        <script src="<?php echo base_url('js/jquery.date-dropdowns.js'); ?>">
+        
         </script>
         <!-- POST BOX JAVASCRIPT END --> 
         <script>
@@ -182,6 +183,6 @@ color: #1b8ab9 !important;}
             var get_csrf_token_name = '<?php echo $this->security->get_csrf_token_name(); ?>';
             var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/profile/profile.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/profile/profile.js'); ?>"></script>
     </body>
 </html>

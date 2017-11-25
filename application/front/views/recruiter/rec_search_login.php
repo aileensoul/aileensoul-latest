@@ -7,12 +7,16 @@
 
       <title><?php echo $title; ?></title>
 
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/demo.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-      <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()); ?>" />
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+    <?php
+        if (IS_REC_CSS_MINIFY == '0') {
+            ?>
+           <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/recruiter/rec_common_header.min.css?ver=' . time()); ?>">
+        <?php } ?>
    </head>
    <!-- END HEAD -->
    <style>
@@ -400,7 +404,7 @@
                             <div class="job-contact-frnd ">
                               <!--.........AJAX DATA......-->           
                             </div>
-                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
               </div>
 
             </div>
@@ -421,9 +425,9 @@
       </div>
       <!-- Model Popup Close -->
       
-<footer>        
+<!-- <footer>      -->   
 <?php echo $footer;  ?>
-</footer>
+<!-- </footer> -->
 
 <!-- Login  -->
         <div class="modal fade login" id="login" role="dialog">
@@ -640,20 +644,17 @@
         <!-- register -->
 
 <!-- script for skill textbox automatic start-->
-<script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery.highlite.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
- <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.js?ver='.time()); ?>"></script>
+<?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+         <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
+ <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.js?ver='.time()); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/bootstrap_validate.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
 
-<!--<script src="<?php// echo base_url('js/jquery.wallform.js'); ?>"></script>
-   <script src="<?php //echo base_url('js/jquery-ui.min.js'); ?>"></script>
-    <script src="<?php //echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-    <script src="<?php //echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-<script src="<?php //echo base_url('js/jquery.highlite.js'); ?>"></script>
-<script src="<?php //echo base_url('js/bootstrap.min.js'); ?>"></script>-->
 
 
  <script>
@@ -663,7 +664,14 @@
                                               
 </script>
 
-
-<script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/rec_search_login.js?ver='.time()); ?>"></script>
+ <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/rec_search_login.js?ver='.time()); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/recruiter/rec_search_login.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
 </body>
 </html>

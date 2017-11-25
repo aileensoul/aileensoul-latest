@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="login-custom">
     <head>
         <title>Login into Aileensoul.com</title>
         <meta name="description" content="Login to Aileensoul.com dashboard and get updates on your profiles." />
-        <link rel="icon" href="<?php echo base_url('images/favicon.png'); ?>">
+        <link rel="icon" href="<?php echo base_url('assets/images/favicon.png'); ?>">
         <meta charset="utf-8">
         <meta name="keywords" content="Hire Freelancers, Freelance Jobs Online, Find Freelance Work, Freelance Jobs, Get Online Work, online freelance jobs, freelance websites, freelance portal, online freelance work, freelance job sites, freelance consulting jobs, hire freelancers online, best freelancing sites, online writing jobs for beginners, top freelance websites, freelance marketplace, jobs, Job search, job vacancies, Job Opportunities in India, jobs in India, job openings, Jobs Recruitment, Apply For Jobs, Find the right Job, online job applications, apply for jobs online, online job search, online jobs india, job posting sites, job seeking sites, job search websites, job websites in india, job listing websites, jobs hiring, how to find a job, employment agency, employment websites, employment vacancies, application for employment, employment in india, searching for a job, job search companies, job search in india, best jobs in india, job agency, job placement agencies, how to apply for a job, jobs for freshers, job vacancies for freshers, recruitment agencies, employment agencies, job recruitment, hiring agencies, hiring websites, recruitment sites, corporate recruiter, career recruitment, online recruitment, executive recruiters, job recruiting companies, online job recruitment, job recruitment agencies, it, recruitment agencies, recruitment websites, executive search firms, sales recruitment agencies, top executive search firms, recruitment services, technical recruiter, recruitment services, job recruitment agency, recruitment career" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <link rel="stylesheet" href="css/common-style.css">
-        <link rel="stylesheet" href="css/style-main.css">
+       
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/common-style.css?ver='.time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style-main.css?ver='.time()); ?>">
+
+
 
         <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
     </head>
@@ -167,8 +170,8 @@ echo form_open('profile/forgot_password', $form_attribute);
                 </div>
             </footer>
         </div>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery-3.2.1.min.js?ver=' . time()); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery-ui.min-1.12.1.js?ver=' . time()); ?>"></script>  
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js?ver=' . time()); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min-1.12.1.js?ver=' . time()); ?>"></script>  
         <script>
                                             $(document).ready(function () {
 
@@ -225,9 +228,8 @@ echo form_open('profile/forgot_password', $form_attribute);
 
         <!-- script for login  user valoidtaion start -->
 
-        <script type="text/javascript" src="<?php echo base_url() ?>js/jquery.validate.min.js"></script>
+         <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver=' . time()); ?>"></script>
         <script type="text/javascript">
-
                                             function login()
                                             {
                                                 document.getElementById('error1').style.display = 'none';
@@ -259,14 +261,58 @@ echo form_open('profile/forgot_password', $form_attribute);
                                                 /* login submit */
                                                 function submitForm()
                                                 {
-
                                                     var email_login = $("#email_login").val();
                                                     var password_login = $("#password_login").val();
+                                                    var redirect_url = '<?php echo $redirect_url; ?>';
                                                     var post_data = {
                                                         'email_login': email_login,
                                                         'password_login': password_login,
+                                                        'redirect_url': redirect_url,
                                                         '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
                                                     }
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '<?php echo base_url() ?>registration/check_login',
+                                                        data: post_data,
+                                                        dataType: "json",
+                                                        beforeSend: function ()
+                                                        {
+                                                            $("#error").fadeOut();
+                                                            $("#btn-login").html('Login ...');
+                                                        },
+                                                        success: function (response)
+                                                        {
+                                                            if (response.data == "ok") {
+                                                                $("#btn-login").html('<img src="<?php echo base_url() ?>images/btn-ajax-loader.gif" /> &nbsp; Login ...');
+                                                                if(redirect_url == ''){
+                                                                    window.location = "<?php echo base_url() ?>dashboard";
+                                                                }else{
+                                                                    window.location = redirect_url;
+                                                                }
+                                                                //setTimeout(' window.location.href = "<?php //echo base_url()  ?>home"; ', 4000);
+                                                                // setTimeout(' window.location.href = ""; ', 4000);
+                                                            } else if (response.data == "password") {
+
+                                                                //$("#error").fadeIn(1000, function () {
+
+                                                                //document.getElementById('error1').style.display = 'none';
+                                                                //         $("#error").html('<div class="alert alert-danger"> <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; ' + 'Please enter valid password' + ' !</div>');
+                                                                $("#errorpass").html('<label for="email_login" class="error">Please enter a valid password.</label>');
+                                                                document.getElementById("password_login").classList.add('error');
+                                                                document.getElementById("password_login").classList.add('error');
+                                                                $("#btn-login").html('Login');
+                                                                //    }); 
+
+                                                            } else {
+                                                                //   document.getElementById('error1').style.display = 'none';
+                                                                //         $("#error").html('<div class="alert alert-danger"> <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; ' + 'Please enter valid password' + ' !</div>');
+                                                                $("#errorlogin").html('<label for="email_login" class="error">Please enter a valid email.</label>');
+                                                                document.getElementById("email_login").classList.add('error');
+                                                                document.getElementById("email_login").classList.add('error');
+                                                                $("#btn-login").html('Login');
+                                                            }
+                                                        }
+                                                    });
                                                     return false;
                                                 }
                                                 /* login submit */

@@ -3,15 +3,17 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
-
-<!--        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css'); ?>">
-
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-3.min.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />-->
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css'); ?>">
-    </head> <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/mobile.css') ;?>" />
+        <?php
+        if (IS_REC_CSS_MINIFY == '0') {
+            ?>
+           <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/recruiter/rec_common_header.min.css?ver=' . time()); ?>">
+        <?php } ?>
+    </head>
     <body class="page-container-bg-solid page-boxed pushmenu-push">
         <?php echo $header; ?>
         <?php //if ($recdata[0]['re_step'] == 3) { ?>
@@ -77,13 +79,14 @@
                         }
                         $contition_array = array('user_id' => $user_id, 'is_delete' => '0', 're_status' => '1');
                         $image = $this->common->select_data_by_condition('recruiter', $contition_array, $data = 'profile_background', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
-
-                        $image_ori = $this->config->item('rec_bg_main_upload_path') . $image[0]['profile_background'];
-                        if (file_exists($image_ori) && $image[0]['profile_background'] != '') {
+                       $image_ori = $image[0]['profile_background'];
+                         $filename = $this->config->item('rec_bg_main_upload_path') . $image[0]['profile_background'];
+                         $s3 = new S3(awsAccessKey, awsSecretKey);
+                         $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                        if ($info && $image[0]['profile_background'] != '') {
                             ?>
-
-                            <img src="<?php echo base_url($this->config->item('rec_bg_main_upload_path') . $image[0]['profile_background']); ?>" name="image_src" id="image_src" / >
-                            <?php
+                           <img src = "<?php echo REC_BG_MAIN_UPLOAD_URL . $image[0]['profile_background']; ?>" name="image_src" id="image_src" />
+                     <?php
                         } else {
                             ?>
 
@@ -115,11 +118,12 @@
                     <!--PROFILE PIC CODE START-->
                     <div class="profile-pho">
                         <div class="user-pic padd_img">
-                            <?php
-                            $imageee = $this->config->item('rec_profile_thumb_upload_path') . $recdata[0]['recruiter_user_image'];
-                            if (file_exists($imageee) && $recdata[0]['recruiter_user_image'] != '') {
-                                ?>
-                                <img src="<?php echo base_url($this->config->item('rec_profile_thumb_upload_path') . $recdata[0]['recruiter_user_image']); ?>" alt="" >
+                            
+                             <?php  $filename = $this->config->item('rec_profile_thumb_upload_path') . $recdata[0]['recruiter_user_image'];
+                         $s3 = new S3(awsAccessKey, awsSecretKey);
+                         $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                      if ($recdata[0]['recruiter_user_image'] != '' && $info) { ?>
+                     <img src="<?php echo REC_PROFILE_THUMB_UPLOAD_URL . $recdata[0]['recruiter_user_image']; ?>" alt="" >
                                 <?php
                             } else {
                                 $a = $recdata[0]['rec_firstname'];
@@ -134,7 +138,7 @@
                                 </div>
                             <?php } ?>
                             <?php if ($returnpage == '') { ?>
-                                <a class="cusome_upload" href="javascript:void(0);" onclick="updateprofilepopup();"><img src="<?php echo base_url(); ?>img/cam.png"> Update Profile Picture</a>
+                                <a class="cusome_upload" href="javascript:void(0);" onclick="updateprofilepopup();"><img src="<?php echo base_url(); ?>assets/img/cam.png"> Update Profile Picture</a>
                             <?php } ?>
                         </div>
                     </div>
@@ -461,7 +465,7 @@
                                                         ?>
 
                                                         <li> <b> Country</b> <span><?php
-                                                                $cache_time = $this->db->get_where('countries', array('country_id' => $recdata[0]['re_comp_country']))->row()->country_name;
+                                                                $cache_time = $this->db->select('country_name')->get_where('countries', array('country_id' => $recdata[0]['re_comp_country']))->row()->country_name;
 
                                                                 if ($cache_time) {
                                                                     echo $cache_time;
@@ -472,7 +476,7 @@
                                                         </li>
 
                                                         <li> <b>State </b><span> <?php
-                                                                $cache_time = $this->db->get_where('states', array('state_id' => $recdata[0]['re_comp_state']))->row()->state_name;
+                                                                $cache_time = $this->db->select('state_name')->get_where('states', array('state_id' => $recdata[0]['re_comp_state']))->row()->state_name;
                                                                 if ($cache_time) {
                                                                     echo $cache_time;
                                                                 } else {
@@ -486,7 +490,7 @@
                                                             if ($recdata[0]['re_comp_city']) {
                                                                 ?>
                                                                 <li><b> City</b> <span><?php
-                                                                        $cache_time = $this->db->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
+                                                                        $cache_time = $this->db->select('city_name')->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
                                                                         if ($cache_time) {
                                                                             echo $cache_time;
                                                                         }
@@ -499,7 +503,7 @@
                                                             if ($recdata[0]['re_comp_city']) {
                                                                 ?>
                                                                 <li><b> City</b> <span><?php
-                                                                        $cache_time = $this->db->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
+                                                                        $cache_time = $this->db->select('city_name')->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
                                                                         if ($cache_time) {
                                                                             echo $cache_time;
                                                                         }
@@ -573,36 +577,6 @@
 
                                                         <?php
                                                         if ($returnpage == 'job') {
-                                                            if ($recdata[0]['re_comp_activities']) {
-                                                                ?>
-                                                                <li><b> Other Activities</b> <span>
-                                                                        <pre>  <?php
-                                                                echo $this->common->make_links($recdata[0]['re_comp_activities']);
-                                                                ?></pre> </span> </li>
-                                                                <?php
-                                                            } else {
-                                                                echo "";
-                                                            }
-                                                        } else {
-                                                            if ($recdata[0]['re_comp_activities']) {
-                                                                ?>
-                                                                <li><b> Other Activities</b> <span>
-                                                                        <pre>  <?php
-                                                                echo $this->common->make_links($recdata[0]['re_comp_activities']);
-                                                                ?></pre> </span> </li>
-                                                                <?php
-                                                            } else {
-                                                                ?>
-                                                                <li><b>Other Activities</b> <span>
-                                                                <?php echo PROFILENA; ?></span>
-                                                                </li>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-
-                                                        <?php
-                                                        if ($returnpage == 'job') {
                                                             if ($recdata[0]['comp_logo']) {
                                                                 ?>
                                                                 <li><b>Company Logo</b> <span>
@@ -656,7 +630,7 @@
         <!-- END CONTAINER -->
 
         <!--PROFILE PIC MODEL START-->
-      <div class="modal message-box" id="bidmodal-2" role="dialog">
+      <div class="modal fade message-box" id="bidmodal-2" role="dialog">
          <div class="modal-dialog modal-lm">
             <div class="modal-content">
                <button type="button" class="modal-close" data-dismiss="modal">&times;</button>      
@@ -664,9 +638,9 @@
                   <span class="mes">
                      <div id="popup-form">
 
-                        <div class="fw" id="profi_loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                        <div class="fw" id="profi_loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                      <form id ="userimage" name ="userimage" class ="clearfix" enctype="multipart/form-data" method="post">
-                                    <div class="col-md-5">
+                                    <div class="fw">
                                         <input type="file" name="profilepic" accept="image/gif, image/jpeg, image/png" id="upload-one" >
                                     </div>
                                     
@@ -684,17 +658,24 @@
       </div>
      <!--PROFILE PIC MODEL END-->
         <!-- BEGIN FOOTER -->
+        <?php echo $login_footer ?>
 <?php echo $footer; ?>
         <!-- END FOOTER -->
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script> 
-        <!--<script type="text/javascript" src="<?php //echo base_url('js/jquery.validate.js'); ?>"></script>-->
-       <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver=' . time()); ?>"></script>
+        
+        
+        <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+         <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script> 
+       <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver=' . time()); ?>"></script>
         <script src="<?php echo base_url('assets/js/croppie.js?ver='.time()); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/croppie_bootstrap_validate.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+        
         <script>
                                     var base_url = '<?php echo base_url(); ?>';
                                     //var data1 = <?php// echo json_encode($de); ?>;
@@ -704,8 +685,20 @@
                                     var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/search.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/rec_profile.js'); ?>"></script>
+        <?php
+        if (IS_REC_JS_MINIFY == '0') {
+         if($returnpage == 'job'){   ?>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+<?php }else{ ?>
+ <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/search.js'); ?>"></script>
+<?php } ?>
+ <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/rec_profile.js'); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/recruiter/rec_profile.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+       
 
 
         <style type="text/css">

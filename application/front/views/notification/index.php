@@ -98,7 +98,7 @@
                             <ul class="notification_data">
                               <!--AJAX DATA GET BY LAZZY LOADER START-->
                             </ul>
-                             <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                             <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                         </div>  
                         </div>  
 
@@ -148,11 +148,12 @@
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
 <!-- BEGIN INNER FOOTER -->
+<?php echo $login_footer ?>
 <?php echo $footer; ?>
  <script>
                                                                                 var base_url = '<?php echo base_url(); ?>';
   </script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/notification/notification.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/notification/notification.js'); ?>"></script>
 <script type="text/javascript">
    function not_active(not_id)
    { 

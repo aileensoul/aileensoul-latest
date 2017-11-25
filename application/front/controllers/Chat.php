@@ -13,6 +13,10 @@ class Chat extends MY_Controller {
         if (!$this->session->userdata('aileenuser')) {
             redirect('login', 'refresh');
         }
+        
+        //AWS access info start
+        $this->load->library('S3');
+        //AWS access info end
 
         include('include.php');
     }
@@ -3040,9 +3044,12 @@ class Chat extends MY_Controller {
             $this->data['last_user_data']['first_name'] = $last_user_data[0]['rec_firstname'];
             $this->data['last_user_data']['last_name'] = $last_user_data[0]['rec_lastname'];
 
-            $user_image = FCPATH . 'uploads/recruiter_profile/thumbs/' . $last_user_data[0]['recruiter_user_image'];
-            if ($last_user_data[0]['recruiter_user_image'] && (file_exists($user_image)) == 1) {
-                $this->data['last_user_data']['user_image'] = base_url() . 'uploads/recruiter_profile/thumbs/' . $last_user_data[0]['recruiter_user_image'];
+           $filename = $this->config->item('rec_profile_thumb_upload_path') . $last_user_data[0]['recruiter_user_image'];
+                         $s3 = new S3(awsAccessKey, awsSecretKey);
+                      $user_image = $s3->getObjectInfo(bucket, $filename);
+            if ($last_user_data[0]['recruiter_user_image'] && $user_image) {
+                $this->data['last_user_data']['user_image'] =  REC_PROFILE_THUMB_UPLOAD_URL . $last_user_data[0]['recruiter_user_image'];
+            
             } else {
                 $a = $last_user_data[0]['rec_firstname'];
                 $b = $last_user_data[0]['rec_lastname'];
@@ -3078,10 +3085,15 @@ class Chat extends MY_Controller {
             $this->data['last_user_data']['user_profile_id'] = $last_user_data[0]['rec_id'];
             $this->data['last_user_data']['first_name'] = $last_user_data[0]['fname'];
             $this->data['last_user_data']['last_name'] = $last_user_data[0]['lname'];
-            $user_image = FCPATH . 'uploads/job_profile/thumbs/' . $last_user_data[0]['job_user_image'];
-            if ($last_user_data[0]['job_user_image'] && (file_exists($user_image)) == 1) {
-                $this->data['last_user_data']['user_image'] = base_url() . 'uploads/job_profile/thumbs/' . $last_user_data[0]['job_user_image'];
-            } else {
+           
+            $filename = $this->config->item('job_profile_thumb_upload_path') . $last_user_data[0]['job_user_image'];
+            $s3 = new S3(awsAccessKey, awsSecretKey);
+            $user_image = $s3->getObjectInfo(bucket, $filename);
+            
+            if ($last_user_data[0]['job_user_image'] && $user_image) {
+                $this->data['last_user_data']['user_image'] =  JOB_PROFILE_THUMB_UPLOAD_URL . $last_user_data[0]['job_user_image'];
+           
+                } else {
                 $a = $last_user_data[0]['fname'];
                 $b = $last_user_data[0]['lname'];
                 $acr = substr($a, 0, 1);
@@ -3631,7 +3643,7 @@ class Chat extends MY_Controller {
         $userlist = $this->data['userlist'] = array_merge($return_arraysel, $userlist);
         $userlist = $this->aasort($userlist, "id");
 
-        foreach ($userlist as $user) {
+        foreach ($userlist as $user) {   
             if ($user['user_id'] != $toid) {
 
                 $usrsrch .= '<a href="' . base_url() . 'chat/' . $function . '/' . $message_from_profile . '/' . $message_to_profile . '/' . $user['user_id'] . '">';
@@ -3643,12 +3655,21 @@ class Chat extends MY_Controller {
 
                 $usrsrch .= '<div class="chat_heae_img">';
                 if ($message_from_profile == 2) {
-                    $image_path = FCPATH . 'uploads/job_profile/thumbs/' . $user['user_image'];
-                    $user_image = base_url() . 'uploads/job_profile/thumbs/' . $user['user_image'];
+                    
+                    $filename = $this->config->item('job_profile_thumb_upload_path') . $user['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $this->data['image_path'] = $image_path = $s3->getObjectInfo(bucket, $filename);
+                         
+               //     $image_path = FCPATH . 'uploads/job_profile/thumbs/' . $user['user_image'];
+                    $user_image =  JOB_PROFILE_THUMB_UPLOAD_URL . $user['user_image'];
                 }
                 if ($message_from_profile == 1) {
-                    $image_path = FCPATH . 'uploads/recruiter_profile/thumbs/' . $user['user_image'];
-                    $user_image = base_url() . 'uploads/recruiter_profile/thumbs/' . $user['user_image'];
+                    $filename = $this->config->item('rec_profile_thumb_upload_path') . $user['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $this->data['image_path'] = $image_path = $s3->getObjectInfo(bucket, $filename);
+                    
+                   // $image_path = FCPATH . 'uploads/recruiter_profile/thumbs/' . $user['user_image'];
+                    $user_image =  REC_PROFILE_THUMB_UPLOAD_URL . $user['user_image'];
                 }
                 if ($message_from_profile == 4) {
                     $image_path = FCPATH . 'uploads/freelancer_hire_profile/thumbs/' . $user['user_image'];
@@ -3708,14 +3729,22 @@ class Chat extends MY_Controller {
         foreach ($userlist as $msg) {
 
             if ($message_from_profile == 2) {
-                $image_path = FCPATH . 'uploads/job_profile/thumbs/' . $msg['user_image'];
-                $user_image = base_url() . 'uploads/job_profile/thumbs/' . $msg['user_image'];
+                $filename = $this->config->item('job_profile_thumb_upload_path') . $msg['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $this->data['image_path'] = $image_path = $s3->getObjectInfo(bucket, $filename);
+                         
+               //     $image_path = FCPATH . 'uploads/job_profile/thumbs/' . $user['user_image'];
+                    $user_image =  JOB_PROFILE_THUMB_UPLOAD_URL . $msg['user_image'];
                 $profile_url = base_url() . 'job/job_printpreview/' . $id . '?page=recruiter';
             }
 
             if ($message_from_profile == 1) {
-                $image_path = FCPATH . 'uploads/recruiter_profile/thumbs/' . $msg['user_image'];
-                $user_image = base_url() . 'uploads/recruiter_profile/thumbs/' . $msg['user_image'];
+                $filename = $this->config->item('rec_profile_thumb_upload_path') . $msg['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $this->data['image_path'] = $image_path = $s3->getObjectInfo(bucket, $filename);
+                    
+                   // $image_path = FCPATH . 'uploads/recruiter_profile/thumbs/' . $user['user_image'];
+                    $user_image =  REC_PROFILE_THUMB_UPLOAD_URL . $msg['user_image'];
                 $profile_url = base_url() . 'recruiter/rec_profile/' . $id . '?page=job';
             }
             if ($message_from_profile == 4) {
@@ -3737,7 +3766,7 @@ class Chat extends MY_Controller {
             if ($message_from_profile == 6) {
                 $image_path = FCPATH . 'uploads/artistic_profile/thumbs/' . $msg['user_image'];
                 $user_image = base_url() . 'uploads/artistic_profile/thumbs/' . $msg['user_image'];
-                $profile_url = base_url() . 'artistic/art_manage_post/' . $id;
+                $profile_url = base_url() . 'artist/art_manage_post/' . $id;
             }
 
 
@@ -3747,6 +3776,9 @@ class Chat extends MY_Controller {
             $notmsg .= '<li class="';
             if ($not[0]['not_active'] == 1 && ($this->uri->segment(3) != $msg['user_id'])) {
                 $notmsg .= 'active2';
+            }else{
+                $notmsg .= 'active';
+                
             }
             $notmsg .= '">';
             $notmsg .= '<a href="' . base_url() . 'chat/abc/' . $message_from_profile . '/' . $message_to_profile . '/' . $msg['user_id'] . '/' . $not[0]['not_id'] . '" class="clearfix msg_dot" style="padding:0px!important;">';
@@ -3796,7 +3828,7 @@ class Chat extends MY_Controller {
             $seeall = '<div class="fw">
   <div class="art-img-nn">
                                                 <div class="art_no_post_img">
-                                                    <img src="' . base_url() . 'img/icon_no_message.png">
+                                                    <img src="' . base_url() . 'assets/img/icon_no_message.png">
                                                 </div>
                                                 <div class="art_no_post_text_c">
                                                     No Messages Available.

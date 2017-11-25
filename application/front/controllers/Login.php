@@ -10,7 +10,9 @@ class Login extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-
+        //AWS access info start
+        $this->load->library('S3');
+        //AWS access info end
         if ($this->session->userdata('aileenuser')) {
             redirect('dashboard', 'refresh');
         }
@@ -27,6 +29,9 @@ class Login extends CI_Controller {
         } else {
             $this->data['error_msg'] = $error_msg = 0;
         }
+        if($_GET['redirect_url'] != ''){
+            $this->data['redirect_url'] = base64_decode($_GET['redirect_url']);
+        }
         if ($this->input->get()) {
             if ($_GET['lwc'] != " ") {
                 $emaildata = $this->common->select_data_by_id('user', 'user_id', $_GET['lwc'], $data = 'user_email', $join_str = array());
@@ -40,6 +45,7 @@ class Login extends CI_Controller {
                 }
             }
         }
+
 
         $this->data['login_footer'] = $this->load->view('login_footer', $this->data, TRUE);
         $this->load->view('login/index', $this->data);
@@ -159,7 +165,7 @@ class Login extends CI_Controller {
                     'last_name' => $lname,
                     'user_gender' => $gen,
                     'fb_id' => $fbid,
-                    'is_delete' => 0,
+                    'is_delete' => '0',
                     'created_date' => date('y-m-d h:i:s')
                 );
 

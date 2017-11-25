@@ -1,20 +1,35 @@
+<?php
+$s3 = new S3(awsAccessKey, awsSecretKey);
+$mobile_agent = $this->agent->mobile;
+?>
 <!DOCTYPE html>
 <html>
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('dragdrop/fileinput.css?ver=' . time()); ?>">
-        <link href="<?php echo base_url('dragdrop/themes/explorer/theme.css?ver=' . time()); ?>" media="all" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/video.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver=' . time()); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver=' . time()) ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/business/business.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/mobile.css'); ?>" />
+        <?php if (IS_BUSINESS_CSS_MINIFY == '0') { ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/dragdrop/fileinput.css?ver=' . time()); ?>">
+            <link href="<?php echo base_url('assets/dragdrop/themes/explorer/theme.css?ver=' . time()); ?>" media="all" rel="stylesheet" type="text/css"/>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/business.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/as-videoplayer/build/mediaelementplayer.css'); ?>" />
+        <?php } else { ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/business_profile/business_profile.min.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/as-videoplayer/build/mediaelementplayer.css'); ?>" />
+        <?php } ?>
         <style type="text/css">
             .two-images, .three-image, .four-image{
                 height: auto !important;
+            }
+            .mejs__overlay-button {
+                background-image: url("https://www.aileensoul.com/assets/as-videoplayer/build/mejs-controls.svg");
+            }
+            .mejs__overlay-loading-bg-img {
+                background-image: url("https://www.aileensoul.com/assets/as-videoplayer/build/mejs-controls.svg");
+            }
+            .mejs__button > button {
+                background-image: url("https://www.aileensoul.com/assets/as-videoplayer/build/mejs-controls.svg");
             }
         </style>
     </head>
@@ -25,25 +40,48 @@
         <?php echo $business_header2_border; ?>
         <section>
             <div class="user-midd-section bui_art_left_box" id="paddingtop_fixed">
-                <div class="container art_container">
+                <div class="container art_container padding-360">
                     <div class="profile-box-custom fl animated fadeInLeftBig left_side_posrt" >
                         <div class="left_fixed">
                             <?php echo $business_left; ?>
-                            <div class="full-box-module_follow fw fixed_right_display_none ">
-                                <!-- follower list start  -->  
-                                <div class="common-form">
-                                    <h3 class="user_list_head">User List
-                                    </h3>
-                                    <div class="seeall">
-                                        <a href="<?php echo base_url('business-profile/userlist/' . $business_common_data[0]['business_slug']); ?>">All User
-                                        </a>
+                            <?php
+                            if ($follow_user_suggest_count > 0) {
+                                ?>
+                                <div class="full-box-module_follow fw">
+                                    <!-- follower list start  -->  
+                                    <div class="common-form">
+                                        <h3 class="user_list_head">User List
+                                        </h3>
+                                        <div class="seeall">
+                                            <a href="<?php echo base_url('business-profile/userlist/' . $business_common_data[0]['business_slug']); ?>">All User
+                                            </a>
+                                        </div>
                                     </div>
+                                    <!-- GET USER FOLLOE SUGESSION LIST START [AJAX DATA DISPLAY UNDER profile-boxProfileCard_follow CLASS]-->
+                                    <div class="profile-boxProfileCard_follow fw  module">
+                                    </div>
+                                    <!-- GET USER FOLLOE SUGESSION LIST START -->
+                                    <!-- follower list end  -->
                                 </div>
-                                <!-- GET USER FOLLOE SUGESSION LIST START [AJAX DATA DISPLAY UNDER profile-boxProfileCard_follow CLASS]-->
-                                <div class="profile-boxProfileCard_follow fw  module">
+                                <?php
+                            }
+                            ?>
+                            <div class="tablate-potrat-add">
+                                <div class="fw text-center pt10">
+                                    <script type="text/javascript">
+                                        (function () {
+                                            if (window.CHITIKA === undefined) {
+                                                window.CHITIKA = {'units': []};
+                                            }
+                                            ;
+                                            var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                            var placement_id = window.CHITIKA.units.length;
+                                            window.CHITIKA.units.push(unit);
+                                            document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                        }());
+                                    </script>
+                                    <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
                                 </div>
-                                <!-- GET USER FOLLOE SUGESSION LIST START -->
-                                <!-- follower list end  -->
                             </div>
                             <div class="custom_footer_left fw">
                                 <div class="fl">
@@ -51,9 +89,9 @@
                                         <li><a href="<?php echo base_url('about-us'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> About Us </a></li>
                                         <li><a href="<?php echo base_url('contact-us'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Contact Us</a></li>
                                         <li><a href="<?php echo base_url('blog'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Blogs</a></li>
-										<li><a href="<?php echo base_url('privacy-policy'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Privacy Policy</a></li>
+                                        <li><a href="<?php echo base_url('privacy-policy'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Privacy Policy</a></li>
                                         <li><a href="<?php echo base_url('terms-and-condition'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Terms &amp; Condition </a></li>
-                                        
+
                                         <li><a href="<?php echo base_url('feedback'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Send Us Feedback</a></li>
                                     </ul>
                                 </div>
@@ -78,14 +116,29 @@
                                     <div class="popup-img"> 
                                         <?php if ($business_common_data[0]['business_user_image']) { ?>
                                             <?php
-                                            if (!file_exists($this->config->item('bus_profile_thumb_upload_path') . $business_common_data[0]['business_user_image'])) {
-                                                ?>
-                                                <img  src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="">
-                                            <?php } else {
-                                                ?>
-                                                <img  src="<?php echo BUS_PROFILE_THUMB_UPLOAD_URL . $business_common_data[0]['business_user_image']; ?>"  alt="">
-                                            <?php } ?>
-                                        <?php } else { ?>
+                                            if (IMAGEPATHFROM == 'upload') {
+                                                if (!file_exists($this->config->item('bus_profile_thumb_upload_path') . $business_common_data[0]['business_user_image'])) {
+                                                    ?>
+                                                    <img  src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="">
+                                                <?php } else {
+                                                    ?>
+                                                    <img src="<?php echo BUS_PROFILE_THUMB_UPLOAD_URL . $business_common_data[0]['business_user_image']; ?>"  alt="">
+                                                    <?php
+                                                }
+                                            } else {
+                                                $filename = $this->config->item('bus_profile_thumb_upload_path') . $business_common_data[0]['business_user_image'];
+                                                $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                                                if (!$info) {
+                                                    ?>
+                                                    <img src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="No Image">
+                                                <?php } else {
+                                                    ?>
+                                                    <img  src="<?php echo BUS_PROFILE_THUMB_UPLOAD_URL . $business_common_data[0]['business_user_image']; ?>"  alt="">
+                                                    <?php
+                                                }
+                                            }
+                                        } else {
+                                            ?>
                                             <img  src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="">
                                         <?php } ?>
                                     </div>
@@ -104,39 +157,118 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="custom-user-list">
+                                <?php
+                                if ($follow_user_suggest_count > 0) {
+                                    ?>
+                                    <div class="full-box-module_follow fw">
+                                        <!-- follower list start  -->  
+                                        <div class="common-form">
+                                            <h3 class="user_list_head">User List
+                                            </h3>
+                                            <div class="seeall">
+                                                <a href="<?php echo base_url('business-profile/userlist/' . $business_common_data[0]['business_slug']); ?>">All User
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- GET USER FOLLOE SUGESSION LIST START [AJAX DATA DISPLAY UNDER profile-boxProfileCard_follow CLASS]-->
+                                        <div class="profile-boxProfileCard_follow fw  module">
+                                        </div>
+                                        <!-- GET USER FOLLOE SUGESSION LIST START -->
+                                        <!-- follower list end  -->
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+							<!-- user slider  -->
+							<!--div class="custom-user-list">
+                                <?php
+                                if ($follow_user_suggest_count > 0) {
+                                    ?>
+                                    <div class="full-box-module_follow fw">
+                                        
+                                        <div class="common-form">
+                                            <h3 class="user_list_head">User List
+                                            </h3>
+                                            <div class="seeall">
+                                                <a href="<?php echo base_url('business-profile/userlist/' . $business_common_data[0]['business_slug']); ?>">All User
+                                                </a>
+                                            </div>
+                                        </div>
+										
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div-->
+							
+							
                             <div class="business-all-post">
+                                <?php
+                                if ($mobile_agent) {
+                                    ?>
+                                    <div class="mob-add">
+                                        <div class="fw text-center pt10 pb5">
+                                            <script type="text/javascript">
+                                        (function () {
+                                            if (window.CHITIKA === undefined) {
+                                                window.CHITIKA = {'units': []};
+                                            }
+                                            ;
+                                            var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                            var placement_id = window.CHITIKA.units.length;
+                                            window.CHITIKA.units.push(unit);
+                                            document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                        }());
+                                            </script>
+                                            <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <div class="nofoundpost"> 
                                 </div>
                             </div>
-                            <!--<div class="fw" id="loader" style="text-align:center; display: none;"><img src="<?php echo base_url('images/loader.gif?ver=' . time()) ?>" /></div>-->
+                            <div class="fw" id="loader" style="text-align:center; display: none;"><img src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) ?>" /></div>
                         </div>
                     </div>
                     <div id="hideuserlist" class="right_middle_side_posrt fixed_right_display animated fadeInRightBig"> 
-					<?php
-                        if ($follow_user_suggest_count > 0) {
-                            ?>
-                            <div class="full-box-module_follow" style="margin-top: 0px;">
-                                <div class="common-form">
-                                    <h3 class="user_list_head">User List</h3>
-                                    <div class="seeall">
-                                        <a href="<?php echo base_url('business-profile/userlist/' . $business_common_data[0]['business_slug']); ?>">All User
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- GET USER FOLLOE SUGESSION LIST START [AJAX DATA DISPLAY UNDER profile-boxProfileCard_follow CLASS]-->
-                                <div class="profile-boxProfileCard_follow fw  module"></div>
-                                <!-- GET USER FOLLOE SUGESSION LIST START -->
-                                <!-- follower list end  -->
+
+                        <div class="fw text-center">
+                            <script type="text/javascript">
+                                        (function () {
+                                            if (window.CHITIKA === undefined) {
+                                                window.CHITIKA = {'units': []};
+                                            }
+                                            ;
+                                            var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                            var placement_id = window.CHITIKA.units.length;
+                                            window.CHITIKA.units.push(unit);
+                                            document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                        }());
+                            </script>
+                            <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                            <div class="fw pt10">
+                                <a href="https://www.chitika.com/publishers/apply?refid=aileensoul"><img src="https://images.chitika.net/ref_banners/300x250_tired_of_adsense.png" /></a>
                             </div>
-                            <?php
-                        }
-                        ?>
-                        <script type="text/javascript" language="javascript">
-						  var aax_size='300x250';
-						  var aax_pubname = 'aileensoul-21';
-						  var aax_src='302';
-						</script>
-						<script type="text/javascript" language="javascript" src="http://c.amazon-adsystem.com/aax2/assoc.js"></script>
+                        </div>
+
+                    </div>
+                    <div class="tablate-add">
+
+                        <script type="text/javascript">
+                                        (function () {
+                                            if (window.CHITIKA === undefined) {
+                                                window.CHITIKA = {'units': []};
+                                            }
+                                            ;
+                                            var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 160, "height": 600, "sid": "Chitika Default"};
+                                            var placement_id = window.CHITIKA.units.length;
+                                            window.CHITIKA.units.push(unit);
+                                            document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                        }());
+                        </script>
+                        <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
                     </div>
                 </div>
             </div>
@@ -155,14 +287,27 @@
                             if ($business_common_data[0]['business_user_image'] != '') {
                                 ?>
                                 <?php
-                                if (!file_exists($this->config->item('bus_profile_thumb_upload_path') . $business_common_data[0]['business_user_image'])) {
-                                    ?>
-                                    <img  src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="No Image">
-                                <?php } else {
-                                    ?>
-                                    <img src="<?php echo BUS_PROFILE_THUMB_UPLOAD_URL . $business_common_data[0]['business_user_image']; ?>"  alt="">
-                                <?php } ?>
-                                <?php
+                                if (IMAGEPATHFROM == 'upload') {
+                                    if (!file_exists($this->config->item('bus_profile_thumb_upload_path') . $business_common_data[0]['business_user_image'])) {
+                                        ?>
+                                        <img  src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="No Image">
+                                    <?php } else {
+                                        ?>
+                                        <img src="<?php echo BUS_PROFILE_THUMB_UPLOAD_URL . $business_common_data[0]['business_user_image']; ?>"  alt="">
+                                        <?php
+                                    }
+                                } else {
+                                    $filename = $this->config->item('bus_profile_thumb_upload_path') . $business_common_data[0]['business_user_image'];
+                                    $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                                    if (!$info) {
+                                        ?>
+                                        <img  src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="No Image">
+                                    <?php } else {
+                                        ?>
+                                        <img src="<?php echo BUS_PROFILE_THUMB_UPLOAD_URL . $business_common_data[0]['business_user_image']; ?>"  alt="">
+                                        <?php
+                                    }
+                                }
                             } else {
                                 ?>
                                 <img  src="<?php echo base_url(NOBUSIMAGE); ?>"  alt="No Image">
@@ -202,7 +347,7 @@
                                 <label for="file-1">
                                     <i class="fa fa-camera upload_icon"><span class="upload_span_icon"> Photo </span></i>
                                     <i class="fa fa-video-camera upload_icon"><span class="upload_span_icon"> Video</span>  </i> 
-                                    <i class="fa fa-music upload_icon"> <span class="upload_span_icon">Audio </span> </i>
+                                    <i class="fa fa-music upload_icon"> <span class="upload_span_icon">  Audio </span> </i>
                                     <i class="fa fa-file-pdf-o upload_icon"><span class="upload_span_icon"> PDF </span></i>
                                 </label>
                             </li>
@@ -279,25 +424,29 @@
                 </div>
             </div>
         </div>
-        <footer>
-            <?php echo $footer; ?>
-        </footer>
-        <script src="<?php echo base_url('js/jquery.wallform.js?ver=' . time()); ?>"></script>
-        <script src="<?php echo base_url('js/bootstrap.min.js?ver=' . time()); ?>"></script>
-        <script type = "text/javascript" src="<?php echo base_url('js/jquery.form.3.51.js?ver=' . time()) ?>"></script> 
+        <?php echo $footer; ?>
+     <!--<script src="<?php // echo base_url('assets/js/jquery.wallform.js?ver=' . time());                 ?>"></script>-->
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script>
+        <script type = "text/javascript" src="<?php echo base_url('assets/js/jquery.form.3.51.js?ver=' . time()) ?>"></script> 
         <!-- POST BOX JAVASCRIPT START --> 
-        <script src="<?php echo base_url('js/mediaelement-and-player.min.js?ver=' . time()); ?>"></script>
-        <script src="<?php echo base_url('dragdrop/js/plugins/sortable.js?ver=' . time()); ?>"></script>
-        <script src="<?php echo base_url('dragdrop/js/fileinput.js?ver=' . time()); ?>"></script>
-        <script src="<?php echo base_url('dragdrop/js/locales/fr.js?ver=' . time()); ?>"></script>
-        <script src="<?php echo base_url('dragdrop/js/locales/es.js?ver=' . time()); ?>"></script>
-        <script src="<?php echo base_url('dragdrop/themes/explorer/theme.js?ver=' . time()); ?>"></script>
+        <script src="<?php echo base_url('assets/dragdrop/js/plugins/sortable.js?ver=' . time()); ?>"></script>
+        <script src="<?php echo base_url('assets/dragdrop/js/fileinput.js?ver=' . time()); ?>"></script>
+        <script src="<?php echo base_url('assets/dragdrop/js/locales/fr.js?ver=' . time()); ?>"></script>
+        <script src="<?php echo base_url('assets/dragdrop/js/locales/es.js?ver=' . time()); ?>"></script>
+        <script src="<?php echo base_url('assets/dragdrop/themes/explorer/theme.js?ver=' . time()); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/as-videoplayer/build/mediaelement-and-player.js?ver=' . time()); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/as-videoplayer/demo.js?ver=' . time()); ?>"></script>
         <!-- POST BOX JAVASCRIPT END --> 
         <script>
                                 var base_url = '<?php echo base_url(); ?>';
                                 var no_business_post_html = '<?php echo $no_business_post_html ?>';
         </script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/business-profile/common.js?ver=' . time()); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/business-profile/home.js?ver=' . time()); ?>"></script>
+        <?php if (IS_BUSINESS_JS_MINIFY == '0') { ?>
+            <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/business-profile/common.js?ver=' . time()); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/business-profile/home.js?ver=' . time()); ?>"></script>
+        <?php } else { ?>
+            <script type="text/javascript" src="<?php echo base_url('assets/js_min/webpage/business-profile/common.min.js?ver=' . time()); ?>"></script>
+            <script type="text/javascript" src="<?php echo base_url('assets/js_min/webpage/business-profile/home.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
     </body>
 </html>

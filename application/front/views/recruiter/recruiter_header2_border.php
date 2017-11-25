@@ -55,7 +55,7 @@
 
                                                     <div>
                                                         <ul class="notification_data_in_h2">
-<div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+<div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                                                         </ul></div>
 
                                                 </div>
@@ -169,7 +169,7 @@
                                                     <div>
                                                         <!--<ul class="notification_data_in_h2" style=" width: 100%; text-align: center">-->
                                                         <ul class="notification_data_in_h2">
-<div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+<div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                                                         </ul></div>
 
                                                 </div>
@@ -243,7 +243,7 @@
 <!-- Bid-modal  -->
 <div class="modal fade message-box biderror" id="bidmodal" role="dialog">
     <div class="modal-dialog modal-lm deactive">
-        <div class="modal-content">
+        <div class="modal-content message">
             <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
             <div class="modal-body">
              <!--<img class="icon" src="images/dollar-icon.png" alt="" />-->
@@ -401,7 +401,7 @@
                 $('#seemsg').html(data.seeall);
                 setTimeout(
                         chatmsg,
-                       100000
+                       100
                         );
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

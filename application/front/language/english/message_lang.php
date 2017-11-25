@@ -167,9 +167,9 @@ $lang["profess_info"]="Professional Info";
 //variable of add post & edit post start
 $lang["project_post"]="Post Your Project";
 $lang["project_title"]="Project Title";
-$lang["field_of_requirement"]="Fields Of Requirement";
+$lang["field_of_requirement"]="Fields Of Requirements";
 $lang["skill_of_requirement"]="Skills of Requirements";
-$lang["select_filed"]="Select Fields of Requirement";
+$lang["select_filed"]="Select fields of requirement";
 $lang["experiance"]="Experience";
 $lang["payment"]="Payment For Freelancer";
 $lang["currency"]="Currency";
@@ -190,7 +190,7 @@ $lang["no_applied_freelancer"]="No Applied Freelancer Found.";
 //variable of applied freelancer end
 
 //variable of reactive freelancer
-$lang["reactive_massage"]="Are you sure you want to reactive your freelancer_hire profile?";
+$lang["reactive_massage"]="Are you sure you want to reactive your freelancer hire profile?";
 $lang["yes"]="Yes";
 $lang["no"]="No";
 //variable of reactive freelancer end

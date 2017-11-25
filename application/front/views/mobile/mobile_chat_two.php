@@ -3,32 +3,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+   <head>
+        <?php// echo $head; ?>
         <meta charset="utf-8">
         <title>Chat | Aileensoul</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <link rel="icon" href="<?php echo base_url('images/favicon.png'); ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="<?php echo base_url('assets/images/favicon.png'); ?>">
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
-        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+        <!--<link rel="stylesheet" type="text/css" href="<?php //echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">-->
+        <!--<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
         <!-- http://bootsnipp.com/snippets/4jXW -->
 
-               <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/common-style.css'); ?>">
-                <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style.css'); ?>">
-                <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style_new.css'); ?>">
-                <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style_harshad.css'); ?>">
-              <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/media.css'); ?>">
+               <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/common-style.css'); ?>">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css'); ?>">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style_new.css'); ?>">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style_harshad.css'); ?>">
+              <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/media.css'); ?>">
               
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/style.css'); ?>">
-                <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/header.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css'); ?>">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/header.css'); ?>">
 
-              <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/style.css'); ?>">
-              <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/header.css'); ?>">
-              <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/font-awesome.min.css'); ?>">
-			  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/sprite_img.css'); ?>">
+              <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css'); ?>">
+              <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/header.css'); ?>">
+              <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/font-awesome.min.css'); ?>">
+			  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/sprite_img.css'); ?>">
 
 
         <style type="text/css">
@@ -76,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="container">
             <div class="" id="paddingtop_fixed">
                 <div class="backdiv-mob">
-                    <a href="<?php echo base_url() . 'chat/abc/' . $message_from_profile . '/' . $message_to_profile . '/' . $id; ?>" class="pull-left"><img src="<?php echo base_url(); ?>img/back-arrow.png"></a>
+                    <a href="<?php echo base_url() . 'chat/abc/' . $message_from_profile . '/' . $message_to_profile . '/' . $id; ?>" class="pull-left"><img src="<?php echo base_url(); ?>assets/img/back-arrow.png"></a>
                     <a href="#" class="pull-right"><img src="<?php echo base_url(); ?>img/chat-frd.png"></a>
                 </div>
                 <div class="chat_nobcx">
@@ -132,7 +133,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                                 if ($message_from_profile == 6) {
                                     $last_user_image = $last_user_data['user_image'];
-                                    $profile_url = base_url() . 'artistic/art_manage_post/' . $id;
+                                    $profile_url = base_url() . 'artist/art_manage_post/' . $id;
                                 }
                                 ?>
                                 <a href="<?php echo $profile_url; ?>">
@@ -165,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </a>
                               
                                 <div class="chat_drop">
-                                    <a onclick="myFunction()" class="chatdropbtn fr"><!-- <img src="<?php echo base_url('img/t_dot.png') ?>"> --></a>
+                                    <a onclick="myFunction()" class="chatdropbtn fr"><!-- <img src="<?php echo base_url('assets/img/t_dot.png') ?>"> --></a>
                                     <div id="mychat_dropdown" class="chatdropdown-content">
                                         <a href="javascript:void(0);" onClick="delete_history()">
                                             <span class="h4-img h2-srrt"></span>  Delete All
@@ -300,6 +301,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <!-- Model Popup Close -->
                 <!------  commen script khyati 15-7  ---------------->
                
+                 <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js?ver=' . time()); ?>" ></script>
+                 
                 <script type="text/javascript">
                     var request_timestamp = 0;
 
@@ -836,8 +839,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
 
                 </script>
-                <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-                <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
+                <script src="<?php echo base_url('assets/js/demo/jquery-1.9.1.js'); ?>"></script>
+                <script src="<?php echo base_url('assets/js/demo/jquery-ui-1.9.1.js'); ?>"></script>
                 <script>
                     jQuery.noConflict();
 

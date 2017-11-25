@@ -3,15 +3,10 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
 
-<!--        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css'); ?>">
-
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-3.min.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />-->
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css'); ?>">
-    </head> <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/mobile.css'); ?>" />
+     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+    </head> <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/profiles/common/mobile.css'); ?>" />
     <body class="page-container-bg-solid page-boxed pushmenu-push">
         <?php echo $header; ?>
         <?php if ($recdata[0]['re_step'] == 3) { ?>
@@ -441,7 +436,7 @@
                         ?>
                         
                                                                                 <li> <b> Country</b> <span><?php
-                        $cache_time = $this->db->get_where('countries', array('country_id' => $recdata[0]['re_comp_country']))->row()->country_name;
+                        $cache_time = $this->db->select('country_name')->get_where('countries', array('country_id' => $recdata[0]['re_comp_country']))->row()->country_name;
 
                         if ($cache_time) {
                             echo $cache_time;
@@ -452,7 +447,7 @@
                                                                                 </li>
                         
                                                                                 <li> <b>State </b><span> <?php
-                        $cache_time = $this->db->get_where('states', array('state_id' => $recdata[0]['re_comp_state']))->row()->state_name;
+                        $cache_time = $this->db->select('state_name')->get_where('states', array('state_id' => $recdata[0]['re_comp_state']))->row()->state_name;
                         if ($cache_time) {
                             echo $cache_time;
                         } else {
@@ -466,7 +461,7 @@
                             if ($recdata[0]['re_comp_city']) {
                                 ?>
                                                                                                 <li><b> City</b> <span><?php
-                                $cache_time = $this->db->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
+                                $cache_time = $this->db->select('city_name')->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
                                 if ($cache_time) {
                                     echo $cache_time;
                                 }
@@ -479,7 +474,7 @@
                             if ($recdata[0]['re_comp_city']) {
                                 ?>
                                                                                                 <li><b> City</b> <span><?php
-                                $cache_time = $this->db->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
+                                $cache_time = $this->db->select('city_name')->get_where('cities', array('city_id' => $recdata[0]['re_comp_city']))->row()->city_name;
                                 if ($cache_time) {
                                     echo $cache_time;
                                 }
@@ -643,7 +638,7 @@
                         <span class="mes">
                             <div id="popup-form">
 
-                                <div class="fw" id="loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('images/loader.gif?ver=' . time()) ?>" /></div>
+                                <div class="fw" id="loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) ?>" /></div>
                                 <form id ="userimage" name ="userimage" class ="clearfix" enctype="multipart/form-data" method="post">
                                     <div class="col-md-5">
                                         <input type="file" name="profilepic" accept="image/gif, image/jpeg, image/png" id="upload-one" >
@@ -666,13 +661,13 @@
         <?php echo $footer; ?>
         <!-- END FOOTER -->
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script> 
-        <!--<script type="text/javascript" src="<?php //echo base_url('js/jquery.validate.js');  ?>"></script>-->
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver=' . time()); ?>"></script>
+        
+        
+        
+        
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script> 
+        <!--<script type="text/javascript" src="<?php //echo base_url('assets/js/jquery.validate.js');  ?>"></script>-->
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver=' . time()); ?>"></script>
         <script src="<?php echo base_url('assets/js/croppie.js?ver=' . time()); ?>"></script>
         <script>
                                                  var base_url = '<?php echo base_url(); ?>';
@@ -683,8 +678,8 @@
                                                  var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/search.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/rec_profile.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/search.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/rec_profile.js'); ?>"></script>
 
         <script type="text/javascript">
             

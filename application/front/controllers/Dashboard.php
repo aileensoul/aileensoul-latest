@@ -17,13 +17,15 @@ class Dashboard extends MY_Controller {
     }
 
     public function index($id = " ") {
+               $this->data['login_footer'] = $this->load->view('login_footer', $this->data, TRUE);
+               $this->data['footer'] = $this->load->view('footer', $this->data, TRUE);
 
         $this->load->library('form_validation');
         $userid = $this->session->userdata('aileenuser');
         $userdata = $this->data['userdata'] = $this->common->select_data_by_id('user', 'user_id', $userid, $data = '*', $join_str = array());
         if ($userdata[0]['user_slider'] == 1) {
             $data = array(
-                'user_slider' => 0,
+                'user_slider' => '0',
                 'modified_date' => date('Y-m-d', time())
             );
 
@@ -42,11 +44,11 @@ class Dashboard extends MY_Controller {
         $contition_array = array('user_id' => $userid);
         $workdata = $this->data['workdata'] = $this->common->select_data_by_condition('freelancer_post_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
-        $contition_array = array('user_id' => $userid, 'is_deleted' => '0', 'status' => '1');
-        $this->data['busdata'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        $contition_array = array('user_id' => $userid, 'is_deleted' => '0');
+        $this->data['busdata'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = 'business_step,status', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         $contition_array = array('user_id' => $userid, 'is_delete' => '0');
-        $this->data['artdata'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        $this->data['artdata'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id,art_step,status', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         //echo "<pre>"; print_r($this->data['artdata']); die();
 
         $this->data['title'] = 'Dashboard' . TITLEPOSTFIX;
@@ -177,10 +179,32 @@ class Dashboard extends MY_Controller {
 
 
             $this->session->unset_userdata('aileenuser');
+              $this->clear_all_cache();
             redirect(base_url(), 'refresh');
         }
         //LOGOUT END  
     }
+/**
+ * Clears all cache from the cache directory
+ */
+public function clear_all_cache()
+{
+    $CI =& get_instance();
+$path = $CI->config->item('cache_path');
+
+    $cache_path = ($path == '') ? APPPATH.'cache/' : $path;
+
+    $handle = opendir($cache_path);
+    while (($file = readdir($handle))!== FALSE) 
+    {
+        //Leave the directory protection alone
+        if ($file != '.htaccess' && $file != 'index.html')
+        {
+           @unlink($cache_path.'/'.$file);
+        }
+    }
+    closedir($handle);
+}
 
 // cover pic controller
     public function ajaxpro() {
@@ -537,7 +561,7 @@ class Dashboard extends MY_Controller {
         }
 
 
-        $contition_array = array('user_id' => $userid, 'experience !=' => 'Fresher', 'status' => 1);
+        $contition_array = array('user_id' => $userid, 'experience !=' => 'Fresher', 'status' => '1');
         $workdata = $this->common->select_data_by_condition('job_add_workexp', $contition_array, $data = '*', $sortby = '', $orderby = 'desc', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
 
@@ -553,7 +577,7 @@ class Dashboard extends MY_Controller {
 //FOR PROGRESSBAR COUNT COMMON FUNCTION END
 
     public function header_all_dropdown_list() {
-        $return_html = '<ul><li><div class="all-down"> <a href="'.base_url('job').'"> <div class="all-img"> <img src="'.base_url('img/i1.jpg') .'"> </div><div class="text-all"> Job Profile </div></a> </div></li><li> <div class="all-down"> <a href="'.base_url('recruiter').'"> <div class="all-img"> <img src="'. base_url('img/i2.jpg') .'"> </div><div class="text-all"> Recruiter Profile </div></a> </div></li><li> <div class="all-down"> <a href="'. base_url('freelancer') .'"> <div class="all-img"> <img src="'. base_url('img/i3.jpg') .'"> </div><div class="text-all"> Freelance Profile </div></a> </div></li><li> <div class="all-down"> <a href="'. base_url('business-profile') .'"> <div class="all-img"> <img src="'. base_url('img/i4.jpg') .'"> </div><div class="text-all"> Business Profile </div></a> </div></li><li> <div class="all-down"> <a href="'. base_url('artistic') .'"> <div class="all-img"> <img src="'. base_url('img/i5.jpg').'"> </div><div class="text-all"> Artistic Profile </div></a> </div></li></ul>';
+        $return_html = '<ul><li> <div class="all-down"> <a href="'. base_url('artist') .'"> <div class="all-img"> <img src="'. base_url('assets/img/i5.jpg').'"> </div><div class="text-all"> Artistic Profile </div></a> </div></li><li> <div class="all-down"> <a href="'. base_url('business-profile') .'"> <div class="all-img"> <img src="'. base_url('assets/img/i4.jpg') .'"> </div><div class="text-all"> Business Profile </div></a> </div></li><li><div class="all-down"> <a href="'.base_url('job').'"> <div class="all-img"> <img src="'.base_url('assets/img/i1.jpg') .'"> </div><div class="text-all"> Job Profile </div></a> </div></li><li> <div class="all-down"> <a href="'.base_url('recruiter').'"> <div class="all-img"> <img src="'. base_url('assets/img/i2.jpg') .'"> </div><div class="text-all"> Recruiter Profile </div></a> </div></li><li> <div class="all-down"> <a href="'. base_url('freelancer') .'"> <div class="all-img"> <img src="'. base_url('assets/img/i3.jpg') .'"> </div><div class="text-all"> Freelance Profile </div></a> </div></li></ul>';
         
         echo json_encode(array('return_html' => $return_html));
     }

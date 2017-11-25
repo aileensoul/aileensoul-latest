@@ -7,12 +7,8 @@
 
       <title><?php echo $title; ?></title>
 
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/demo.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-      <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()); ?>" />
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+    	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
    </head>
    <!-- END HEAD -->
    <!-- Start HEADER -->
@@ -23,9 +19,9 @@
    <!-- END HEADER -->
    <body class="page-container-bg-solid page-boxed">
       <div class="user-midd-section" id="paddingtop_fixed">
-      <div class="container">
-      <div class="row row4">
-      <div class="col-md-4 profile-box profile-box-left">
+      <div class="container padding-360">
+      <div class="row4">
+      <div class="profile-box-custom fl animated fadeInLeftBig left_side_posrt">
          <div class="">
             <div class="full-box-module">
                <div class="profile-boxProfileCard  module">
@@ -35,6 +31,7 @@
                         tabindex="-1"
                         aria-hidden="true"
                         rel="noopener">
+                          <div class="bg-images no-cover-upload"> 
                         <?php
                            if ($jobdata[0]['profile_background'] != '') {
                                                                             ?>
@@ -49,6 +46,7 @@
                            }
                            ?>
                      </a>
+</div>
                   </div>
                   <div class="profile-boxProfileCard-content clearfix">
                      <div class="left_side_box_img buisness-profile-txext">
@@ -56,7 +54,7 @@
                         <?php
                            if ($jobdata[0]['job_user_image']) {
                                ?>
-                        <img src="<?php echo JOB_PROFILE_THUMB_UPLOAD_URL . $jobdata[0]['job_user_image']; ?>" alt="<?php echo $jobdata[0]['fname']; ?> " >
+                        <div class="left_iner_img_profile"><img src="<?php echo JOB_PROFILE_THUMB_UPLOAD_URL . $jobdata[0]['job_user_image']; ?>" alt="<?php echo $jobdata[0]['fname']; ?> " ></div>
                         <?php
                            } else {
                                ?>
@@ -88,7 +86,7 @@
                         <a   href="<?php echo site_url('job/resume/' . $jobdata[0]['slug']); ?>">  <?php echo ucfirst($jobdata[0]['fname']) . ' ' . ucfirst($jobdata[0]['lname']); ?></a>
                         </span>
                         </span>
-                        <?php $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' => 1))->row()->industry_name; ?>
+                        <?php $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' => '1'))->row()->industry_name; ?>
                         <div class="profile-boxProfile-name">
                            <a  href="<?php echo base_url('job/resume/' . $jobdata[0]['slug']); ?>"><?php
                               if (ucwords($jobdata[0]['designation'])) {
@@ -102,45 +100,106 @@
                            <li <?php if ($this->uri->segment(1) == 'job' && $this->uri->segment(2) == 'resume') { ?> class="active" <?php } ?>>
                               <a class="padding_less_left" title="Details" href="<?php echo base_url('job/resume'); ?>"> Details</a>
                            </li>
-                           <?php if (($this->uri->segment(1) == 'job') && ($this->uri->segment(2) == 'home' || $this->uri->segment(2) == 'resume' || $this->uri->segment(2) == 'search' || $this->uri->segment(2) == 'saved-job' || $this->uri->segment(2) == 'applied-job') && ($this->uri->segment(3) == $this->session->userdata('aileenuser') || $this->uri->segment(3) == '')) { ?>
+                           <?php // if (($this->uri->segment(1) == 'job') && ($this->uri->segment(2) == 'home' || $this->uri->segment(2) == 'resume' || $this->uri->segment(2) == 'search' || $this->uri->segment(2) == 'saved-job' || $this->uri->segment(2) == 'applied-job') && ($this->uri->segment(3) == $this->session->userdata('aileenuser') || $this->uri->segment(3) == '')) { ?>
                            <li <?php if ($this->uri->segment(1) == 'search' && $this->uri->segment(2) == 'saved-job') { ?> class="active" <?php } ?>><a title="Saved Job" href="<?php echo base_url('job/saved-job'); ?>">Saved </a>
                            </li>
                            <li <?php if ($this->uri->segment(1) == 'job' && $this->uri->segment(2) == 'applied-job') { ?> class="active" <?php } ?>><a class="padding_less_right" title="Applied Job" href="<?php echo base_url('job/applied-job'); ?>">Applied </a>
                            </li>
-                           <?php } ?>
+                           <?php // } ?>
                         </ul>
                      </div>
                   </div>
                </div>
             </div>
-         </div>
+			<div class="tablate-potrat-add">
+								<div class="fw text-center pt10">
+									<script type="text/javascript">
+									  ( function() {
+										if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+										var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+										var placement_id = window.CHITIKA.units.length;
+										window.CHITIKA.units.push(unit);
+										document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+									}());
+									</script>
+									<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+								</div>
+							</div>
+		 
+		 </div>
       </div>
-      <div class="col-md-7 col-sm-7 col-sm-push-4 col-md-push-4 custom-right">
+      <div class="custom-right-art mian_middle_post_box animated fadeInUp">
          <div class="common-form">
             <div class="job-saved-box">
                <h3>
                   Search result of 
-                  <?php  if($keyword != "" && $keyword1 == ""){echo '"' .  $keyword . '"';}
+                  <?php  if($keyword != "" && $keyword1 == ""){echo '"' .  str_replace('-', ' ', $keyword) . '"';}
                      elseif ($keyword == "" && $keyword1 != "") {
                        echo '"' .  $keyword1 . '"';
                      }
                      else
                      {
-                        echo '"' .  $keyword . '"'; echo  " in "; echo '"' .  $keyword1 . '"';
+                        echo '"' .  str_replace('-', ' ', $keyword) . '"'; echo  " in "; echo '"' .  $keyword1 . '"';
                      }
                      ?>
                </h3>
 
-               <div class="contact-frnd-post">
+				<div class="contact-frnd-post">
+				<div class="mob-add">
+								<div class="fw text-center pt10 pb5">
+									<script type="text/javascript">
+									  ( function() {
+										if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+										var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+										var placement_id = window.CHITIKA.units.length;
+										window.CHITIKA.units.push(unit);
+										document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+									}());
+									</script>
+									<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+								</div>
+							</div>
                             <div class="job-contact-frnd ">
                               <!--.........AJAX DATA......-->           
                             </div>
-                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
-              </div>
+                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
+				</div>
 
             </div>
          </div>
       </div>
+	  <div id="hideuserlist" class="right_middle_side_posrt fixed_right_display animated fadeInRightBig"> 
+					
+							<div class="fw text-center">
+								<script type="text/javascript">
+									  ( function() {
+										if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+										var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+										var placement_id = window.CHITIKA.units.length;
+										window.CHITIKA.units.push(unit);
+										document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+									}());
+									</script>
+								<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+								<div class="fw pt10 text-right">
+									<a href="https://www.chitika.com/publishers/apply?refid=aileensoul"><img src="https://images.chitika.net/ref_banners/300x250_hidden_ad.png" /></a>
+								</div>
+							</div>
+							
+						</div>
+						<div class="tablate-add">
+
+                            <script type="text/javascript">
+						  ( function() {
+							if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+							var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":160,"height":600,"sid":"Chitika Default"};
+							var placement_id = window.CHITIKA.units.length;
+							window.CHITIKA.units.push(unit);
+							document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+						}());
+						</script>
+						<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                        </div>
       </section>
       <!-- Model Popup Open -->
       <!-- Bid-modal  -->
@@ -156,26 +215,43 @@
       </div>
       <!-- Model Popup Close -->
       
-<footer>        
+        
 <?php echo $footer;  ?>
-</footer>
+
 
 <!-- script for skill textbox automatic start-->
-<script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery.highlite.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
+<!--<script src="<?php //echo base_url('assets/js/jquery-ui.min.js?ver='.time()); ?>"></script>-->
+
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
 
 <script>
     var base_url = '<?php echo base_url(); ?>';
-    var skill = '<?php echo  $this->input->get('skills'); ?>';
-    var place = '<?php echo  $this->input->get('searchplace'); ?>';
+   var skill = '<?php echo  $keyword; ?>';
+    //var skill = skill.replace('-', ' ');
+    
+    var place = '<?php echo  $keyword1; ?>';
+   // var place = place.replace('-', ' ');
+    
+    var csrf_token_name='<?php echo $this->security->get_csrf_token_name(); ?>';
+    var csrf_hash='<?php echo $this->security->get_csrf_hash(); ?>';  
+    
+           
+//           if(skill == ""){
+//            var  searchurl = 'jobs-in-' + place;
+//             
+//           } else if(place == ""){
+//             var  searchurl = skill + '-jobs';
+//              
+//           }else{ 
+//             var  searchurl =  skill + '-jobs-in-' + place;
+//              
+//           }
+       
+       
 </script>
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_search.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_search.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
 
 </body>
 </html>

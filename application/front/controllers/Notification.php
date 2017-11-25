@@ -11,7 +11,9 @@ class Notification extends MY_Controller {
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('email_model');
-
+//AWS access info start
+        $this->load->library('S3');
+        //AWS access info end
         include ('include.php');
     }
 
@@ -34,9 +36,9 @@ class Notification extends MY_Controller {
         $join_str[0]['from_table_id'] = 'rec_post.user_id';
         $join_str[0]['join_type'] = '';
 
-
-        $contition_array = array('rec_post.is_delete' => 0, 'rec_post.post_id' => $id);
-        $this->data['postdata'] = $this->common->select_data_by_condition('rec_post', $contition_array, $data = 'rec_post.*,recruiter.rec_firstname,recruiter.re_comp_name,recruiter.rec_lastname', $sortby = 'post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
+        $data = 'post_id,post_name,post_last_date,post_description,post_skill,post_position,interview_process,min_sal,max_sal,max_month,max_year,min_month,min_year,fresher,degree_name,industry_type,emp_type,rec_post.created_date,rec_post.user_id,recruiter.rec_firstname,recruiter.re_comp_name,recruiter.rec_lastname,recruiter.recruiter_user_image,recruiter.profile_background,recruiter.re_comp_profile,city,country,post_currency,salary_type';
+        $contition_array = array('rec_post.is_delete' => '0', 'rec_post.post_id' => $id);
+        $this->data['postdata'] = $this->common->select_data_by_condition('rec_post', $contition_array, $data, $sortby = 'post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
         //echo "<pre>"; print_r($this->data['postdata']); die();
 
@@ -72,7 +74,7 @@ class Notification extends MY_Controller {
             $join_str[0]['join_type'] = '';
 
 
-            $contition_array = array('rec_post.user_id' => $userid, 'rec_post.is_delete' => 0);
+            $contition_array = array('rec_post.user_id' => $userid, 'rec_post.is_delete' => '0');
             $this->data['postdata'] = $this->common->select_data_by_condition('rec_post', $contition_array, $data = 'rec_post.*,recruiter.rec_firstname,recruiter.re_comp_name,recruiter.rec_lastname', $sortby = 'post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
             // echo "<pre>"; print_r($this->data['postdata']); die();
         } else {
@@ -83,7 +85,7 @@ class Notification extends MY_Controller {
             $join_str[0]['from_table_id'] = 'rec_post.user_id';
             $join_str[0]['join_type'] = '';
 
-            $contition_array = array('rec_post.user_id' => $id, 'rec_post.is_delete' => 0);
+            $contition_array = array('rec_post.user_id' => $id, 'rec_post.is_delete' => '0');
             $this->data['postdata'] = $this->common->select_data_by_condition('rec_post', $contition_array, $data = 'rec_post.*,recruiter.rec_firstname,recruiter.re_comp_name,recruiter.rec_lastname', $sortby = 'post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
             // echo "<pre>"; print_r($this->data['postdata']); die();
         }
@@ -102,7 +104,9 @@ class Notification extends MY_Controller {
         $contition_array = array('art_post_id' => $id, 'status' => '1', 'is_delete' => '0');
         $this->data['art_data'] = $this->common->select_data_by_condition('art_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         //echo '<pre>'; print_r($this->data['art_data']); die();
-        $this->data['left_artistic'] = $this->load->view('artistic/left_artistic', $this->data, true);
+        $this->data['get_url'] = $this->get_url($userid);
+
+        $this->data['left_artistic'] = $this->load->view('artist/left_artistic', $this->data, true);
         $this->load->view('notification/art_post', $this->data);
     }
 
@@ -195,7 +199,6 @@ class Notification extends MY_Controller {
         $this->data['businessdata'] = $this->common->select_data_by_condition('business_profile', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         $contition_array = array('business_profile_post_id' => $id, 'status' => '1');
         $this->data['busienss_data'] = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
-
         $this->data['business_left'] = $this->load->view('business_profile/business_left', $this->data, true);
 
         $this->load->view('notification/business_post', $this->data);
@@ -258,7 +261,7 @@ class Notification extends MY_Controller {
         include ('business_include.php');
         $business_login_slug = $this->data['business_login_slug'];
         $post_id = $_GET['post_id'];
-        
+
         $user_name = $this->session->userdata('user_name');
 
         $business_profile_id = $this->data['business_common_data'][0]['business_profile_id'];
@@ -272,27 +275,12 @@ class Notification extends MY_Controller {
         $industriyal = $this->data['business_common_data'][0]['industriyal'];
         $other_industrial = $this->data['business_common_data'][0]['other_industrial'];
 
-//        $contition_array = array('business_profile_post_id' => $post_id, 'status' => '1', 'is_delete' => 0);
-//        $business_profile_post = $this->common->select_data_by_condition('business_profile_post', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
-
-
-//        $condition_array = array('business_profile_post_id' => $post_id, 'business_profile_post.is_delete' => 0, 'business_profile_post.status' => 1);
-//        $search_condition = "`business_profile_post_id` NOT IN ('$delete_post_id') AND (business_profile_post.user_id IN ('$total_user_list')) OR (posted_user_id ='$user_id' AND is_delete=0)";
-//        $join_str[0]['table'] = 'business_profile';
-//        $join_str[0]['join_table_id'] = 'business_profile.user_id';
-//        $join_str[0]['from_table_id'] = 'business_profile_post.user_id';
-//        $join_str[0]['join_type'] = '';
-//        $data = "business_profile.business_user_image,business_profile.company_name,business_profile.industriyal,business_profile.business_slug,business_profile.other_industrial,business_profile.business_slug,business_profile_post.business_profile_post_id,business_profile_post.product_name,business_profile_post.product_image,business_profile_post.product_description,business_profile_post.business_likes_count,business_profile_post.business_like_user,business_profile_post.created_date,business_profile_post.posted_user_id,business_profile.user_id";
-//        $business_profile_post = $this->common->select_data_by_search('business_profile_post', $search_condition, $condition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'DESC', $limit = $perpage, $offset = $start, $join_str, $groupby = '');
-//        $business_profile_post1 = $this->common->select_data_by_search('business_profile_post', $search_condition, $condition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'DESC', $limit = '', $offset = '', $join_str, $groupby = '');
-
-        $condition_array = array('business_profile_post.business_profile_post_id' => $post_id, 'business_profile_post.is_delete' => 0, 'business_profile_post.status' => 1);
+        $condition_array = array('business_profile_post.business_profile_post_id' => $post_id, 'business_profile_post.is_delete' => '0', 'business_profile_post.status' => '1');
         $join_str[0]['table'] = 'business_profile';
         $join_str[0]['join_table_id'] = 'business_profile.user_id';
         $join_str[0]['from_table_id'] = 'business_profile_post.user_id';
         $join_str[0]['join_type'] = '';
         $data = "business_profile.business_user_image,business_profile.company_name,business_profile.industriyal,business_profile.business_slug,business_profile.other_industrial,business_profile.business_slug,business_profile_post.business_profile_post_id,business_profile_post.product_name,business_profile_post.product_image,business_profile_post.product_description,business_profile_post.business_likes_count,business_profile_post.business_like_user,business_profile_post.created_date,business_profile_post.posted_user_id,business_profile.user_id";
-//        $business_profile_post = $this->common->select_data_by_search('business_profile_post', $search_condition, $condition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'DESC', $limit = $perpage, $offset = $start, $join_str, $groupby = '');
         $business_profile_post = $this->common->select_data_by_condition('business_profile_post', $condition_array, $data, $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str, $groupby = '');
 
         $return_html = '';
@@ -311,12 +299,12 @@ class Notification extends MY_Controller {
         $post_business_slug = $row['business_slug'];
         $post_industriyal = $row['industriyal'];
         $post_user_id = $row['user_id'];
-        $post_category = $this->db->get_where('industry_type', array('industry_id' => $post_industriyal, 'status' => 1))->row()->industry_name;
+        $post_category = $this->db->get_where('industry_type', array('industry_id' => $post_industriyal, 'status' => '1'))->row()->industry_name;
         $post_other_industrial = $row['other_industrial'];
         if ($post_posted_user_id) {
             $posted_company_name = $this->db->get_where('business_profile', array('user_id' => $post_posted_user_id))->row()->company_name;
-            $posted_business_slug = $this->db->get_where('business_profile', array('user_id' => $post_posted_user_id, 'status' => 1))->row()->business_slug;
-            $posted_category = $this->db->get_where('industry_type', array('industry_id' => $post_industriyal, 'status' => 1))->row()->industry_name;
+            $posted_business_slug = $this->db->get_where('business_profile', array('user_id' => $post_posted_user_id, 'status' => '1'))->row()->business_slug;
+            $posted_category = $this->db->get_where('industry_type', array('industry_id' => $post_industriyal, 'status' => '1'))->row()->industry_name;
             $posted_business_user_image = $this->db->get_where('business_profile', array('user_id' => $post_posted_user_id))->row()->business_user_image;
         }
 
@@ -550,7 +538,7 @@ Your browser does not support the video tag.
 
                 $return_html .= '<div class = "audio_main_div">
 <div class = "audio_img">
-<img src = "' . base_url('images/music-icon.png') . '">
+<img src = "' . base_url('assets/images/music-icon.png') . '">
 </div>
 <div class = "audio_source">
 <audio id = "audio_player" width = "100%" height = "100" controls>
@@ -717,7 +705,7 @@ Your browser does not support the audio tag.
               $return_html .= "&nbsp;";
               } */
 
-            $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $likelistarray[0], 'status' => 1))->row()->company_name;
+            $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $likelistarray[0], 'status' => '1'))->row()->company_name;
 
             if (in_array($userid, $likelistarray)) {
                 $return_html .= "You";
@@ -753,7 +741,7 @@ Your browser does not support the audio tag.
         $countlike = $post_business_likes_count - 1;
         $likelistarray = explode(', ', $likeuser);
 
-        $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => 1))->row()->company_name;
+        $business_fname1 = $this->db->get_where('business_profile', array('user_id' => $value, 'status' => '1'))->row()->company_name;
 
         $return_html .= '<div class = "like_one_other">';
 
@@ -784,11 +772,11 @@ Your browser does not support the audio tag.
             foreach ($businessprofiledata as $rowdata) {
                 $companyname = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id']))->row()->company_name;
 
-                $slugname1 = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id'], 'status' => 1))->row()->business_slug;
+                $slugname1 = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id'], 'status' => '1'))->row()->business_slug;
 
                 $return_html .= '<div class = "all-comment-comment-box">
 <div class = "post-design-pro-comment-img">';
-                $business_userimage = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id'], 'status' => 1))->row()->business_user_image;
+                $business_userimage = $this->db->get_where('business_profile', array('user_id' => $rowdata['user_id'], 'status' => '1'))->row()->business_user_image;
 
                 if ($business_userimage) {
                     $return_html .= '<a href = "' . base_url('business-profile/dashboard/' . $slugname1) . '">';
@@ -875,7 +863,7 @@ Your browser does not support the audio tag.
 </div>';
                 }
                 $userid = $this->session->userdata('aileenuser');
-                $business_userid = $this->db->get_where('business_profile_post', array('business_profile_post_id' => $rowdata['business_profile_post_id'], 'status' => 1))->row()->user_id;
+                $business_userid = $this->db->get_where('business_profile_post', array('business_profile_post_id' => $rowdata['business_profile_post_id'], 'status' => '1'))->row()->user_id;
                 if ($rowdata['user_id'] == $userid || $business_userid == $userid) {
 
                     $return_html .= '<span role = "presentation" aria-hidden = "true"> ·
@@ -909,7 +897,7 @@ Your browser does not support the audio tag.
 <div class = "post-design-proo-img hidden-mob">';
 
         $userid = $this->session->userdata('aileenuser');
-        $business_userimage = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => 1))->row()->business_user_image;
+        $business_userimage = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => '1'))->row()->business_user_image;
         if ($business_userimage) {
 
             if (!file_exists($this->config->item('bus_profile_thumb_upload_path') . $business_userimage)) {
@@ -929,7 +917,7 @@ Your browser does not support the audio tag.
 <div id = "content" class = "col-md-12  inputtype-comment cmy_2" >
 <div contenteditable = "true" class = "edt_2 editable_text" name = "' . $post_business_profile_post_id . '" id = "post_comment' . $post_business_profile_post_id . '" placeholder = "Add a Comment ..." onClick = "entercomment(' . $post_business_profile_post_id . ')" onpaste = "OnPaste_StripFormatting(this, event);"></div>
 <div class="mob-comment">       
-                            <button id="' . $post_business_profile_post_id . '" onClick="insert_comment(this.id)"><img src="' . base_url('img/send.png') . '">
+                            <button id="' . $post_business_profile_post_id . '" onClick="insert_comment(this.id)"><img src="' . base_url('assets/img/send.png') . '">
                             </button>
                         </div>
 </div>
@@ -953,7 +941,7 @@ Your browser does not support the audio tag.
     public function select_req() {
         $userid = $this->session->userdata('aileenuser');
 
-        $contition_array = array('not_read' => 2, 'not_to_id' => $userid);
+        $contition_array = array('not_read' => '2', 'not_to_id' => $userid);
         $result = $this->common->select_data_by_condition('notification', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         //echo '<pre>'; print_r($result); 
@@ -966,11 +954,11 @@ Your browser does not support the audio tag.
 
         //echo "<pre>"; print_r($data); die();
 
-        $contition_array = array('not_read' => 2, 'not_to_id' => $userid);
+        $contition_array = array('not_read' => '2', 'not_to_id' => $userid);
         $result = $this->common->select_data_by_condition('notification', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         $data = array(
-            'not_read' => 1
+            'not_read' => '1'
         );
         // echo "<pre>"; print_r($result);die();
 
@@ -988,11 +976,11 @@ Your browser does not support the audio tag.
 
         //echo "<pre>"; print_r($data); die();
 
-        $contition_array = array('not_read' => 2, 'not_to_id' => $userid);
+        $contition_array = array('not_read' => '2', 'not_to_id' => $userid);
         $result = $this->common->select_data_by_condition('notification', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         $data = array(
-            'not_read' => 1
+            'not_read' => '1'
         );
         // echo "<pre>"; print_r($result);die();
 
@@ -1009,7 +997,7 @@ Your browser does not support the audio tag.
 //Notification count select & update for apply,save,like,comment,contact and follow start
     public function select_notification() { //echo "hello"; die();
         $userid = $this->session->userdata('aileenuser');
-        $contition_array = array('not_read' => 2, 'not_to_id' => $userid, 'not_type !=' => 1, 'not_type !=' => 2);
+        $contition_array = array('not_read' => '2', 'not_to_id' => $userid, 'not_type !=' => '1', 'not_type !=' => '2');
         $result = $this->common->select_data_by_condition('notification', $contition_array, $data = 'count(*) as total', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         //echo '<pre>'; print_r($result); 
@@ -1022,11 +1010,11 @@ Your browser does not support the audio tag.
 
         //echo "<pre>"; print_r($data); die();
 
-        $contition_array = array('not_read' => 2, 'not_to_id' => $userid, 'not_type !=' => 1, 'not_type !=' => 2);
+        $contition_array = array('not_read' => '2', 'not_to_id' => $userid, 'not_type !=' => '1', 'not_type !=' => '2');
         $result = $this->common->select_data_by_condition('notification', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         $data = array(
-            'not_read' => 1
+            'not_read' => '1'
         );
         // echo "<pre>"; print_r($result);die();
 
@@ -1041,13 +1029,11 @@ Your browser does not support the audio tag.
 
 //Notification count select & update for apply,save,like,comment,contact and follow End
 //Notification count select & update for Message start
-    public function select_msg_noti($not_from = '') { //echo "hello"; die();
+    public function select_msg_noti($not_from = '') {
         $userid = $this->session->userdata('aileenuser');
-        $contition_array = array('not_read' => 2, 'not_to_id' => $userid, 'not_type' => 2, 'not_from' => $not_from);
-        $result = $this->common->select_data_by_condition('notification', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = 'not_from_id');
-
-        //   echo '<pre>'; print_r($result); die();
-        $count = count($result);
+        $contition_array = array('not_read' => '2', 'not_to_id' => $userid, 'not_type' => '2', 'not_from' => $not_from);
+        $result = $this->common->select_data_by_condition('notification', $contition_array, $data = 'COUNT(*) as total', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = 'not_from_id');
+        $count = $result[0]['total'];
         echo $count;
     }
 
@@ -1055,11 +1041,11 @@ Your browser does not support the audio tag.
         $userid = $this->session->userdata('aileenuser');
         //echo "<pre>"; print_r($data); die();
 
-        $contition_array = array('not_read' => 2, 'not_to_id' => $userid, 'not_type' => 2, 'not_from' => $not_from);
+        $contition_array = array('not_read' => '2', 'not_to_id' => $userid, 'not_type' => '2', 'not_from' => $not_from);
         $result = $this->common->select_data_by_condition('notification', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         //  echo '<pre>'; print_r($result); die();
         $data = array(
-            'not_read' => 1
+            'not_read' => '1'
         );
         foreach ($result as $cnt) {
             $updatedata = $this->common->update_data($data, 'notification', 'not_id', $cnt['not_id']);
@@ -1084,9 +1070,31 @@ Your browser does not support the audio tag.
     }
 
     public function not_header($id = "") {
+        $userid = $this->session->userdata('aileenuser');
+       // echo $userid;
+        // freelancer hire shortlisted  notification start
+        $contition_array = array('notification.not_type' => '9', 'notification.not_from' => '5', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $join_str = array(array(
+                'join_type' => '',
+                'table' => 'save',
+                'join_table_id' => 'notification.not_product_id',
+                'from_table_id' => 'save.save_id'),
+            array(
+                'join_type' => '',
+                'table' => 'freelancer_hire_reg',
+                'join_table_id' => 'notification.not_from_id',
+                'from_table_id' => 'freelancer_hire_reg.user_id')
+        );
+        $data = array('notification.*', ' save.*', 'freelancer_hire_reg.user_id as user_id', 'freelancer_hire_reg.fullname as first_name', 'freelancer_hire_reg.freelancer_hire_user_image as user_image', 'freelancer_hire_reg.username as last_name');
+        $shortlist = $this->data['shortlist'] = $work_post = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'save_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
+
+//        echo "<pre>";
+//        print_r($shortlist);
+//        die();
+        // freelancer hire shortlisted notification end
 
         $userid = $this->session->userdata('aileenuser');
-        $contition_array = array('notification.not_type' => 3, 'notification.not_to_id' => $userid, 'notification.not_from' => 2, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '3', 'notification.not_to_id' => $userid, 'notification.not_from' => '2', 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'job_apply',
@@ -1103,7 +1111,7 @@ Your browser does not support the audio tag.
 // recruiter notification end
 // job notfication start 
 
-        $contition_array = array('notification.not_type' => 4, 'notification.not_to_id' => $userid, 'notification.not_from' => 1, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '4', 'notification.not_to_id' => $userid, 'notification.not_from' => '1', 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'user_invite',
@@ -1121,7 +1129,7 @@ Your browser does not support the audio tag.
 
 // job notification end
 // freelancer hire  notification start
-        $contition_array = array('notification.not_type' => 3, 'notification.not_from' => 4, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '3', 'notification.not_from' => '4', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
 
         $join_str = array(
             array(
@@ -1143,7 +1151,7 @@ Your browser does not support the audio tag.
         // $this->data['work_post'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'app_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
 
-        $contition_array = array('notification.not_type' => 4, 'notification.not_from' => 5, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '4', 'notification.not_from' => '5', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'user_invite',
@@ -1165,7 +1173,7 @@ Your browser does not support the audio tag.
 //artistic notification start
 // follow notification start
 
-        $contition_array = array('notification.not_type' => 8, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '8', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'follow',
@@ -1184,7 +1192,7 @@ Your browser does not support the audio tag.
 // follow notification end
 //post comment notification start
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 1, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '1', 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'artistic_post_comment',
@@ -1200,7 +1208,7 @@ Your browser does not support the audio tag.
         $artcommnet = $this->data['artcommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'artistic_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 // comment notification end
 //post like notification start
-        $contition_array = array('notification.not_type' => 5, 'notification.not_from' => 3, 'not_img' => 2, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'notification.not_from' => '3', 'not_img' => '2', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post',
@@ -1215,7 +1223,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', ' art_post.*', ' art_reg.user_id as user_id', 'art_reg.art_name as first_name', 'art_reg.art_user_image as user_image', 'art_reg.art_lastname as last_name');
         $artlike = $this->data['artlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'art_post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 5, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '5', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'post_files',
@@ -1231,7 +1239,7 @@ Your browser does not support the audio tag.
         $artimglike = $this->data['artimglike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_files_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 3, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '3', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'artistic_post_comment',
@@ -1246,7 +1254,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', ' artistic_post_comment.*', ' art_reg.user_id as user_id', 'art_reg.art_name as first_name', 'art_reg.art_user_image as user_image', 'art_reg.art_lastname as last_name');
         $artcmtlike = $this->data['artcmtlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'artistic_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 4, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '4', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post_image_comment',
@@ -1261,7 +1269,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', ' art_post_image_comment.*', ' art_reg.user_id as user_id', 'art_reg.art_name as first_name', 'art_reg.art_user_image as user_image', 'art_reg.art_lastname as last_name');
         $artimgcommnet = $this->data['artimgcommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_image_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 6, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '6', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post_image_comment',
@@ -1281,7 +1289,7 @@ Your browser does not support the audio tag.
 // business profile notification start
 // follow notification start
 
-        $contition_array = array('notification.not_type' => 8, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '8', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'follow',
@@ -1300,7 +1308,7 @@ Your browser does not support the audio tag.
 // follow notification end
 // comment notification start
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 1, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '1', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post_comment',
@@ -1316,7 +1324,7 @@ Your browser does not support the audio tag.
 
         $buscommnet = $this->data['buscommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 //echo '<pre>'; print_r($this->data['buscommnet']);
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 4, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '4', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'bus_post_image_comment',
@@ -1335,7 +1343,7 @@ Your browser does not support the audio tag.
 //echo '<pre>'; print_r($this->data['busimgcommnet']); die(); 
 // comment notification end
 // like notification start
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 2, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '2', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post',
@@ -1351,7 +1359,7 @@ Your browser does not support the audio tag.
 
         $buslike = $this->data['buslike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 3, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '3', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post_comment',
@@ -1367,7 +1375,7 @@ Your browser does not support the audio tag.
 
         $buscmtlike = $this->data['buscmtlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 5, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '5', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'post_files',
@@ -1383,7 +1391,7 @@ Your browser does not support the audio tag.
 
         $busimglike = $this->data['busimglike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_files_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 6, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '6', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'bus_post_image_comment',
@@ -1399,9 +1407,9 @@ Your browser does not support the audio tag.
 
         $busimgcmtlike = $this->data['busimgcmtlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_image_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $this->data['totalnotifi'] = $totalnotifi = array_merge($rec_not, $job_not, $hire_not, $work_post, $artcommnet, $artlike, $artcmtlike, $artimglike, $artimgcommnet, $artfollow, $artimgcmtlike, $busimgcommnet, $busifollow, $buscommnet, $buslike, $buscmtlike, $busimgcmtlike, $busimglike);
+        $this->data['totalnotifi'] = $totalnotifi = array_merge((array)$rec_not,(array) $job_not, (array)$hire_not,(array)$work_post, (array)$artcommnet, (array)$artlike, (array)$artcmtlike, (array)$artimglike, (array)$artimgcommnet, (array)$artfollow, (array)$artimgcmtlike, (array)$busimgcommnet, (array)$busifollow, (array)$buscommnet, (array)$buslike, (array)$buscmtlike,(array)$busimgcmtlike, (array)$busimglike,(array)$shortlist);
         $this->data['totalnotification'] = $totalnotification = $this->aasort($totalnotifi, "not_created_date");
-
+      //  echo "<pre>"; print_r($this->data['totalnotification']);die();
         //  $notification .= '<div class="notification-data">';
         // $notification .= '<ul>';
         // $notification .= '<li>';
@@ -1430,9 +1438,11 @@ Your browser does not support the audio tag.
                 $notification .= '<div class="notification-pic">';
 
 
-                $filepath = FCPATH . $this->config->item('rec_profile_thumb_upload_path') . $total['user_image'];
-                if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                    $notification .= '<img src="' . base_url($this->config->item('rec_profile_thumb_upload_path') . $total['user_image']) . '" >';
+                $filename = $this->config->item('rec_profile_thumb_upload_path') . $total['user_image'];
+                $s3 = new S3(awsAccessKey, awsSecretKey);
+                $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                if ($total['user_image'] != '' && $info) {
+                    $notification .= '<img src="' . REC_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                 } else {
                     $a = $total['first_name'];
                     $b = $total['last_name'];
@@ -1461,27 +1471,26 @@ Your browser does not support the audio tag.
                     $notification .= 'active2';
                 }
                 $notification .= '"';
-                $notification .= '><a href="' . base_url('artistic/details/' . $total['slug']) . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database">';
+
+                $geturl = $this->get_url($total['user_id']);
+
+                $notification .= '><a href="' . base_url('artist/details/' . $geturl) . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database">';
                 $notification .= '<div class="notification-pic">';
 
 
-                $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
-                if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                    $notification .= '<img src="' . base_url($this->config->item('art_profile_thumb_upload_path') . $total['user_image']) . '" >';
+                $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                $s3 = new S3(awsAccessKey, awsSecretKey);
+                $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                // $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                if ($total['user_image'] && $filepath) {
+                    $notification .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                 } else {
-                    $a = $total['first_name'];
-                    $b = $total['last_name'];
-                    $acr = substr($a, 0, 1);
-                    $bcr = substr($b, 0, 1);
-
-
-                    $notification .= '<div class="post-img-div">';
-                    $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
-                    $notification .= '</div>';
+                    $notification .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                 }
 
                 $notification .= '</div><div class="notification-data-inside">';
-                $notification .= '<h6><b>' . '  ' . ucwords($total['first_name']) . ' ' . ucwords($total['last_name']) . '</b> <span class="noti-msg-y"> Started following you in artistic profile.</span></h6>';
+                $notification .= '<h6><b>' . '  ' . ucfirst(strtolower($total['first_name'])) . ' ' . ucfirst(strtolower($total['last_name'])) . '</b> <span class="noti-msg-y"> Started following you in artistic profile.</span></h6>';
                 $notification .= '<div ><i class="clockimg" ></i><span class="day-text">';
                 $notification .= '' . $this->common->time_elapsed_string($total['not_created_date'], $full = false) . '';
                 $notification .= '</span></div></div></div></a></li>';
@@ -1501,19 +1510,15 @@ Your browser does not support the audio tag.
                 $notification .= '><a href="' . base_url('notification/art-post/' . $total['art_post_id']) . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database">';
                 $notification .= '<div class="notification-pic">';
 
-                $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
-                if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                    $notification .= '<img src="' . base_url($this->config->item('art_profile_thumb_upload_path') . $total['user_image']) . '" >';
+                $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                $s3 = new S3(awsAccessKey, awsSecretKey);
+                $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                if ($total['user_image'] && $filepath) {
+                    $notification .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                 } else {
-                    $a = $total['first_name'];
-                    $b = $total['last_name'];
-                    $acr = substr($a, 0, 1);
-                    $bcr = substr($b, 0, 1);
-
-
-                    $notification .= '<div class="post-img-div">';
-                    $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
-                    $notification .= '</div>';
+                    $notification .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                 }
                 $notification .= '</div><div class="notification-data-inside">';
                 //$notification .= '';
@@ -1539,19 +1544,16 @@ Your browser does not support the audio tag.
                 $notification .= '<div class="notification-pic">';
 
 
-                $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
-                if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                    $notification .= '<img src="' . base_url($this->config->item('art_profile_thumb_upload_path') . $total['user_image']) . '" >';
+                $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                $s3 = new S3(awsAccessKey, awsSecretKey);
+                $filepath = $s3->getObjectInfo(bucket, $filename);
+
+
+                //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                if ($total['user_image'] && $filepath) {
+                    $notification .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                 } else {
-                    $a = $total['first_name'];
-                    $b = $total['last_name'];
-                    $acr = substr($a, 0, 1);
-                    $bcr = substr($b, 0, 1);
-
-
-                    $notification .= '<div class="post-img-div">';
-                    $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
-                    $notification .= '</div>';
+                    $notification .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                 }
 
                 $notification .= '</div><div class="notification-data-inside">';
@@ -1571,19 +1573,16 @@ Your browser does not support the audio tag.
                     }
                     $notification .= '"';
                     $notification .= '><a href="' . base_url('notification/art-post/' . $total['art_post_id']) . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database"><div class="notification-pic" >';
-                    $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
-                    if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                        $notification .= '<img src="' . base_url($this->config->item('art_profile_thumb_upload_path') . $total['user_image']) . '" >';
+
+                    $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                    //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    if ($total['user_image'] && $filepath) {
+                        $notification .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                     } else {
-                        $a = $total['first_name'];
-                        $b = $total['last_name'];
-                        $acr = substr($a, 0, 1);
-                        $bcr = substr($b, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
-                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1604,19 +1603,16 @@ Your browser does not support the audio tag.
                     }
                     $notification .= '"';
                     $notification .= '><a href="' . base_url('notification/art_post_img/' . $total['post_id'] . '/' . $total['post_files_id']) . '"><div class="notification-database"><div class="notification-pic">';
-                    $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
-                    if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                        $notification .= '<img src="' . base_url($this->config->item('art_profile_thumb_upload_path') . $total['user_image']) . '" >';
+
+                    $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                    // $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    if ($total['user_image'] && $filepath) {
+                        $notification .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                     } else {
-                        $a = $total['first_name'];
-                        $b = $total['last_name'];
-                        $acr = substr($a, 0, 1);
-                        $bcr = substr($b, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
-                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1638,19 +1634,16 @@ Your browser does not support the audio tag.
                     }
                     $notification .= '"';
                     $notification .= '><a href="' . base_url('notification/art_post_img/' . $postid . '/' . $total['post_image_id']) . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database"><div class="notification-pic">';
-                    $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
-                    if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                        $notification .= '<img src="' . base_url($this->config->item('art_profile_thumb_upload_path') . $total['user_image']) . '" >';
+
+                    $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                    //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    if ($total['user_image'] && $filepath) {
+                        $notification .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                     } else {
-                        $a = $total['first_name'];
-                        $b = $total['last_name'];
-                        $acr = substr($a, 0, 1);
-                        $bcr = substr($b, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
-                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1672,19 +1665,17 @@ Your browser does not support the audio tag.
                     }
                     $notification .= '"';
                     $notification .= '><a href="' . base_url('notification/art_post_img/' . $postid . '/' . $total['post_image_id']) . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database"><div class="notification-pic" >';
-                    $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
-                    if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                        $notification .= '<img src="' . base_url($this->config->item('art_profile_thumb_upload_path') . $total['user_image']) . '" >';
+
+                    $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $filepath = $s3->getObjectInfo(bucket, $filename);
+
+
+                    // $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    if ($total['user_image'] && $filepath) {
+                        $notification .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                     } else {
-                        $a = $total['first_name'];
-                        $b = $total['last_name'];
-                        $acr = substr($a, 0, 1);
-                        $bcr = substr($b, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
-                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1712,13 +1703,12 @@ Your browser does not support the audio tag.
                 if ($total['user_image'] && (file_exists($filepath)) == 1) {
                     $notification .= '<img src="' . base_url($this->config->item('bus_profile_thumb_upload_path') . $total['user_image']) . '" >';
                 } else {
-                    $a = $companyname;
-                    $acr = substr($a, 0, 1);
-
-
-                    $notification .= '<div class="post-img-div">';
-                    $notification .= '' . ucwords($acr) . '';
-                    $notification .= '</div>';
+//                    $a = $companyname;
+//                    $acr = substr($a, 0, 1);
+//                    $notification .= '<div class="post-img-div">';
+//                    $notification .= '' . ucwords($acr) . '';
+//                    $notification .= '</div>';
+                    $notification .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                 }
                 $notification .= '</div><div class="notification-data-inside">';
                 $notification .= '<h6><b>' . '  ' . ucwords($companyname) . '</b><span class="noti-msg-y"> Commented on your post in business profile. </span></h6>';
@@ -1742,13 +1732,13 @@ Your browser does not support the audio tag.
                 if ($total['user_image'] && (file_exists($filepath)) == 1) {
                     $notification .= '<img src="' . base_url($this->config->item('bus_profile_thumb_upload_path') . $total['user_image']) . '" >';
                 } else {
-                    $a = $companyname;
-                    $acr = substr($a, 0, 1);
-
-
-                    $notification .= '<div class="post-img-div">';
-                    $notification .= '' . ucwords($acr) . '';
-                    $notification .= '</div>';
+//                    $a = $companyname;
+//                    $acr = substr($a, 0, 1);
+//                    $notification .= '<div class="post-img-div">';
+//                    $notification .= '' . ucwords($acr) . '';
+//                    $notification .= '</div>';
+                    
+                    $notification .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                 }
                 $notification .= '</div><div class="notification-data-inside">';
                 $notification .= '<h6><b>' . '  ' . ucwords($companyname) . '</b> <span class="noti-msg-y">Started following you in business profile.</span></h6>';
@@ -1772,13 +1762,13 @@ Your browser does not support the audio tag.
                 if ($total['user_image'] && (file_exists($filepath)) == 1) {
                     $notification .= '<img src="' . base_url($this->config->item('bus_profile_thumb_upload_path') . $total['user_image']) . '" >';
                 } else {
-                    $a = $companyname;
-                    $acr = substr($a, 0, 1);
-
-
-                    $notification .= '<div class="post-img-div">';
-                    $notification .= '' . ucwords($acr) . '';
-                    $notification .= '</div>';
+//                    $a = $companyname;
+//                    $acr = substr($a, 0, 1);
+//                    $notification .= '<div class="post-img-div">';
+//                    $notification .= '' . ucwords($acr) . '';
+//                    $notification .= '</div>';
+                    
+                    $notification .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                 }
                 $notification .= '</div><div class="notification-data-inside">';
                 $notification .= '<h6><b>' . '  ' . ucwords($companyname) . '</b> <span class="noti-msg-y"> Likes your post in business profile. </span> </h6>';
@@ -1797,17 +1787,17 @@ Your browser does not support the audio tag.
                     $notification .= '"';
                     $notification .= '><a href="' . base_url('notification/business-profile-post/' . $total['business_profile_post_id']) . '" onClick="not_active(' . $total['not_id'] . ')">
                     <div class="notification-database"> <div class="notification-pic" >';
+
                     $filepath = FCPATH . $this->config->item('bus_profile_thumb_upload_path') . $total['user_image'];
                     if ($total['user_image'] && (file_exists($filepath)) == 1) {
                         $notification .= '<img src="' . base_url($this->config->item('bus_profile_thumb_upload_path') . $total['user_image']) . '" >';
                     } else {
-                        $a = $companyname;
-                        $acr = substr($a, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . '';
-                        $notification .= '</div>';
+//                        $a = $companyname;
+//                        $acr = substr($a, 0, 1);
+//                        $notification .= '<div class="post-img-div">';
+//                        $notification .= '' . ucwords($acr) . '';
+//                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1833,13 +1823,12 @@ Your browser does not support the audio tag.
                     if ($total['user_image'] && (file_exists($filepath)) == 1) {
                         $notification .= '<img src="' . base_url($this->config->item('bus_profile_thumb_upload_path') . $total['user_image']) . '" >';
                     } else {
-                        $a = $companyname;
-                        $acr = substr($a, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . '';
-                        $notification .= '</div>';
+//                        $a = $companyname;
+//                        $acr = substr($a, 0, 1);
+//                        $notification .= '<div class="post-img-div">';
+//                        $notification .= '' . ucwords($acr) . '';
+//                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1866,13 +1855,12 @@ Your browser does not support the audio tag.
                     if ($total['user_image'] && (file_exists($filepath)) == 1) {
                         $notification .= '<img src="' . base_url($this->config->item('bus_profile_thumb_upload_path') . $total['user_image']) . '" >';
                     } else {
-                        $a = $companyname;
-                        $acr = substr($a, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . '';
-                        $notification .= '</div>';
+//                        $a = $companyname;
+//                        $acr = substr($a, 0, 1);
+//                        $notification .= '<div class="post-img-div">';
+//                        $notification .= '' . ucwords($acr) . '';
+//                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1899,13 +1887,12 @@ Your browser does not support the audio tag.
                     if ($total['user_image'] && (file_exists($filepath)) == 1) {
                         $notification .= '<img src="' . base_url($this->config->item('bus_profile_thumb_upload_path') . $total['user_image']) . '" >';
                     } else {
-                        $a = $companyname;
-                        $acr = substr($a, 0, 1);
-
-
-                        $notification .= '<div class="post-img-div">';
-                        $notification .= '' . ucwords($acr) . '';
-                        $notification .= '</div>';
+//                        $a = $companyname;
+//                        $acr = substr($a, 0, 1);
+//                        $notification .= '<div class="post-img-div">';
+//                        $notification .= '' . ucwords($acr) . '';
+//                        $notification .= '</div>';
+                        $notification .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                     }
                     $notification .= '</div>';
                     $notification .= '<div class="notification-data-inside">';
@@ -1927,9 +1914,12 @@ Your browser does not support the audio tag.
                 $notification .= '"';
                 $notification .= '><a href="' . base_url('job/resume/' . $job_slug . '?page=recruiter') . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database">';
                 $notification .= '<div class="notification-pic">';
-                $filepath = FCPATH . $this->config->item('job_profile_thumb_upload_path') . $total['user_image'];
-                if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                    $notification .= '<img src="' . base_url($this->config->item('job_profile_thumb_upload_path') . $total['user_image']) . '" >';
+
+                $filename = $this->config->item('job_profile_thumb_upload_path') . $total['user_image'];
+                $s3 = new S3(awsAccessKey, awsSecretKey);
+                $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                if ($total['user_image'] != '' && $info) {
+                    $notification .= '<img src="' . JOB_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                 } else {
                     $a = $total['first_name'];
                     $b = $total['last_name'];
@@ -1976,14 +1966,14 @@ Your browser does not support the audio tag.
                 $notification .= '</span></div></div> </div></a> </li>';
             }
             //18
-            if ($total['not_from'] == 5) {
+            if ($total['not_from'] == 5 && $total['not_type'] == 4) {
 
                 $notification .= '<li class="';
                 if ($total['not_active'] == 1) {
                     $notification .= 'active2';
                 }
                 $notification .= '"';
-                $notification .= '><a href="' . base_url('notification/freelancer_hire_post/' . $total['post_id'] . '?page=freelancer_post') . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database">';
+                $notification .= '><a href="' . base_url('notification/freelancer-hire/' . $total['post_id'] . '?page=freelancer_post') . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database">';
                 $notification .= '<div class="notification-pic">';
                 $filepath = FCPATH . $this->config->item('free_hire_profile_thumb_upload_path') . $total['user_image'];
                 if ($total['user_image'] && (file_exists($filepath)) == 1) {
@@ -2005,6 +1995,36 @@ Your browser does not support the audio tag.
                 $notification .= '</span></div></div> </div> </a></li>';
             }
 
+            // 19 shortlisted
+            if ($total['not_from'] == 5 && $total['not_type'] == 9) {
+              //  echo "123";die();
+                $notification .= '<li class="';
+                if ($total['not_active'] == 1) {
+                    $notification .= 'active2';
+                }
+                $notification .= '"';
+                $notification .= '><a href="' . base_url('notification/freelancer-hire/' . $total['post_id'] . '?page=freelancer_post') . '" onClick="not_active(' . $total['not_id'] . ')"><div class="notification-database">';
+                $notification .= '<div class="notification-pic">';
+                $filepath = FCPATH . $this->config->item('free_hire_profile_thumb_upload_path') . $total['user_image'];
+                if ($total['user_image'] && (file_exists($filepath)) == 1) {
+                    $notification .= '<img src="' . base_url($this->config->item('free_hire_profile_thumb_upload_path') . $total['user_image']) . '" >';
+                } else {
+                    $a = $total['first_name'];
+                    $b = $total['last_name'];
+                    $acr = substr($a, 0, 1);
+                    $bcr = substr($b, 0, 1);
+
+                    $notification .= '<div class="post-img-div">';
+                    $notification .= '' . ucwords($acr) . ucwords($bcr) . '';
+                    $notification .= '</div>';
+                }
+                $notification .= '</div><div class="notification-data-inside">';
+                $notification .= '<h6><font color="black"><b><span class="noti-msg-y">Employer</span></font></b><b>' . '  ' . ucwords($total['first_name']) . ' ' . ucwords($total['last_name']) . '</b> <span class="noti-msg-y"> Shortlisted you for project. </span> </h6>';
+                $notification .= '<div ><i class="clockimg" ></i><span class="day-text">';
+                $notification .= '' . $this->common->time_elapsed_string($total['not_created_date'], $full = false) . '';
+                $notification .= '</span></div></div> </div> </a></li>';
+            }
+
             $i++;
             if ($i == 10) {
                 break;
@@ -2016,7 +2036,7 @@ Your browser does not support the audio tag.
             $seeall = '<div class="fw">
   <div class="art-img-nn">
                                                 <div class="art_no_post_img">
-                                                    <img src="' . base_url() . 'img/icon_notification_big.png">
+                                                    <img src="' . base_url() . 'assets/img/icon_notification_big.png">
                                                 </div>
                                                 <div class="art_no_post_text_c">
                                                     No Notification Available.
@@ -2702,7 +2722,7 @@ Your browser does not support the audio tag.
             if ($message_from_profile == 6) {
                 $image_path = FCPATH . 'uploads/artistic_profile/thumbs/' . $msg['user_image'];
                 $user_image = base_url() . 'uploads/artistic_profile/thumbs/' . $msg['user_image'];
-                $profile_url = base_url() . 'artistic/art_manage_post/' . $id;
+                $profile_url = base_url() . 'artist/art_manage_post/' . $id;
             }
 
 
@@ -2781,7 +2801,7 @@ Your browser does not support the audio tag.
 // 1-5 notification start
 // recruiter notfication start 
 
-        $contition_array = array('notification.not_type' => 3, 'notification.not_to_id' => $userid, 'notification.not_from' => 2, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '3', 'notification.not_to_id' => $userid, 'notification.not_from' => '2', 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'job_apply',
@@ -2798,7 +2818,7 @@ Your browser does not support the audio tag.
 // recruiter notification end
 // job notfication start 
 
-        $contition_array = array('notification.not_type' => 4, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '4', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'job_apply',
@@ -2816,7 +2836,7 @@ Your browser does not support the audio tag.
 
 // job notification end
 // freelancer hire  notification start
-        $contition_array = array('notification.not_type' => 3, 'notification.not_from' => 5, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '3', 'notification.not_from' => '5', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
 
         $join_str = array(
             array(
@@ -2838,7 +2858,7 @@ Your browser does not support the audio tag.
         // $this->data['work_post'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'app_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
 
-        $contition_array = array('notification.not_type' => 4, 'notification.not_from' => 4, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '4', 'notification.not_from' => '4', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'user_invite',
@@ -2860,7 +2880,7 @@ Your browser does not support the audio tag.
 //artistic notification start
 // follow notification start
 
-        $contition_array = array('notification.not_type' => 8, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '8', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'follow',
@@ -2879,7 +2899,7 @@ Your browser does not support the audio tag.
 // follow notification end
 //post comment notification start
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 1, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '1', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'artistic_post_comment',
@@ -2895,7 +2915,7 @@ Your browser does not support the audio tag.
         $artcommnet = $this->data['artcommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'artistic_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 // comment notification end
 //post like notification start
-        $contition_array = array('notification.not_type' => 5, 'notification.not_from' => 3, 'not_img' => 2, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'notification.not_from' => '3', 'not_img' => '2', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post',
@@ -2910,7 +2930,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', 'art_post.*', ' user.user_id', 'user.first_name', 'user.user_image', 'user.last_name');
         $artlike = $this->data['artlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'art_post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 5, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '5', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'post_files',
@@ -2926,7 +2946,7 @@ Your browser does not support the audio tag.
         $artimglike = $this->data['artimglike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_files_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 3, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '3', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'artistic_post_comment',
@@ -2941,7 +2961,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', 'artistic_post_comment.*', ' user.user_id', 'user.first_name', 'user.user_image', 'user.last_name');
         $artcmtlike = $this->data['artcmtlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'artistic_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 4, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '4', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post_image_comment',
@@ -2956,7 +2976,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', ' art_post_image_comment.*', ' user.user_id', 'user.first_name', 'user.user_image', 'user.last_name');
         $artimgcommnet = $this->data['artimgcommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_image_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 6, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '6', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post_image_comment',
@@ -2976,7 +2996,7 @@ Your browser does not support the audio tag.
 // business profile notification start
 // follow notification start
 
-        $contition_array = array('notification.not_type' => 8, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '8', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'follow',
@@ -2995,7 +3015,7 @@ Your browser does not support the audio tag.
 // follow notification end
 // comment notification start
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 1, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '1', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post_comment',
@@ -3011,7 +3031,7 @@ Your browser does not support the audio tag.
 
         $buscommnet = $this->data['buscommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 //echo '<pre>'; print_r($this->data['buscommnet']);
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 4, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '4', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'bus_post_image_comment',
@@ -3030,7 +3050,7 @@ Your browser does not support the audio tag.
 //echo '<pre>'; print_r($this->data['busimgcommnet']); die(); 
 // comment notification end
 // like notification start
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 2, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '2', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post',
@@ -3046,7 +3066,7 @@ Your browser does not support the audio tag.
 
         $buslike = $this->data['buslike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 3, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '3', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post_comment',
@@ -3062,7 +3082,7 @@ Your browser does not support the audio tag.
 
         $buscmtlike = $this->data['buscmtlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 5, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '5', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'post_files',
@@ -3078,7 +3098,7 @@ Your browser does not support the audio tag.
 
         $busimglike = $this->data['busimglike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_files_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 6, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '6', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'bus_post_image_comment',
@@ -3102,7 +3122,7 @@ Your browser does not support the audio tag.
 
         $not_id = $this->input->post('not_id');
         $data = array(
-            'not_active' => 2
+            'not_active' => '2'
         );
         $updatedata = $this->common->update_data($data, 'notification', 'not_id', $not_id);
     }
@@ -3231,7 +3251,7 @@ Your browser does not support the audio tag.
         </a>
     </li>
     <li class="">
-        <a href="http://localhost/aileensoul/artistic/artistic_profile/318" onclick="not_active(1126)">
+        <a href="http://localhost/aileensoul/artist/artistic_profile/318" onclick="not_active(1126)">
             <div class="notification-database">
                 <div class="notification-pic">
                     <div class="post-img-div">DP</div>
@@ -3263,7 +3283,7 @@ Your browser does not support the audio tag.
 // 1-5 notification start
 // recruiter notfication start 
 
-        $contition_array = array('notification.not_type' => 3, 'notification.not_to_id' => $userid, 'notification.not_from' => 2, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '3', 'notification.not_to_id' => $userid, 'notification.not_from' => '2', 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'job_apply',
@@ -3280,7 +3300,7 @@ Your browser does not support the audio tag.
 // recruiter notification end
 // job notfication start 
 
-        $contition_array = array('notification.not_type' => 4, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '4', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'job_apply',
@@ -3298,7 +3318,7 @@ Your browser does not support the audio tag.
 
 // job notification end
 // freelancer hire  notification start
-        $contition_array = array('notification.not_type' => 3, 'notification.not_from' => 4, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '3', 'notification.not_from' => '4', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
 
         $join_str = array(
             array(
@@ -3319,7 +3339,7 @@ Your browser does not support the audio tag.
 // freelancer post notification start
         // $this->data['work_post'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'app_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 //echo '<pre>'; print_r($hire_not); die();
-        $contition_array = array('notification.not_type' => 4, 'notification.not_from' => 5, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '4', 'notification.not_from' => '5', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'user_invite',
@@ -3340,7 +3360,7 @@ Your browser does not support the audio tag.
 //artistic notification start
 // follow notification start
 
-        $contition_array = array('notification.not_type' => 8, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '8', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'follow',
@@ -3359,7 +3379,7 @@ Your browser does not support the audio tag.
 // follow notification end
 //post comment notification start
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 1, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '1', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'artistic_post_comment',
@@ -3375,7 +3395,7 @@ Your browser does not support the audio tag.
         $artcommnet = $this->data['artcommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'artistic_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 // comment notification end
 //post like notification start
-        $contition_array = array('notification.not_type' => 5, 'notification.not_from' => 3, 'not_img' => 2, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'notification.not_from' => '3', 'not_img' => '2', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post',
@@ -3390,7 +3410,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', 'art_post.*', 'art_reg.user_id as user_id', 'art_reg.art_name as first_name', 'art_reg.art_user_image as user_image', 'art_reg.art_lastname as last_name');
         $artlike = $this->data['artlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'art_post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 5, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '5', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'post_files',
@@ -3406,7 +3426,7 @@ Your browser does not support the audio tag.
         $artimglike = $this->data['artimglike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_files_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 3, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '3', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'artistic_post_comment',
@@ -3421,7 +3441,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', 'artistic_post_comment.*', 'art_reg.user_id as user_id', 'art_reg.art_name as first_name', 'art_reg.art_user_image as user_image', 'art_reg.art_lastname as last_name');
         $artcmtlike = $this->data['artcmtlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'artistic_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 4, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '4', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post_image_comment',
@@ -3436,7 +3456,7 @@ Your browser does not support the audio tag.
         $data = array('notification.*', ' art_post_image_comment.*', 'art_reg.user_id as user_id', 'art_reg.art_name as first_name', 'art_reg.art_user_image as user_image', 'art_reg.art_lastname as last_name');
         $artimgcommnet = $this->data['artimgcommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_image_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 6, 'notification.not_from' => 3, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '6', 'notification.not_from' => '3', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'art_post_image_comment',
@@ -3456,7 +3476,7 @@ Your browser does not support the audio tag.
 // business profile notification start
 // follow notification start
 
-        $contition_array = array('notification.not_type' => 8, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '8', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'follow',
@@ -3474,7 +3494,7 @@ Your browser does not support the audio tag.
 // follow notification end
 // comment notification start
 
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 1, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '1', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post_comment',
@@ -3490,7 +3510,7 @@ Your browser does not support the audio tag.
 
         $buscommnet = $this->data['buscommnet'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 //echo '<pre>'; print_r($this->data['buscommnet']);
-        $contition_array = array('notification.not_type' => 6, 'not_img' => 4, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '6', 'not_img' => '4', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'bus_post_image_comment',
@@ -3509,7 +3529,7 @@ Your browser does not support the audio tag.
 //echo '<pre>'; print_r($this->data['busimgcommnet']); die(); 
 // comment notification end
 // like notification start
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 2, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '2', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post',
@@ -3525,7 +3545,7 @@ Your browser does not support the audio tag.
 
         $buslike = $this->data['buslike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 3, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '3', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'business_profile_post_comment',
@@ -3541,7 +3561,7 @@ Your browser does not support the audio tag.
 
         $buscmtlike = $this->data['buscmtlike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'business_profile_post_comment_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 5, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '5', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'post_files',
@@ -3557,7 +3577,7 @@ Your browser does not support the audio tag.
 
         $busimglike = $this->data['busimglike'] = $this->common->select_data_by_condition('notification', $contition_array, $data, $sortby = 'post_files_id', $orderby = 'desc', $limit = '', $offset = '', $join_str, $groupby = '');
 
-        $contition_array = array('notification.not_type' => 5, 'not_img' => 6, 'notification.not_from' => 6, 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
+        $contition_array = array('notification.not_type' => '5', 'not_img' => '6', 'notification.not_from' => '6', 'notification.not_to_id' => $userid, 'created_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 MONTH) AND NOW()');
         $join_str = array(array(
                 'join_type' => '',
                 'table' => 'bus_post_image_comment',
@@ -3638,25 +3658,27 @@ Your browser does not support the audio tag.
                 //   2
                 if ($total['not_from'] == 3 && $total['not_img'] == 0) {
 
-                    $return_html .= '<a href="' . base_url() . 'artistic/dashboard/' . $total['slug'] . '">';
+                    $geturl = $this->get_url($total['user_id']);
+
+                    $return_html .= '<a href="' . base_url() . 'artist/dashboard/' . $geturl . '">';
                     $return_html .= '<li class="';
                     if ($total['not_active'] == 1) {
                         $return_html .= 'active2';
                     } $return_html .= '">';
 
                     $return_html .= '<div class="notification-pic" id="noti_pc">';
-                    $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
 
-                    if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                        $return_html .= '<img src="' . base_url() . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'] . '" >';
+
+                    $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                    $s3 = new S3(awsAccessKey, awsSecretKey);
+                    $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                    //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+
+                    if ($total['user_image'] && $filepath) {
+                        $return_html .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                     } else {
-                        $a = $total['first_name'];
-                        $b = $total['last_name'];
-                        $acr = substr($a, 0, 1);
-                        $bcr = substr($b, 0, 1);
-                        $return_html .= '<div class="post-img-div">' .
-                                ucwords($acr) . ucwords($bcr) .
-                                '</div>';
+                        $return_html .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                     }
 
                     $return_html .= '</div>
@@ -3684,19 +3706,17 @@ Your browser does not support the audio tag.
                         } $return_html .= '">
                                              
                                                 <div class="notification-pic" id="noti_pc">';
-                        $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
 
-                        if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                            $return_html .= '<img src="' . base_url() . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'] . '" >';
+                        $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                        $s3 = new S3(awsAccessKey, awsSecretKey);
+                        $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                        // $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+
+                        if ($total['user_image'] && $filepath) {
+                            $return_html .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                         } else {
-                            $a = $total['first_name'];
-                            $b = $total['last_name'];
-                            $acr = substr($a, 0, 1);
-                            $bcr = substr($b, 0, 1);
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) . ucwords($bcr) .
-                                    '</div>';
+                            $return_html .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                         }
                         $return_html .= '</div>
                                                 
@@ -3724,19 +3744,17 @@ Your browser does not support the audio tag.
                         } $return_html .= '">';
 
                         $return_html .= '<div class="notification-pic" id="noti_pc" >';
-                        $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
 
-                        if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                            $return_html .= '<img src="' . base_url() . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'] . '" >';
+                        $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                        $s3 = new S3(awsAccessKey, awsSecretKey);
+                        $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                        // $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+
+                        if ($total['user_image'] && $filepath) {
+                            $return_html .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                         } else {
-                            $a = $total['first_name'];
-                            $b = $total['last_name'];
-                            $acr = substr($a, 0, 1);
-                            $bcr = substr($b, 0, 1);
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) . ucwords($bcr) .
-                                    '</div>';
+                            $return_html .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                         }
                         $return_html .= '</div>
                                                 
@@ -3767,19 +3785,16 @@ Your browser does not support the audio tag.
                         $return_html .= '">
                                                 <div class="notification-pic" id="noti_pc" >';
 
+                        $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                        $s3 = new S3(awsAccessKey, awsSecretKey);
+                        $filepath = $s3->getObjectInfo(bucket, $filename);
 
-                        $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                        //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
 
-                        if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                            $return_html .= '<img src="' . base_url() . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'] . '" >';
+                        if ($total['user_image'] && $filepath) {
+                            $return_html .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                         } else {
-                            $a = $total['first_name'];
-                            $b = $total['last_name'];
-                            $acr = substr($a, 0, 1);
-                            $bcr = substr($b, 0, 1);
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) . ucwords($bcr);
+                            $return_html .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                         }
                         $return_html .= '</div>
                                                 
@@ -3806,19 +3821,17 @@ Your browser does not support the audio tag.
                         } $return_html .= '">';
 
                         $return_html .= '<div class="notification-pic"  id="noti_pc">';
-                        $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+
+                        $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                        $s3 = new S3(awsAccessKey, awsSecretKey);
+                        $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                        //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
 
                         if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                            $return_html .= '<img src="' . base_url() . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'] . '" >';
+                            $return_html .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                         } else {
-                            $a = $total['first_name'];
-                            $b = $total['last_name'];
-                            $acr = substr($a, 0, 1);
-                            $bcr = substr($b, 0, 1);
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) . ucwords($bcr) .
-                                    '</div>';
+                            $return_html .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                         }
                         $return_html .= '</div>
                                                 
@@ -3844,19 +3857,17 @@ Your browser does not support the audio tag.
                             $return_html .= 'active2';
                         } $return_html .= '">
                                             <div class="notification-pic" id="noti_pc" >';
-                        $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
 
-                        if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                            $return_html .= '<img src="' . base_url() . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'] . '" >';
+                        $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                        $s3 = new S3(awsAccessKey, awsSecretKey);
+                        $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                        //$filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+
+                        if ($total['user_image'] && $filepath) {
+                            $return_html .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                         } else {
-                            $a = $total['first_name'];
-                            $b = $total['last_name'];
-                            $acr = substr($a, 0, 1);
-                            $bcr = substr($b, 0, 1);
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) . ucwords($bcr) .
-                                    '</div>';
+                            $return_html .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                         }
 
                         $return_html .= '</div>
@@ -3887,19 +3898,17 @@ Your browser does not support the audio tag.
                         } $return_html .= '">
                                             
                                             <div class="notification-pic" id="noti_pc">';
-                        $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
 
-                        if ($total['user_image'] && (file_exists($filepath)) == 1) {
-                            $return_html .= '<img src="' . base_url() . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'] . '" >';
+                        $filename = $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+                        $s3 = new S3(awsAccessKey, awsSecretKey);
+                        $filepath = $s3->getObjectInfo(bucket, $filename);
+
+                        // $filepath = FCPATH . $this->config->item('art_profile_thumb_upload_path') . $total['user_image'];
+
+                        if ($total['user_image'] && $filepath) {
+                            $return_html .= '<img src="' . ART_PROFILE_THUMB_UPLOAD_URL . $total['user_image'] . '" >';
                         } else {
-                            $a = $total['first_name'];
-                            $b = $total['last_name'];
-                            $acr = substr($a, 0, 1);
-                            $bcr = substr($b, 0, 1);
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) . ucwords($bcr) .
-                                    '</div>';
+                            $return_html .= '<img src = "' . base_url(NOARTIMAGE) . '" alt = "">';
                         }
                         $return_html .= '</div>
                                             
@@ -4054,13 +4063,13 @@ Your browser does not support the audio tag.
                         if ($total['user_image'] && (file_exists($filepath)) == 1) {
                             $return_html .= '<img src="' . base_url() . $this->config->item('bus_profile_thumb_upload_path') . $total['user_image'] . '" >';
                         } else {
-                            $a = $companyname;
-                            $acr = substr($a, 0, 1);
-
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) .
-                                    '</div>';
+//                            $a = $companyname;
+//                            $acr = substr($a, 0, 1);
+//                            $return_html .= '<div class="post-img-div">' .
+//                                    ucwords($acr) .
+//                                    '</div>';
+                            
+                            $return_html .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                         }
 
                         $return_html .= '</div>
@@ -4094,13 +4103,13 @@ Your browser does not support the audio tag.
                         if ($total['user_image'] && (file_exists($filepath)) == 1) {
                             $return_html .= '<img src="' . base_url() . $this->config->item('bus_profile_thumb_upload_path') . $total['user_image'] . '" >';
                         } else {
-                            $a = $companyname;
-                            $acr = substr($a, 0, 1);
-
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) .
-                                    '</div>';
+//                            $a = $companyname;
+//                            $acr = substr($a, 0, 1);
+//                            $return_html .= '<div class="post-img-div">' .
+//                                    ucwords($acr) .
+//                                    '</div>';
+                            
+                            $return_html .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                         }
 
 
@@ -4134,13 +4143,13 @@ Your browser does not support the audio tag.
                         if ($total['user_image'] && (file_exists($filepath)) == 1) {
                             $return_html .= '<img src="' . base_url() . $this->config->item('bus_profile_thumb_upload_path') . $total['user_image'] . '">';
                         } else {
-                            $a = $companyname;
-                            $acr = substr($a, 0, 1);
-
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) .
-                                    '</div>';
+//                            $a = $companyname;
+//                            $acr = substr($a, 0, 1);
+//                            $return_html .= '<div class="post-img-div">' .
+//                                    ucwords($acr) .
+//                                    '</div>';
+                            $return_html .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
+                            
                         }
                         $return_html .= '</div>
                                                 
@@ -4176,13 +4185,13 @@ Your browser does not support the audio tag.
                         if ($total['user_image'] && (file_exists($filepath)) == 1) {
                             $return_html .= '<img src="' . base_url() . $this->config->item('bus_profile_thumb_upload_path') . $total['user_image'] . '" >';
                         } else {
-                            $a = $companyname;
-                            $acr = substr($a, 0, 1);
-
-
-                            $return_html .= '<div class="post-img-div">' .
-                                    ucwords($acr) .
-                                    '</div>';
+//                            $a = $companyname;
+//                            $acr = substr($a, 0, 1);
+//                            $return_html .= '<div class="post-img-div">' .
+//                                    ucwords($acr) .
+//                                    '</div>';
+                            
+                            $return_html .= '<img src = "' . base_url(NOBUSIMAGE2) . '" alt = "No Business Image">';
                         }
 
                         $return_html .= '</div>
@@ -4243,7 +4252,7 @@ Your browser does not support the audio tag.
 
 
                 //   foreach ($work_not as $art) {
-                if ($total['not_from'] == 5) {
+                if ($total['not_from'] == 5 && $total['not_type'] == 4) {
                     //    19
 
                     $return_html .= '<a href="' . base_url() . 'freelancer/freelancer_post_profile/' . $total['user_id'] . '?page=freelancer_post">';
@@ -4320,7 +4329,7 @@ Your browser does not support the audio tag.
             $return_html .= '<div class="art-img-nn">
                                                 <div class="art_no_post_img">
 
-                                                    <img src="img/icon_notification_big.png">
+                                                    <img src="assets/img/icon_notification_big.png">
 
                                                 </div>
                                                 <div class="art_no_post_text">No Notification Available. </div>
@@ -4333,7 +4342,7 @@ Your browser does not support the audio tag.
 
     public function business_home_follow_ignore() {
         $userid = $this->session->userdata('aileenuser');
-        $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => 1))->row()->business_profile_id;
+        $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => '1'))->row()->business_profile_id;
         $follow_to = $_POST['follow_to'];
 
         $insert_data['profile'] = '2';
@@ -4389,10 +4398,10 @@ Your browser does not support the audio tag.
     public function business_user_following_count($business_profile_id = '') {
         $userid = $this->session->userdata('aileenuser');
         if ($business_profile_id == '') {
-            $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => 1))->row()->business_profile_id;
+            $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => '1'))->row()->business_profile_id;
         }
 
-        $contition_array = array('follow_from' => $business_profile_id, 'follow_status' => '1', 'follow_type' => '2', 'business_profile.status' => 1);
+        $contition_array = array('follow_from' => $business_profile_id, 'follow_status' => '1', 'follow_type' => '2', 'business_profile.status' => '1');
 
         $join_str_following[0]['table'] = 'follow';
         $join_str_following[0]['join_table_id'] = 'follow.follow_to';
@@ -4412,10 +4421,10 @@ Your browser does not support the audio tag.
     public function business_user_follower_count($business_profile_id = '') {
         $userid = $this->session->userdata('aileenuser');
         if ($business_profile_id == '') {
-            $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => 1))->row()->business_profile_id;
+            $business_profile_id = $this->db->get_where('business_profile', array('user_id' => $userid, 'status' => '1'))->row()->business_profile_id;
         }
 
-        $contition_array = array('follow_to' => $business_profile_id, 'follow_status' => '1', 'follow_type' => '2', 'business_profile.status' => 1);
+        $contition_array = array('follow_to' => $business_profile_id, 'follow_status' => '1', 'follow_type' => '2', 'business_profile.status' => '1');
 
         $join_str_following[0]['table'] = 'follow';
         $join_str_following[0]['join_table_id'] = 'follow.follow_from';
@@ -4435,10 +4444,10 @@ Your browser does not support the audio tag.
 
         $userid = $this->session->userdata('aileenuser');
         if ($business_profile_id != '') {
-            $userid = $this->db->get_where('business_profile', array('business_profile_id' => $business_profile_id, 'status' => 1))->row()->user_id;
+            $userid = $this->db->get_where('business_profile', array('business_profile_id' => $business_profile_id, 'status' => '1'))->row()->user_id;
         }
 
-        $contition_array = array('contact_type' => 2, 'contact_person.status' => 'confirm', 'business_profile.status' => 1);
+        $contition_array = array('contact_type' => '2', 'contact_person.status' => 'confirm', 'business_profile.status' => '1');
         $search_condition = "((contact_from_id = ' $userid') OR (contact_to_id = '$userid'))";
 
         $join_str_contact[0]['table'] = 'business_profile';
@@ -4451,6 +4460,43 @@ Your browser does not support the audio tag.
         $contacts_count = $contacts_count[0]['contact_count'];
 
         return $contacts_count;
+    }
+
+    // for artistic url start function
+    public function get_url($userid) {
+
+        $contition_array = array('user_id' => $userid, 'status' => '1');
+        $arturl = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id,art_city,art_skill,other_skill,slug', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+        $city_url = $this->db->select('city_name')->get_where('cities', array('city_id' => $arturl[0]['art_city'], 'status' => '1'))->row()->city_name;
+
+        $art_othercategory = $this->db->select('other_category')->get_where('art_other_category', array('other_category_id' => $arturl[0]['other_skill']))->row()->other_category;
+
+        $category = $arturl[0]['art_skill'];
+        $category = explode(',', $category);
+
+        foreach ($category as $catkey => $catval) {
+            $art_category = $this->db->select('art_category')->get_where('art_category', array('category_id' => $catval))->row()->art_category;
+            $categorylist[] = $art_category;
+        }
+
+        $listfinal1 = array_diff($categorylist, array('other'));
+        $listFinal = implode('-', $listfinal1);
+
+        if (!in_array(26, $category)) {
+            $category_url = $this->common->clean($listFinal);
+        } else if ($arturl[0]['art_skill'] && $arturl[0]['other_skill']) {
+
+            $trimdata = $this->common->clean($listFinal) . '-' . $this->common->clean($art_othercategory);
+            $category_url = trim($trimdata, '-');
+        } else {
+            $category_url = $this->common->clean($art_othercategory);
+        }
+
+        $city_get = $this->common->clean($city_url);
+
+        $url = $arturl[0]['slug'] . '-' . $category_url . '-' . $city_get . '-' . $arturl[0]['art_id'];
+        return $url;
     }
 
 }

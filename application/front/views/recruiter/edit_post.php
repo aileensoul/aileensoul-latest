@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
+   <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css'); ?>">
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/jquery.fancybox.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
+        
+         <?php
+        if (IS_REC_CSS_MINIFY == '0') {
+            ?>
+           <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/jquery.fancybox.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/recruiter/rec_common_header.min.css?ver=' . time()); ?>">
+        <?php } ?>
     </head>
     <body class="page-container-bg-solid page-boxed pushmenu-push">
         <?php echo $header; ?>
@@ -119,9 +125,9 @@
                                 </fieldset>
                                                                     
                                                                      <fieldset class="full-width">
-                                      <label>Interview process:<!-- <span style="color:red">*</span> --></label>
+                                      <label>Interview process:<span class="optional">(optional)</span><!-- <span style="color:red">*</span> --></label>
 
-                                    <textarea name="interview" id="interview" tabindex="11" rows="4" placeholder="Enter Interview Process"><?php echo $postdata[0]['interview_process']; ?></textarea>
+                                    <textarea name="interview" id="interview" tabindex="5" rows="4" placeholder="Enter Interview Process"><?php echo $postdata[0]['interview_process']; ?></textarea>
 
 <?php echo form_error('interview'); ?> 
                                 </fieldset>
@@ -129,7 +135,7 @@
                                     <label class="control-label">Minimum Experience:<span style="color:red">*</span></label>
 
 
-                                    <select style="cursor:pointer;" tabindex="5" name="minyear" id="minyear" class="keyskil">
+                                    <select style="cursor:pointer;" tabindex="6" name="minyear" id="minyear" class="keyskil">
 
                                         <option value="" selected option disabled>Year</option>
 
@@ -171,7 +177,7 @@
                                     <label class="control-label">Maximum Experience:<span style="color:red">*</span></label>
 
 
-                                    <select style="cursor:pointer;" name="maxyear" tabindex="6"  id="maxyear" class="keyskil1">
+                                    <select style="cursor:pointer;" name="maxyear" tabindex="7"  id="maxyear" class="keyskil1">
 
                                         <option value="" selected option disabled>Year</option>
 
@@ -210,21 +216,21 @@
                                           <?php
                                           if ($postdata[0]['fresher']) {
                                               ?>
-                                        <input type="checkbox" name="fresher" id="fresher_nme" tabindex="7" value="1" checked>
+                                        <input type="checkbox" name="fresher" id="fresher_nme" tabindex="8" value="1" checked>
                                         <label for="fresher_nme">Fresher can also apply..!</label> 
                                         <?php
                                     } else {
                                         ?>
-                                        <input type="checkbox"  name="fresher" value="1" id="fresher_nme" tabindex="8" >
+                                        <input type="checkbox"  name="fresher" value="1" id="fresher_nme" tabindex="9" >
                                         <label for="fresher_nme">Fresher can also apply..!</label> 
                                         <?php
                                     }
                                     ?>
                                 </fieldset>
 								<fieldset id="erroe_nn" class="fw" <?php if ($degree1) { ?> class="error-msg" <?php } ?>>
-                                    <label>Required Education:</label> 
+                                    <label>Required Education:<span class="optional">(optional)</span></label> 
 
-                                    <input type="search" tabindex="9" autofocus id="education" name="education" value="<?php echo $degree_data; ?>" placeholder="Education" style="text-transform: capitalize;" onfocus="var temp_value = this.value; this.value = ''; this.value = temp_value" maxlength="255">
+                                    <input type="search" tabindex="10" autofocus id="education" name="education" value="<?php echo $degree_data; ?>" placeholder="Education" style="text-transform: capitalize;" onfocus="var temp_value = this.value; this.value = ''; this.value = temp_value" maxlength="255">
                                     <span id="fullname-error"></span>
 <?php echo form_error('education'); ?>
 
@@ -233,7 +239,7 @@
                                     <label class="control-label">Employment Type:<span style="color:red">*</span></label>
 
 
-                                    <select style="cursor:pointer;" tabindex="10" name="emp_type" id="emp_type" class="keyskil">
+                                    <select style="cursor:pointer;" tabindex="11" name="emp_type" id="emp_type" class="keyskil">
 
                                         <option value="" selected option disabled>Employment Type</option>
 
@@ -256,7 +262,7 @@
 								<fieldset class="fw edit-post">
                                     <label>Last date for apply: <span style="color:red">*</span></label>
 
-                                    <input type="hidden" id="example2" tabindex="11">
+                                    <input type="hidden" id="example2" tabindex="12">
 
 <?php echo form_error('last_date'); ?> 
                                 </fieldset>
@@ -265,15 +271,15 @@
 								</div>
 							</div>
 							<div class="custom-add-box">
-								<h3>Salary Information</h3>
+								<h3>Salary Information </h3>
 								<div class="p15 fw">
 									<fieldset <?php if ($salary_type) { ?> class="error-msg" <?php } ?> class="two-select-box1">
-                                    <label class="control-label">Salary Type:</label>
+                                    <label class="control-label">Salary Type:<span class="optional">(optional)</span></label>
 
 
-                                    <select style="cursor:pointer;" tabindex="14" name="salary_type" id="salary_type" class="keyskil">
+                                    <select style="cursor:pointer;" tabindex="15" name="salary_type" id="salary_type" class="keyskil">
 
-                                        <option value="" selected option disabled>Salary Type</option>
+                                        <option value="" selected option disabled>Salary Type </option>
 
                                         <option value="Per Year" <?php if ($postdata[0]['salary_type'] == "Per Year") echo 'selected="selected"'; ?>>Per Year</option>
                                         <option value="Per Month" <?php if ($postdata[0]['salary_type'] == "Per Month") echo 'selected="selected"'; ?>>Per Month</option>
@@ -283,8 +289,8 @@
                                     </select>
                                 </fieldset>
 								<fieldset class=" half-width pad_right"> 
-                                    <label>Currency:</label>
-                                    <select name="currency" id="currency" tabindex="15">
+                                    <label>Currency:<span class="optional">(optional)</span></label>
+                                    <select name="currency" id="currency" tabindex="16">
                                         <option value="" selected option disabled>Select Currency</option>
 
                                         <?php
@@ -310,15 +316,15 @@
 
                                 </fieldset>
 								<fieldset class="half-width  pad_left" <?php if ($minsal) { ?> class="error-msg" <?php } ?>>
-                                          <label class="control-label">Minimum Salary:<!-- <span style="color:red">*</span> --></label>
-                                    <input name="minsal" tabindex="16" type="text" id="minsal" value="<?php echo $postdata[0]['min_sal']; ?>"  placeholder="Enter Minimum Salary" /><span id="fullname-error"></span>
+                                          <label class="control-label">Minimum Salary:<span class="optional">(optional)</span><!-- <span style="color:red">*</span> --></label>
+                                    <input name="minsal" tabindex="17" type="text" id="minsal" value="<?php echo $postdata[0]['min_sal']; ?>"  placeholder="Enter Minimum Salary" /><span id="fullname-error"></span>
 <?php echo form_error('minsal'); ?>
                                 </fieldset>
                              
 
                                 <fieldset class="half-width " <?php if ($maxsal) { ?> class="error-msg" <?php } ?>>
-                                   <label class="control-label">Maximum Salary:<!-- <span style="color:red">*</span> --></label>
-                                    <input name="maxsal" type="text" tabindex="17" id="maxsal" value="<?php echo $postdata[0]['max_sal']; ?>"  placeholder="Enter Maximum Salary" /><span id="fullname-error"></span>
+                                   <label class="control-label">Maximum Salary:<span class="optional">(optional)</span><!-- <span style="color:red">*</span> --></label>
+                                    <input name="maxsal" type="text" tabindex="18" id="maxsal" value="<?php echo $postdata[0]['max_sal']; ?>"  placeholder="Enter Maximum Salary" /><span id="fullname-error"></span>
 <?php echo form_error('maxsal'); ?>
                                 </fieldset>
 								
@@ -332,9 +338,9 @@
                                     <label>Country:<span style="color:red">*</span></label>
 
 
-<?php $countryname = $this->db->get_where('countries', array('country_id' => $postdata[0]['country']))->row()->country_name; ?>
+<?php $countryname = $this->db->select('country_name')->get_where('countries', array('country_id' => $postdata[0]['country']))->row()->country_name; ?>
 
-                                    <select style="cursor:pointer;" name="country" tabindex="18" id="country">
+                                    <select style="cursor:pointer;" name="country" tabindex="19" id="country">
 
 
 
@@ -362,11 +368,11 @@
                                 <?php echo form_error('country'); ?>
                                 </fieldset>
 
-<?php $statename = $this->db->get_where('states', array('state_id' => $postdata[0]['state']))->row()->state_name; ?>
+<?php $statename = $this->db->select('state_name')->get_where('states', array('state_id' => $postdata[0]['state']))->row()->state_name; ?>
 
                                 <fieldset  class="fw" <?php if ($state) { ?> class="error-msg" <?php } ?>>
                                     <label>State:<span style="color:red">*</span></label>
-                                    <select style="cursor:pointer;" name="state" id="state" tabindex="19">
+                                    <select style="cursor:pointer;" name="state" id="state" tabindex="20">
                                         <?php
                                         if ($postdata[0]['state']) {
                                             foreach ($states as $cnt) {
@@ -389,11 +395,11 @@
                                 </fieldset>
 
 
-<?php $cityname = $this->db->get_where('cities', array('city_id' => $postdata[0]['city']))->row()->city_name; ?>
+<?php $cityname = $this->db->select('city_name')->get_where('cities', array('city_id' => $postdata[0]['city']))->row()->city_name; ?>
 
                                 <fieldset class="fw" <?php if ($city) { ?> class="error-msg" <?php } ?>>
                                     <label>City:</label>
-                                    <select name="city" id="city" tabindex="20">
+                                    <select name="city" id="city" tabindex="21">
                                         <?php
                                         if ($postdata[0]['city']) {
                                             foreach ($cities as $cnt) {
@@ -445,7 +451,7 @@
                                   
 
 
-                                    <input type="submit" id="submit" class="add_post_btns" tabindex="21" name="submit" value="save">                    
+                                    <input type="submit" title="Save" id="submit" class="add_post_btns" tabindex="22" name="submit" value="save">                    
                                 </fieldset>
 								</div>
 								</div>
@@ -461,40 +467,32 @@
         </section>
         <!-- END CONTAINER -->
 
-        <!-- BID MODAL START -->
-        <div class="modal fade message-box biderror" id="bidmodal" role="dialog">
-            <div class="modal-dialog modal-lm">
-                <div class="modal-content">
-                    <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
-                    <div class="modal-body">
-                     <!--<img class="icon" src="images/dollar-icon.png" alt="" />-->
-                        <span class="mes"></span>
-                    </div>
-                </div>
+          <!-- Bid-modal  --> 
+      <div class="modal fade message-box biderror custom-message in" id="bidmodal" role="dialog"  >
+         <div class="modal-dialog modal-lm" >
+            <div class="modal-content message">
+               <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
+               <div class="modal-body">
+                  <span class="mes"></span>
+               </div>
             </div>
-        </div>
-        <!-- BID MODAL END -->
-        <!-- BEGIN FOOTER -->
-<?php echo $footer; ?>
+         </div>
+      </div>
+      <!-- Model Popup Close -->
+      
+           <!-- BEGIN FOOTER -->
+           <?php echo $login_footer ?>
+        <?php echo $footer; ?>
         <!-- END FOOTER -->
+        
+        
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js') ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/additional-methods1.15.0.min.js'); ?>"></script>
-
-        <script src="<?php echo base_url('js/jquery.fancybox.js'); ?>"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2.0/select2.js"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js') ?>"></script>
+        <script src="<?php echo base_url('assets/js/jquery.fancybox.js'); ?>"></script>
         <!-- THIS SCRIPT ALWAYS PUT UNDER FANCYBOX JS-->
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script> 
-
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script> 
         <!--SCRIPT FOR DATE START-->
-
-        <script src="<?php echo base_url('js/jquery.date-dropdowns.js'); ?>"></script>
-
+        <script src="<?php echo base_url('assets/js/jquery.date-dropdowns.js'); ?>"></script>
         <script>
                                             var base_url = '<?php echo base_url(); ?>';
                                             var data1 = <?php echo json_encode($de); ?>;
@@ -505,16 +503,27 @@
                                             var complex1 = <?php echo json_encode($selectdata1); ?>;
                                             var jobdata = <?php echo json_encode($jobtitle); ?>;
                                             var date_picker = '<?php echo date('Y-m-d', strtotime($postdata[0]['post_last_date'])); ?>';
+       
+        
         </script> 
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/search.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/edit_post.js'); ?>"></script>
+        <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+     <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/search.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/edit_post.js'); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/recruiter/rec_edit_post.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+       
 
 
         <style type="text/css">
 
             .keyskill_border_active {
-                border: 3px solid #f00 !important;
+                border: 1px solid #f00 !important;
 
             }
             #skills-error{margin-top: 40px !important;}
@@ -532,32 +541,5 @@
 
 
         </style>
-
-        <style type="text/css">
-            #example2-error{margin-top: 42px;}
-        </style>
-        <!-- Calender JS Start-->
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery.datetimepicker.full.js'); ?>"></script>
-        <script type="text/javascript">
-
-                                            jQuery.noConflict();
-
-                                            (function ($) {
-                                                $('#datepicker').datetimepicker({
-                                                    //yearOffset:222,
-                                                    minDate: 0,
-                                                    //startDate: "2013/02/14",
-                                                    lang: 'ch',
-                                                    timepicker: false,
-                                                    format: 'd/m/Y',
-                                                    formatDate: 'Y/m/d',
-                                                    scrollMonth: false,
-                                                    scrollInput: false
-
-                                                });
-                                            })(jQuery);
-        </script>
-        <!-- Calender Js End
-            </body>
-        </html>
+    </body>
+</html>

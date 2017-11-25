@@ -5,11 +5,8 @@
             <?php echo $title; ?>
         </title>
         <?php echo $head; ?>
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()) ?>" />
-        <!--<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/demo.css'); ?>">-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/freelancer-hire/freelancer-hire.css?ver='.time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/freelancer-hire.css?ver='.time()); ?>">
                 <style>
             /***  commen css  ***/
             .p0{padding: 0;} .p5{padding: 5px;} .p10{padding: 10px;} .p15{padding: 15px;} .p20{padding: 20px;}
@@ -378,8 +375,8 @@
         <section>
             <div class="user-midd-section" id="paddingtop_fixed">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-4 profile-box profile-box-left  animated fadeInLeftBig"><div class="">
+                    <div class="">
+                        <div class="profile-box-custom fl animated fadeInLeftBig left_side_posrt"><div class="">
 <!--                                <div class="full-box-module">   
                                     <div class="profile-boxProfileCard  module">
                                         <div class="profile-boxProfileCard-cover"> 
@@ -430,7 +427,7 @@
                                                 <span class="profile-company-name ">
                                                     <a href="<?php echo base_url('freelancer-hire/employer-details'); ?>" title="<?php echo $freehiredata[0]['fullname'] . " " . $freehiredata[0]['username']; ?>"> <?php echo ucwords($freehiredata[0]['fullname']) . ' ' . ucwords($freehiredata[0]['username']); ?></a>  
                                                 </span>
-                                                <?php $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' => 1))->row()->industry_name; ?>
+                                                <?php $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' => '1'))->row()->industry_name; ?>
                                                 <div class="profile-boxProfile-name">
                                                     <a href="<?php echo base_url('freelancer-hire/employer-details'); ?>" title="<?php echo $freehiredata[0]['fullname'] . " " . $freehiredata[0]['username']; ?>"><?php
                                                         if ($freehiredata[0]['designation']) {
@@ -456,7 +453,7 @@
                             </div>
                         </div>
                       
-                        <div class="col-md-7 col-sm-7 col-md-push-4 custom-right col-sm-push-4 animated fadeInUp">
+                        <div class="custom-right-art mian_middle_post_box animated fadeInUp">
                             <div class="common-form">
                                 <div class="job-saved-box">
                                     <h3>Search result of 
@@ -478,7 +475,7 @@
                                            
                                         
                                         </div>
-                                        <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>"</div>
+                                        <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>"</div>
                                     </div>
                                 </div>
                             </div>
@@ -640,7 +637,7 @@
                                         </div>
                                         <div class="form-group dob">
                                             <label class="d_o_b"> Date Of Birth :</label>
-                                            <select tabindex="9" class="day" name="selday" id="selday">
+                                            <span><select tabindex="9" class="day" name="selday" id="selday">
                                                 <option value="" disabled selected value>Day</option>
                                                 <?php
                                                 for ($i = 1; $i <= 31; $i++) {
@@ -649,7 +646,8 @@
                                                     <?php
                                                 }
                                                 ?>
-                                            </select>
+                                            </select></span>
+                                            <span>
                                             <select tabindex="10" class="month" name="selmonth" id="selmonth">
                                                 <option value="" disabled selected value>Month</option>
                                                 //<?php
@@ -672,7 +670,8 @@
 //                  }
 //                  
                                                 ?>
-                                            </select>
+                                            </select></span>
+                                            <span>
                                             <select tabindex="11" class="year" name="selyear" id="selyear">
                                                 <option value="" disabled selected value>Year</option>
                                                 <?php
@@ -684,16 +683,17 @@
                                                 ?>
 
                                             </select>
-
+                                        </span>
                                         </div>
                                         <div class="dateerror" style="color:#f00; display: block;"></div>
 
                                         <div class="form-group gender-custom">
-                                            <select tabindex="12" class="gender"  onchange="changeMe(this)" name="selgen" id="selgen">
+                                            <span><select tabindex="12" class="gender"  onchange="changeMe(this)" name="selgen" id="selgen">
                                                 <option value="" disabled selected value>Gender</option>
                                                 <option value="M">Male</option>
                                                 <option value="F">Female</option>
                                             </select>
+                                        </span>
                                         </div>
 
                                         <p class="form-text">
@@ -712,16 +712,12 @@
             </div>
         </div>
         <!-- register -->
-         <footer>
             <?php echo $footer; ?>
-        </footer>
-       
-        <script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-        <!--<script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>-->
+      
         <!-- script for skill textbox automatic end (option 2)-->
-        <script src="<?php echo base_url('js/jquery.highlite.js?ver='.time()); ?>"></script> 
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
-        <script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>">
+        
+        <script  type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
+        <script  src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>">
         </script>
            <script>
             function login_profile() {
@@ -1070,7 +1066,7 @@
            //LEAVE PAGE AT ADD AND EDIT FREELANCER PAGE THEN PROBLEM SO BELOW CODE END
            
         </script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/freelancer-hire/freelancer_hire_search_result.js?ver='.time()); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/freelancer-hire/freelancer_hire_common.js?ver='.time()); ?>"></script>
+        <script  type="text/javascript" src="<?php echo base_url('assets/js/webpage/freelancer-hire/freelancer_hire_search_result.js?ver='.time()); ?>"></script>
+        <script  type="text/javascript" src="<?php echo base_url('assets/js/webpage/freelancer-hire/freelancer_hire_common.js?ver='.time()); ?>"></script>
     </body>
 </html>

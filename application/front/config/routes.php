@@ -70,26 +70,22 @@ $route['privacy-policy'] = "main/privacy_policy";
 
 $route['business-profile'] = "business_profile/index";
 $route['business-profile/reactivate'] = "business_profile/reactivate";
-$route['business-profile/business-information-insert'] = "business_profile/business_information_insert";
-$route['business-profile/business-information-update'] = "business_profile/business_information_update";
-$route['business-profile/business-information-edit'] = "business_profile/business_information_update";
 
-$route['business-profile/contact-information'] = "business_profile/contact_information";
-$route['business-profile/contact-information-insert'] = "business_profile/contact_information_insert";
-
-$route['business-profile/description'] = "business_profile/description";
-$route['business-profile/description-insert'] = "business_profile/description_insert";
-
-$route['business-profile/image'] = "business_profile/image";
+//$route['business-profile/business-information'] = "business_profile/business_information";
+//$route['business-profile/business-information-insert'] = "business_profile/business_information_insert";
+//$route['business-profile/business-information-update'] = "business_profile/business_information_update";
+//$route['business-profile/business-information-edit'] = "business_profile/business_information_update";
+//$route['business-profile/contact-information'] = "business_profile/contact_information";
+//$route['business-profile/contact-information-insert'] = "business_profile/contact_information_insert";
+//$route['business-profile/description'] = "business_profile/description";
+//$route['business-profile/description-insert'] = "business_profile/description_insert";
+//$route['business-profile/image'] = "business_profile/image";
 $route['business-profile/image-insert'] = "business_profile/image_insert";
-
 $route['business-profile/details/(:any)'] = "business_profile/business_resume/$1";
 $route['business-profile/details'] = "business_profile/business_resume";
-
 $route['business-profile/home'] = "business_profile/business_profile_post";
 $route['business-profile/bussiness-profile-post-add'] = "business_profile/business_profile_addpost_insert";
 $route['business-profile/bussiness-profile-post-add/manage/(:any)'] = "business_profile/business_profile_addpost_insert/manage/$1";
-
 $route['business-profile/dashboard'] = "business_profile/business_profile_manage_post";
 $route['business-profile/dashboard/(:any)'] = "business_profile/business_profile_manage_post/$1";
 $route['business-profile/followers'] = "business_profile/followers";
@@ -99,35 +95,44 @@ $route['business-profile/following/(:any)'] = "business_profile/following/$1";
 $route['business-profile/userlist'] = "business_profile/userlist";
 $route['business-profile/userlist/(:any)'] = "business_profile/userlist/$1";
 $route['business-profile/contact-list'] = "business_profile/contact_list";
-
 $route['business-profile/contacts'] = "business_profile/bus_contact";
 $route['business-profile/contacts/(:any)'] = "business_profile/bus_contact/$1";
-
 $route['business-profile/user-image-change'] = "business_profile/user_image_insert";
 $route['business-profile/business-profile-save-post'] = "business_profile/business_profile_save_post";
 $route['business-profile/business-profile-addpost'] = "business_profile/business_profile_addpost";
 $route['business-profile/photos'] = "business_profile/business_photos";
 $route['business-profile/photos/(:any)'] = "business_profile/business_photos/$1";
-
 $route['business-profile/videos'] = "business_profile/business_videos";
 $route['business-profile/videos/(:any)'] = "business_profile/business_videos/$1";
-
 $route['business-profile/audios'] = "business_profile/business_audios";
 $route['business-profile/audios/(:any)'] = "business_profile/business_audios/$1";
-
-
 $route['business-profile/pdf'] = "business_profile/business_pdf";
 $route['business-profile/pdf/(:any)'] = "business_profile/business_pdf/$1";
-
 $route['business-profile/business-profile-contactperson'] = "business_profile/business_profile_contactperson";
 $route['business-profile/contact-person/(:any)'] = "business_profile/business_profile_contactperson/$1";
 $route['business-profile/post-detail'] = "business_profile/postnewpage";
 $route['business-profile/post-detail/(:any)/(:any)'] = "business_profile/postnewpage/$1/$2";
 $route['business-profile/creat-pdf'] = "business_profile/creat_pdf";
 $route['business-profile/business-profile-editpost'] = "business_profile/business_profile_editpost";
-
 $route['notification/business-profile-post/(:any)'] = "notification/business_post/$1";
 $route['notification/business-profile-post-detail/(:any)/(:any)'] = "notification/bus_post_img/$1/$2";
+
+
+//$route['business-profile/signup/business-information'] = "business_profile_registration/business_information";
+//$route['business-profile/signup/contact-information'] = "business_profile_registration/contact_information";
+//$route['business-profile/signup/description'] = "business_profile_registration/description";
+//$route['business-profile/signup/image'] = "business_profile_registration/image";
+
+$route['business-profile/business-information'] = "business_profile_registration/business_registration/$1";
+$route['business-profile/contact-information'] = "business_profile_registration/business_registration/$1";
+$route['business-profile/description'] = "business_profile_registration/business_registration/$1";
+$route['business-profile/image'] = "business_profile_registration/business_registration/$1";
+
+$route['business-profile/signup/edit/business-information'] = "business_profile_registration/business_information_edit";
+$route['business-profile/signup/edit/contact-information'] = "business_profile_registration/contact_informatio_edit";
+$route['business-profile/signup/edit/description'] = "business_profile_registration/description_edit";
+$route['business-profile/signup/edit/image'] = "business_profile_registration/image_edit";
+//$route['business-profile/signup/business-registration'] = "business_profile_registration/business_registration";
 
 
 //FREELANCER HIRE ROUTES SETTINGS
@@ -150,26 +155,55 @@ $route['freelancer-hire/reactivate'] = "freelancer_hire/reactivate";
 $route['freelancer-hire/deactivate'] = "freelancer/deactivate_hire";
 $route['freelancer-hire/freelancer-applied/(:any)'] = "freelancer/freelancer_apply_list/$1";
 $route['freelancer-hire'] = "freelancer_hire/freelancer_hire";
+$route['notification/freelancer-hire/(:any)'] = "notification/freelancer_hire_post/$1";
+$route['freelancer-hire/project'] = "freelancer/live_post";
+$route['freelancer-hire/project/(:any)'] = "freelancer/live_post/$1";
+$route['freelancer-hire/freelancer-shortlisted/(:any)'] = "freelancer/freelancer_shortlist_list/$1";
+$route['freelancer-hire/registation'] = "freelancer/hire_registation";
+$route['freelancer-hire'] = "freelancer_hire/freelancer_hire/freelancer_hire_basic_info";
+
 
 
 //FREELANCER APPLY ROUTES SETTINGS
 $route['freelancer-work/home'] = "freelancer/freelancer_apply_post";
+$route['freelancer-work/home/live-post'] = "freelancer/freelancer_apply_post/$1";
 $route['freelancer-work/freelancer-details/(:any)'] = "freelancer/freelancer_post_profile/$1";
 $route['freelancer-work/freelancer-details'] = "freelancer/freelancer_post_profile";
 $route['freelancer-work/saved-projects'] = "freelancer/freelancer_save_post";
 $route['freelancer-work/applied-projects'] = "freelancer/freelancer_applied_post";
 $route['freelancer-work/basic-information'] = "freelancer/freelancer_post_basic_information";
 $route['freelancer-work/address-information'] = "freelancer/freelancer_post_address_information";
+$route['freelancer-work/address-information/(:any)'] = "freelancer/freelancer_post_address_information/$1";
 $route['freelancer-work/professional-information'] = "freelancer/freelancer_post_professional_information";
+$route['freelancer-work/professional-information/(:any)'] = "freelancer/freelancer_post_professional_information/$1";
 $route['freelancer-work/rate'] = "freelancer/freelancer_post_rate";
+$route['freelancer-work/rate/(:any)'] = "freelancer/freelancer_post_rate/$1";
 $route['freelancer-work/avability'] = "freelancer/freelancer_post_avability";
+$route['freelancer-work/avability/(:any)'] = "freelancer/freelancer_post_avability/$1";
 $route['freelancer-work/education'] = "freelancer/freelancer_post_education";
+$route['freelancer-work/education/(:any)'] = "freelancer/freelancer_post_education/$1";
 $route['freelancer-work/portfolio'] = "freelancer/freelancer_post_portfolio";
+$route['freelancer-work/portfolio/(:any)'] = "freelancer/freelancer_post_portfolio/$1";
 $route['freelancer-work/search'] = "search/freelancer_post_search";
-
 $route['freelancer-work/deactivate'] = "freelancer/deactivate";
-$route['freelancer-work/search'] = "search/freelancer_post_search";
+$route['freelancer-work/reactivate'] = "freelancer/reactivate";
+$route['freelancer-work/registation'] = "freelancer/registation";
+$route['freelancer-work'] = "freelancer/freelancer_post/freelancer_post_basic_information";
+
+$route['(:any)-project'] = "search/freelancer_post_search";
+$route['project-in-(:any)'] = "search/freelancer_post_search";
+$route['(:any)-project-in-(:any)'] = "search/freelancer_post_search";
+
 $route['freelancer-work'] = "freelancer/freelancer_post";
+//$route['freelancer-work/home/'] = "freelancer/freelancer_apply_post";
+//$route['freelancer-work/home/live-post'] = "freelancer/freelancer_apply_post";
+//$route['freelancer-work/home/live-post/(:any)'] = "freelancer/freelancer_apply_post/$1";
+
+//$route['freelancer-work/profile'] = "freelancer/freelancer_apply_reg";
+$route['freelancer-work/profile/live-post'] = "freelancer/registation";
+$route['freelancer-work/profile/live-post/(:any)'] = "freelancer/registation/$1";
+
+
 
 /* Report Route end */
 
@@ -178,44 +212,44 @@ $route['freelancer-work'] = "freelancer/freelancer_post";
 //ARTISTIC ROUTES SETTINGS
 
 
-$route['artistic'] = "artistic/index";
-$route['artistic/artistic-basic-information-insert'] = "artistic/art_basic_information_insert";
-$route['artistic/artistic-information-update'] = "artistic/art_basic_information_update";
+$route['artist'] = "artist/index";
+$route['artist/artistic-basic-information-insert'] = "artist/art_basic_information_insert";
+$route['artist/artistic-information-update'] = "artist/art_basic_information_update";
 
-$route['artistic/artistic-address'] = "artistic/art_address";
-$route['artistic/artistic-address-insert'] = "artistic/art_address_insert";
+$route['artist/artistic-address'] = "artist/art_address";
+$route['artist/artistic-address-insert'] = "artist/art_address_insert";
 
-$route['artistic/artistic-information'] = "artistic/art_information";
-$route['artistic/artistic-information-insert'] = "artistic/art_information_insert";
+$route['artist/artistic-information'] = "artist/art_information";
+$route['artist/artistic-information-insert'] = "artist/art_information_insert";
 
-$route['artistic/artistic-portfolio'] = "artistic/art_portfolio";
-$route['artistic/artistic-portfolio-insert'] = "artistic/art_portfolio_insert";
+$route['artist/artistic-portfolio'] = "artist/art_portfolio";
+$route['artist/artistic-portfolio-insert'] = "artist/art_portfolio_insert";
 
-$route['artistic/home'] = "artistic/art_post";
-$route['artistic/dashboard'] = "artistic/art_manage_post";
-$route['artistic/dashboard/(:any)'] = "artistic/art_manage_post/$1";
-
-
-$route['artistic/details/(:any)'] = "artistic/artistic_profile/$1";
-$route['artistic/details'] = "artistic/artistic_profile";
-
-$route['artistic/photos'] = "artistic/art_photos";
-$route['artistic/photos/(:any)'] = "artistic/art_photos/$1";
-
-$route['artistic/videos'] = "artistic/art_videos";
-$route['artistic/videos/(:any)'] = "artistic/art_videos/$1";
-
-$route['artistic/audios'] = "artistic/art_audios";
-$route['artistic/audios/(:any)'] = "artistic/art_audios/$1";
+$route['artist/home'] = "artist/art_post";
+$route['artist/dashboard'] = "artist/art_manage_post";
+$route['artist/dashboard/(:any)'] = "artist/art_manage_post/$1";
 
 
-$route['artistic/pdf'] = "artistic/art_pdf";
-$route['artistic/pdf/(:any)'] = "artistic/art_pdf/$1";
+$route['artist/details/(:any)'] = "artist/artistic_profile/$1";
+$route['artist/details'] = "artist/artistic_profile";
 
-$route['artistic/post-detail'] = "artistic/postnewpage";
-$route['artistic/post-detail/(:any)'] = "artistic/postnewpage/$1";
+$route['artist/photos'] = "artist/art_photos";
+$route['artist/photos/(:any)'] = "artist/art_photos/$1";
 
-$route['artistic/creat-pdf'] = "artistic/creat_pdf";
+$route['artist/videos'] = "artist/art_videos";
+$route['artist/videos/(:any)'] = "artist/art_videos/$1";
+
+$route['artist/audios'] = "artist/art_audios";
+$route['artist/audios/(:any)'] = "artist/art_audios/$1";
+
+
+$route['artist/pdf'] = "artist/art_pdf";
+$route['artist/pdf/(:any)'] = "artist/art_pdf/$1";
+
+$route['artist/post-detail'] = "artist/postnewpage";
+$route['artist/post-detail/(:any)'] = "artist/postnewpage/$1";
+
+$route['artist/creat-pdf'] = "artist/creat_pdf";
 
 //BLOG ROUTES SETTINGS
 $route['blog/popular'] = "blog/popular";
@@ -226,6 +260,7 @@ $route['blog/(:any)'] = "blog/index/$1";
 
 //JOB ROUTES SETTINGS
 $route['job/home'] = "job/job_all_post";
+$route['job/home/live-post'] = "job/job_all_post/$1";
 
 $route['job/resume'] = "job/job_printpreview";
 $route['job/resume/(:any)'] = "job/job_printpreview/$1";
@@ -240,13 +275,23 @@ $route['job/qualification/(:any)'] = "job/job_education_update/$1";
 $route['job/project'] = "job/job_project_update";
 $route['job/work-area'] = "job/job_skill_update";
 $route['job/work-experience'] = "job/job_work_exp_update";
+
 $route['job/profile'] = "job/job_reg";
-$route['job/search'] = "job/job_search";
+$route['job/profile/live-post'] = "job/job_reg";
+$route['job/profile/live-post/(:any)'] = "job/job_reg/$1";
+//$route['job/search'] = "job/job_search";
+
+$route['(:any)-jobs'] = "job/job_search";
+$route['jobs-in-(:any)'] = "job/job_search";
+$route['(:any)-jobs-in-(:any)'] = "job/job_search";
+
 $route['job/post-(:any)/(:any)'] = "job/post/$1/$2";
 $route['job/recruiter-profile/(:any)'] = "job/rec_profile/$1";
 
 
 //RECRUITER ROUTES SETTINGS
+
+$route['recruiter/registration'] = "recruiter/rec_reg";
 
 $route['recruiter/basic-information'] = "recruiter/rec_basic_information";
 $route['recruiter/company-information'] = "recruiter/company_info_form";
@@ -261,6 +306,9 @@ $route['recruiter/save-candidate'] = "recruiter/save_candidate";
 $route['recruiter/post'] = "recruiter/rec_post";
 $route['recruiter/post/(:any)'] = "recruiter/rec_post/$1";
 
+$route['recruiter/jobpost'] = "recruiter/live_post";
+$route['recruiter/jobpost/(:any)'] = "recruiter/live_post/$1";
+
 $route['recruiter/add-post'] = "recruiter/add_post";
 
 $route['recruiter/post-insert'] = "recruiter/add_post";
@@ -270,6 +318,7 @@ $route['recruiter/edit-post/(:any)'] = "recruiter/edit_post/$1";
 $route['recruiter/apply-list/(:any)'] = "recruiter/view_apply_list/$1";
 
 $route['recruiter/search'] = "recruiter/recruiter_search";
+
 
 // NOTIFICATION ROUTES SETTINGS
 $route['notification/details/(:any)'] = "business_profile/business_resume/$1";

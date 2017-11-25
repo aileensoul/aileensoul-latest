@@ -7,10 +7,8 @@
 
       <title><?php echo $title; ?></title>
 
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
    </head>
    <!-- END HEAD -->
    <!-- Start HEADER -->
@@ -55,34 +53,34 @@
                               <h5 class="head_title">Project</h5>
                            </div>
                            <fieldset class="full-width">
-                              <label>Project Name (Title):</label>
+                              <label>Project Name (Title):<span class="optional">(optional)</span></label>
                               <input type="text" tabindex="1" autofocus name="project_name"  id="project_name" placeholder="Enter Project Name" value="<?php if($project_name1){ echo $project_name1; } else { echo $job[0]['project_name']; }?>" maxlength="255" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value"/>
                            </fieldset>
                            <fieldset class="full-width">
-                              <label>Duration (in Month)</label>
+                              <label>Duration (in Month):<span class="optional">(optional)</span></label>
                               <input type="text" name="project_duration" tabindex="2"  id="project_duration" placeholder="Enter Duration" maxlength="2"   value="<?php if($project_duration1){ echo $project_duration1; } else { echo $job[0]['project_duration']; }?>" />
                            </fieldset>
                            <fieldset class="full-width">
-                              <label>Project Description</label>
+                              <label>Project Description:<span class="optional">(optional)</span></label>
                               <textarea name="project_description"  onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" id="project_description" tabindex="3" onpaste="OnPaste_StripFormatting(this, event);" style="resize: none;" placeholder="Enter Project Description" maxlength="4000"><?php if($project_description1){ echo $project_description1; } else { echo $job[0]['project_description']; }?></textarea>
                            </fieldset>
                            <div class="text-center">
                               <h5 class="head_title">Training / Internship</h5>
                            </div>
                            <fieldset class="full-width">
-                              <label>Intern / Trainee as</label>
+                              <label>Intern / Trainee as:<span class="optional">(optional)</span></label>
                               <input type="text" tabindex="4" name="training_as"  id="training_as" placeholder="Intern / Trainee as" value="<?php if($training_as1){ echo $training_as1; } else { echo $job[0]['training_as']; }?>" maxlength="255"/>
                            </fieldset>
                            <fieldset class="full-width">
-                              <label>Duration (in Month)</label>
+                              <label>Duration (in Month):<span class="optional">(optional)</span></label>
                               <input type="text" name="training_duration" tabindex="5"  id="training_duration" placeholder="Enter Duration"   value="<?php if($training_duration1){ echo $training_duration1; } else { echo $job[0]['training_duration']; }?>" maxlength="2"/>
                            </fieldset>
                            <fieldset class="full-width">
-                              <label>Name of Organization</label>
+                              <label>Name of Organization:<span class="optional">(optional)</span> </label>
                               <input type="text" name="training_organization" tabindex="6"  id="training_organization" placeholder="Enter Name of Organization" value="<?php if($training_organization1){ echo $training_organization1; } else { echo $job[0]['training_organization']; }?>" maxlength="255"/>
                            </fieldset>
                            <fieldset class="hs-submit full-width">
-                              <input type="submit"  id="next" name="next" value="Save" tabindex="7">
+                              <input title="Save" type="submit"  id="next" name="next" value="Save" tabindex="7">
                            </fieldset>
                            </form>
                         </div>
@@ -93,30 +91,27 @@
             </div>
          </div>
       </section>
-      <footer>
+      <!-- <footer> -->
+         <?php echo $login_footer ?>
          <?php echo $footer;  ?>
-      </footer>
+      <!-- </footer> -->
    
 
 <!-- Calender JS Start-->
-<script src="<?php echo base_url('js/jquery.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/jquery-ui.js?ver='.time()) ?>"></script>
-<script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/jquery.validate1.15.0..min.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/additional-methods1.15.0.min.js?ver='.time()); ?>"></script>
+<!--<script type="text/javascript" src="<?php// echo base_url('assets/js/jquery-ui.js?ver='.time()) ?>"></script>-->
+<!--<script src="<?php //echo base_url('assets/js/jquery-ui.min.js?ver='.time()); ?>"></script>-->
 
+ <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js') ?>"></script>
 <!-- js for modal start-->
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
 <!-- js for modal end-->
 
 <script>
     var base_url = '<?php echo base_url(); ?>';
 </script>
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_project.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_project.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
 
 </body>
 </html>

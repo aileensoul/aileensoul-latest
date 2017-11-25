@@ -5,13 +5,12 @@
         <meta name="description" content="Register into Aileensoul.com for Free, Find job search, Hire employee, Get Freelance work, Grow business network & make Artistic Profiles.">
 
 
-        <link rel="icon" href="<?php echo base_url('images/favicon.png'); ?>">
+        <link rel="icon" href="<?php echo base_url('assets/images/favicon.png'); ?>">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <link rel="stylesheet" href="css/common-style.css">
-        <link rel="stylesheet" href="css/style-main.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/common-style.css?ver='.time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style-main.css?ver='.time()); ?>">
+        
     </head>
     <body class="registeration">
         <div class="main-inner">
@@ -210,8 +209,8 @@
             });
         </script>
 
-
-        <script type="text/javascript" src="<?php echo base_url() ?>js/jquery.validate.min.js"></script>
+        <script src="<?php echo base_url('assets/js/jquery.min.js?ver='.time()); ?>"></script>
+        <script src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()); ?>"></script>
         <!-- validation for edit email formate form strat -->
 
         <script>

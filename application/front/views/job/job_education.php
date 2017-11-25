@@ -6,12 +6,10 @@
 
 <title><?php echo $title; ?></title>
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css?ver='.time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
 <!-- This Css is used for call popup -->
-<link rel="stylesheet" href="<?php echo base_url('css/jquery.fancybox.css?ver='.time()); ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.fancybox.css?ver='.time()); ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
 
 </head>
 <!-- END HEAD -->
@@ -52,14 +50,15 @@
                       echo '<div class="alert alert-danger">' . $this->session->flashdata('error') . '</div>';
                   }
                   if ($this->session->flashdata('success')) {
-                      echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
+                      echo '<div class="aler
+                      t alert-success">' . $this->session->flashdata('success') . '</div>';
                   }
                   ?>
             </div>
             <div class="common-form">
                <div class="job-saved-boxe_2" >
                   <div class="edu_tab fw">
-                     <h3>Educational  Qualification</h3>
+                     <h3>Educational  Qualification <span class="Add_edu">(Add Last Education)</span></h3>
 
 
                      <div class="col-md-12 col-sm-12 col-xs-12">
@@ -140,7 +139,7 @@
                                                <?php echo form_error('pass_year_primary'); ?>
                                           </fieldset>
                                           <fieldset class="full-width" id="primary_remove">
-                                             <h6>Education Certificate:</h6>
+                                             <h6>Education Certificate: <span class="optional">(optional)</span>  </h6>
                                              <input  type="file" name="edu_certificate_primary" tabindex="5" id="edu_certificate_primary" class="edu_certificate_primary" placeholder="CERTIFICATE" multiple="" />
                                              <div class="bestofmine_image_primary" style="color:#f00; display: block;"></div>
                                              <?php
@@ -190,7 +189,7 @@
                                                      ?>">
                                              <br>
 
-                                             <button class="submit_btn" tabindex="6">Save</button>
+                                             <button title="Save" class="submit_btn" tabindex="6">Save</button>
                                              <fieldset class="hs-submit full-width" style="">
                                               
                                              </fieldset>
@@ -273,7 +272,7 @@
                                           <?php echo form_error('pass_year_secondary'); ?>
                                        </fieldset>
                                        <fieldset class="full-width" id="secondary_remove">
-                                          <h6>Education Certificate:</h6>
+                                          <h6>Education Certificate:<span class="optional">(optional)</span></h6>
                                           <input type="file" tabindex="6" name="edu_certificate_secondary" id="edu_certificate_secondary" class="edu_certificate_secondary" placeholder="CERTIFICATE" multiple="" />
                                           <div class="bestofmine_image_secondary" style="color:#f00; display: block;"></div>
 
@@ -324,7 +323,7 @@
                                                   echo $edu_certificate_secondary1;
                                                   }
                                                  ?>">
-                                          <button class="submit_btn" tabindex="7">Save</button>
+                                          <button title="Save" class="submit_btn" tabindex="7">Save</button>
                                           <br>
                                           <fieldset class="hs-submit full-width" style="">
                                            
@@ -418,7 +417,7 @@
                                            <?php echo form_error('pass_year_higher_secondary'); ?>
                                        </fieldset>
                                        <fieldset class="full-width" id="higher_secondary_remove">
-                                          <h6>Education Certificate:</h6>
+                                          <h6>Education Certificate:<span class="optional">(optional)</span></h6>
                                           <input type="file" name="edu_certificate_higher_secondary" id="edu_certificate_higher_secondary" class="edu_certificate_higher_secondary" placeholder="CERTIFICATE" multiple="" tabindex="6" />
                                           <div class="bestofmine_image_higher_secondary" style="color:#f00; display: block;"></div>
                                           <?php
@@ -478,7 +477,7 @@
                                                  echo $edu_certificate_higher_secondary1;
                                              }
                                              ?>">
-                                          <button class="submit_btn" tabindex="9">Save</button>
+                                          <button title="Save" class="submit_btn" tabindex="9">Save</button>
                                           <br>
                                           <fieldset class="hs-submit full-width" style="">
                                             
@@ -528,7 +527,7 @@
                                                       $predefine_data = $count;
                                                   }
                                                   ?>   
-                                       <div id="input<?php echo $y ?>" style="margin-bottom:4px;" class="clonedInput job_work_edit_<?php echo $jobgrad[$x]['job_graduation_id']?>">
+                                       <div id="input<?php echo $y ?>" style="margin-bottom:4px;position: relative;" class="clonedInput job_work_edit_<?php echo $jobgrad[$x]['job_graduation_id']?>">
                                           <input type="hidden" name="education_data[]" value="old" class="exp_data" id="exp_data<?php echo $y; ?>">
                                           <div class="job_work_experience_main_div">
                                              <!--   <fieldset class="full-width"> -->
@@ -661,7 +660,7 @@
                                              </select>
                                              <?php echo form_error('pass_year[]'); ?>
                                            
-                                             <h6>Education Certificate:</h6>
+                                             <h6>Education Certificate:<span class="optional">(optional)</span></h6>
                                              <input style="" type="file" name="certificate[]" id="certificate1" tabindex="8" class="certificate" placeholder="CERTIFICATE" multiple="" />&nbsp;&nbsp;&nbsp; <span id="certificate-error"> </span>
                                              <div class="bestofmine_image_degree" style="color:#f00; display: block;"></div>
                                               <?php
@@ -730,15 +729,15 @@
                                           ?>
                                        
                                        <div class="fr img_remove">
-                                          <input  style="font-size: 14px;" class="job_edu_graduation_submit_btn" tabindex="8" type="Submit"  id="next" name="next" value="Save">
+                                          <input title="Save" style="font-size: 14px;" class="job_edu_graduation_submit_btn" tabindex="11" type="Submit"  id="next" name="next" value="Save">
                                           
                                        </div>
                                        <div class="display_inline_block" >
                                           <div class="fr img_remove job_edu_graduation_removebox" >
-                                             <input class="job_edu_graduation_removebtn" type="button" id="btnRemove" name="btnRemove"  value=" - "   />
+                                             <input class="job_edu_graduation_removebtn" type="button" id="btnRemove" name="btnRemove" tabindex="10"  value=" - "   />
                                           </div>
                                           <div class="fr img_remove" >
-                                             <input type="button" id="btnAdd"  name="btnAdd" class="job_edu_graduation_addbtn"  value=" + ">
+                                             <input type="button" id="btnAdd"  name="btnAdd" class="job_edu_graduation_addbtn" tabindex="9"  value=" + ">
                                           </div>
                                        </div>
                                        <fieldset class="hs-submit full-width job_edu_graduation_nextbtnbox">
@@ -747,7 +746,7 @@
                                           } else {
                                               ?>
                                        <!--clone div start-->              
-                                       <div id="input1" style="margin-bottom:4px;" class="clonedInput job_work_experience_main_div">
+                                       <div id="input1" style="margin-bottom:4px;position: relative;" class="clonedInput job_work_experience_main_div">
                                           <!-- <fieldset class=""> -->
                                           <h6>Degree :<span class="red">*</span></h6>
                                           <select name="degree[]" id="degree1" class="degree">
@@ -866,7 +865,7 @@
                                           </select>
                                           <?php echo form_error('pass_year[]'); ?>
                                      
-                                          <h6>Education Certificate:</h6>
+                                          <h6>Education Certificate:<span class="optional">(optional)</span></h6>
                                           <input type="file" name="certificate[]" id="certificate1" class="certificate" placeholder="CERTIFICATE" multiple="" />&nbsp;&nbsp;&nbsp; <span id="certificate-error"> </span>
                                           <div class="bestofmine_image_degree" style="color:#f00; display: block;"></div>
                                            <?php
@@ -895,13 +894,13 @@
                                        </div>
                                        <!--clone div End-->
                                        <div class="fl job_edu_graduation_addbtnbox" >
-                                          <input type="button" id="btnAdd" class="job_edu_graduation_addbtn" value=" + " /><br>
+                                          <input title="Add more Degree" type="button" id="btnAdd" class="job_edu_graduation_addbtn" value=" + " /><br>
                                        </div>
                                        <div class="fl">
-                                          <input type="button" id="btnRemove" class="job_edu_graduation_removebtn" value=" - "   />
+                                          <input title="Remove Degree" type="button" id="btnRemove" class="job_edu_graduation_removebtn" value=" - "   />
                                        </div>
                                        <div class="fr job_edu_graduation_submitposition">
-                                          <input type="Submit"  id="next" name="next" value="Save" class="job_edu_graduation_submitbtn" style="padding: 5px 9px;margin-right: 0px;">
+                                          <input title="Next" title="Save" type="Submit"  id="next" name="next" value="Save" class="job_edu_graduation_submitbtn" style="padding: 5px 9px;margin-right: 0px;">
                                        </div>
                                        <br>
                                        <?php
@@ -918,13 +917,13 @@
                               <?php if( $jobdata || $jobgrad)
                                  {
                                  ?>
-                              <input type="button" id="next" name="next" value="Next" style="font-size: 16px;min-width: 120px;margin-right: 0px;"  onclick="next_page_edit()">
+                              <input title="Next"  type="button" id="next" name="next" value="Next" style="font-size: 16px;min-width: 120px;margin-right: 0px;"  onclick="next_page_edit()">
                               <?php
                                  }
                                  else
                                  {
                                      ?>
-                              <input type="button" id="next" name="next" value="Next" style="font-size: 16px;min-width: 120px;margin-right: 0px;" onclick="next_page()">
+                              <input title="Next" type="button" id="next" name="next" value="Next" style="font-size: 16px;min-width: 120px;margin-right: 0px;" onclick="next_page()">
                               <?php } ?>
                            </fieldset>
                         </div>
@@ -941,39 +940,39 @@
          </div>
       </div>
    </section>
-   <!-- Bid-modal  -->
-   <div class="modal fade message-box biderror" id="bidmodal" role="dialog">
-      <div class="modal-dialog modal-lm">
-         <div class="modal-content">
-            <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
-            <div class="modal-body">
-               <span class="mes"></span>
+   <!-- Bid-modal  --> 
+      <div class="modal fade message-box biderror custom-message in" id="bidmodal" role="dialog"  >
+         <div class="modal-dialog modal-lm" >
+            <div class="modal-content message">
+               <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
+               <div class="modal-body">
+                  <span class="mes"></span>
+               </div>
             </div>
          </div>
       </div>
-   </div>
-   <!-- Model Popup Close -->
+      <!-- Model Popup Close -->
 
-<footer>        
+
+<!-- <footer>  -->  
+<?php echo $login_footer ?>     
 <?php echo $footer;  ?>
-</footer>
+<!-- </footer> -->
 
 <!-- Calender JS Start-->
-<script src="<?php echo base_url('js/jquery.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/jquery-ui.js?ver='.time()) ?>"></script>
-<script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
+<!--<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.js?ver='.time()) ?>"></script>-->
+<!--<script src="<?php// echo base_url('assets/js/jquery-ui.min.js?ver='.time()); ?>"></script>-->
+
 <!-- This Js is used for call popup -->
-<script src="<?php echo base_url('js/jquery.fancybox.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.fancybox.js?ver='.time()); ?>"></script>
 <!-- This Js is used for call popup -->
  
-<script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/jquery.validate.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.js?ver='.time()); ?>"></script>
 <!--validation for edit email formate form-->
 
 <!-- js for modal start-->
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
 <!-- js for modal end-->
 
 <script>
@@ -985,7 +984,7 @@
    
 </script>
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_education.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_education.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
 </body>
 </html>

@@ -8,12 +8,10 @@
       <title><?php echo $title; ?></title>
 
       
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
       <!-- This Css is used for call popup -->
-      <link rel="stylesheet" href="<?php echo base_url('css/jquery.fancybox.css?ver='.time()); ?>" />
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.fancybox.css?ver='.time()); ?>" />
+	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
    </head>
    <!-- END HEAD -->
    <!-- Start HEADER -->
@@ -59,6 +57,33 @@
                               <div class="">
                                  <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="panel-group wrap" id="bs-collapse">
+                                      
+                                      
+                                           <?php  if($userdata[0]['experience'] == 'Experience' && ($userdata[0]['exp_y'] != "")){ ?>
+                                   <div class="profile-job-post-title clearfix">
+                                    <div class="profile-job-profile-button clearfix">
+                                       <div class="profile-job-details">
+                                        <div class="profile-job-profile-menu">                          
+                                        <ul class="clearfix">
+                                          <li> <b> Total Experience</b> <span><?php  if($userdata[0]['exp_y'] != " " && $userdata[0]['exp_m'] != " "){ 
+                                         if ($userdata[0]['exp_m'] == '12 month' && $userdata[0]['exp_y'] == '0 year') {
+                                                    echo "1 year";
+                                                } else {
+                                                if($userdata[0]['exp_y'] != '0 year'){
+                                                    echo $userdata[0]['exp_y'];
+                                                }
+                                                    if ($userdata[0]['exp_m'] != '0 month') {
+                                                        echo ' ' . $userdata[0]['exp_m'];
+                                                    } 
+                                                }
+                                             } ?> </span>
+                                          </li>
+                                       </ul>
+                                     </div>
+                                   </div>
+                                 </div>
+                               </div>
+                                         <?php } ?>
                                        <div class="panel">
                                           <div  id="panel-heading" <?php if($userdata[0]['experience'] == 'Fresher'){ ?> class="panel-heading active" <?php } else if($userdata[0]['experience'] == ''){?> class="panel-heading" <?php }else{?> class="panel-heading" <?php } ?>>
                                              <h4 class="panel-title">
@@ -71,12 +96,12 @@
                                              <div class="panel-body">
                                                 <?php echo form_open_multipart(base_url('job/job_work_exp_insert'), array('id' => 'jobseeker_regform', 'name' => 'jobseeker_regform', 'class' => 'clearfix')); ?>
                                 
-                                                <label for="Fresher">
+                                                <label for="Fresher" class="lbpos">
                                                 <input type="checkbox" id="fresher" tabindex="1" name="radio" value="Fresher" <?php echo ($userdata[0]['experience'] == 'Fresher') ? 'checked' : '' ?>>
                                                 Fresher&nbsp;&nbsp;
                                                 </label>
                                                 <fieldset class="hs-submit full-width left_nest">
-                                                   <input type="submit" id="next" tabindex="2" name="next" value="Save">
+                                                   <input title="Submit" type="submit" id="next" tabindex="2" name="next" value="Submit">
                                                 </fieldset>
                                                 <?php echo form_close(); ?>
                                              </div>
@@ -91,6 +116,8 @@
                                                 </a>
                                              </h4>
                                           </div>
+                                           <input type="hidden" name="exp_year" id="exp_year" value="">
+                                                <input type="hidden" name="exp_month" id="exp_month" value="">
                                           <div id="two"   <?php if($userdata[0]['experience'] == 'Fresher'){ ?> class="panel-collapse collapse" <?php } else if($userdata[0]['experience'] == ''){?> class="panel-collapse collapse"<?php }else{?> class="panel-collapse collapse in" <?php } ?>>
                                              <div class="panel-body">
                                                 <?php echo form_open_multipart(base_url('job/job_work_exp_insert'), array('id' => 'jobseeker_regform1', 'name' => 'jobseeker_regform1', 'class' => 'clearfix')); ?>       
@@ -122,11 +149,12 @@
                                                            $y = $x + 1;
                                                    
                                                            ?>
+                                                
                                                 <input type="hidden" name="exp_data[]" value="old" class="exp_data" id="exp_data<?php echo $y; ?>">
-                                                <div id="input<?php echo $y; ?>" style="margin-bottom:4px;" class="clonedInput job_work_edit_<?php echo $workdata[$x]['work_id']?>">
+                                                <div id="input<?php echo $y; ?>" style="margin-bottom:4px;position: relative;" class="clonedInput job_work_edit_<?php echo $workdata[$x]['work_id']?>">
                                                    <div class="job_work_experience_main_div">
                                                       <label>Experience:<span class="red">*</span></label>
-                                                      <select style="width: 45%; margin-right: 43px; float: left;" tabindex="1" autofocus name="experience_year[]" id="experience_year" tabindex="1" class="experience_year keyskil" onchange="expyear_change_edittime();">
+                                                      <select style="width: 47%; margin-right: 4%; float: left;" tabindex="1" autofocus name="experience_year[]" id="experience_year" tabindex="1" class="experience_year keyskil" onchange="expyear_change_edittime();">
                                                          <option value="" selected option disabled>Year</option>
                                                          <option value="0 year"  <?php if ($experience_year1 == "0 year") echo 'selected'; ?>>0 year</option>
                                                          <option value="1 year"  <?php if ($experience_year1 == "1 year") echo 'selected'; ?>>1 year</option>
@@ -184,13 +212,13 @@
                                                          }
                                                          ?>" maxlength="255"/>&nbsp;&nbsp;&nbsp; 
                                                       <?php echo form_error('companyname'); ?>
-                                                      <label style="  margin-top: 6px;  ">Organization Email:</label>
+                                                      <label style="  margin-top: 6px;  ">Organization Email:<span class="optional">(optional)</span></label>
                                                       <input type="text" name="companyemail[]" tabindex="5" id="companyemail" class="companyemail" placeholder="Enter Organization Email" value="<?php
                                                          if ($companyemail1) {
                                                              echo $companyemail1;
                                                          }
                                                          ?>" maxlength="255"/>&nbsp;&nbsp;&nbsp; 
-                                                      <label style="  margin-top: 6px;  ">Organization Phone:</label>
+                                                      <label style="  margin-top: 6px;  ">Organization Phone:<span class="optional">(optional)</span></label>
                                                       <input type="text" name="companyphn[]" id="companyphn" class="companyphn" placeholder="Enter Organization Phone" tabindex="6" value="<?php
                                                          if ($companyphn1) {
                                                              echo $companyphn1;
@@ -260,7 +288,7 @@
                                                 </div>
                                              
                                                 <fieldset class="hs-submit full-width"> 
-                                                   <input style="" type="submit"  tabindex="8" id="next" name="next" value="Save"  >
+                                                   <input title="Submit" style="" type="submit"  tabindex="8" id="next" name="next" value="Submit"  >
                                                 </fieldset>
                                                
                                                 <?php
@@ -269,9 +297,9 @@
                                                     else {
                                                        ?>
                                                 <!--clone div start-->              
-                                                <div id="input1" style="margin-bottom:4px;" class="clonedInput">
+                                                <div id="input1" style="margin-bottom:4px;position: relative;" class="clonedInput">
                                                    <label>Experience:<span class="red">*</span></label>
-                                                   <select style="width:45%; float: left; margin-right: 43px;" name="experience_year[]" id="experience_year" class="experience_year keyskil" onchange="expyear_change();">
+                                                   <select style="width:45%; float: left; margin-right: 4%;" name="experience_year[]" id="experience_year" class="experience_year keyskil" onchange="expyear_change();">
                                                       <option value="" selected option disabled>Year</option>
                                                       <option value="0 year"  <?php if ($experience_year1 == "0 year") echo 'selected'; ?>>0 year</option>
                                                       <option value="1 year"  <?php if ($experience_year1 == "1 year") echo 'selected'; ?>>1 year</option>
@@ -329,14 +357,14 @@
                                                       }
                                                       ?>" maxlength="255"/>&nbsp;&nbsp;
                                                    <?php echo form_error('companyname[]'); ?>
-                                                   <label style="   margin-top: 6px; ">Organization Email:</label>
+                                                   <label style="   margin-top: 6px; ">Organization Email:<span class="optional">(optional)</span></label>
                                                    <input type="text" name="companyemail[]" id="companyemail" class="companyemail" placeholder="Enter Organization Email" value="<?php
                                                       if ($companyemail1) {
                                                           echo $companyemail1;
                                                       }
                                                       ?>" maxlength="255"/>&nbsp;&nbsp; <span id="companyemail-error"> </span>
                                                   
-                                                   <label style="  margin-top: 6px; ">Organization Phone:</label>
+                                                   <label style="  margin-top: 6px; ">Organization Phone:<span class="optional">(optional)</span></label>
                                                    <input type="text" name="companyphn[]" id="companyphn" class="companyphn" placeholder="Enter Organization Phone" value="<?php
                                                       if ($companyphn1) {
                                                           echo $companyphn1;
@@ -345,7 +373,7 @@
                                                    <?php echo form_error('companyphn'); ?>&nbsp;&nbsp;
                                                  
                                                    <label style="      display: block;">Experience Certificate:</label>
-                                                   <input style="width: 50%; display: inline-block;" type="file" name="certificate[]" id="certificate" class="certificate" placeholder="CERTIFICATE" />
+                                                   <input style="display: inline-block;" type="file" name="certificate[]" id="certificate" class="certificate" placeholder="CERTIFICATE" />
                                                     <div class="bestofmine_image_degree" style="color:#f00; display: block;"></div>&nbsp;&nbsp;
 
                                                    <?php
@@ -378,11 +406,11 @@
                                                 </div>
                                                
                                                 <div class="hs-submit full-width fl" style="width: 100%; text-align: center;">
-                                                   <input type="button" id="btnAdd" value=" + ">
-                                                   <input type="button" id="btnRemove" value=" - " disabled="disabled">
+                                                   <input title="Add more Experience" type="button" id="btnAdd" value=" + ">
+                                                   <input title="Remove Experience" type="button" id="btnRemove" value=" - " disabled="disabled">
                                                 </div>
                                                 <fieldset class="hs-submit full-width"> 
-                                                   <input style="" type="submit" id="next" name="next" value="Save">
+                                                   <input title="Submit" style="" type="submit" id="next" name="next" value="Submit">
                                                 </fieldset>
                                                 <?php echo form_close(); ?> 
                                              </div>
@@ -408,24 +436,35 @@
       </section>
       <!-- END CONTAINER -->
 
-<footer>        
-<?php echo $footer;  ?>
-</footer>
+         <!-- Bid-modal  -->
+      <div class="modal fade message-box biderror custom-message in" id="bidmodal" role="dialog"  >
+         <div class="modal-dialog modal-lm" >
+            <div class="modal-content message">
+               <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
+               <div class="modal-body">
+                  <span class="mes"></span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Model Popup Close -->
 
-<script src="<?php echo base_url('js/jquery.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/jquery-ui.js?ver='.time()) ?>"></script>
-<script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
+<!-- <footer>    -->   
+<?php echo $login_footer ?>  
+<?php echo $footer;  ?>
+<!-- </footer> -->
+
+<!--<script type="text/javascript" src="<?php //echo base_url('assets/js/jquery-ui.js?ver='.time()) ?>"></script>-->
+<!--<script src="<?php //echo base_url('assets/js/jquery-ui.min.js?ver='.time()); ?>"></script>-->
+
 <!-- This Js is used for call popup -->
-<script src="<?php echo base_url('js/jquery.fancybox.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.fancybox.js?ver='.time()); ?>"></script>
 <!-- duplicate div end -->
-<script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/jquery.validate.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/additional-methods1.15.0.min.js?ver='.time()); ?>"></script> 
+<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
+<script type="text/javascript" src="<?php // echo base_url('assets/js/jquery.validate.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php  echo base_url('assets/js/additional-methods1.15.0.min.js?ver='.time()); ?>"></script> 
 <!-- This Js is used for call popup -->
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script> 
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script> 
 
 
 <script>
@@ -433,8 +472,8 @@
     var clone_mathod_count='<?php echo $clone_mathod_count; ?>';
 </script>
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_work_exp.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_work_exp.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
 
  </body>
 </html>

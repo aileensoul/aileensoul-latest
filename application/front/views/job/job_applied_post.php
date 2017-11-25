@@ -7,11 +7,8 @@
 
       <title><?php echo $title; ?></title>
 
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-      <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()); ?>" />
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
    </head>
    <!-- END HEAD -->
    <!-- Start HEADER -->
@@ -105,7 +102,7 @@
                         <?php echo  ucfirst(strtolower($acronym)) . ucfirst(strtolower($acronym1)); ?>
                      </div>
                      <?php } ?>
-                     <a href="javascript:void(0);" class="cusome_upload" onclick="updateprofilepopup();"><img  src="<?php echo base_url(); ?>img/cam.png">Update Profile Picture</a>
+                     <a href="javascript:void(0);" class="cusome_upload" onclick="updateprofilepopup();"><img  src="<?php echo base_url(); ?>assets/img/cam.png">Update Profile Picture</a>
                   </div>
                </div>
                <div class="job-menu-profile mob-block">
@@ -202,7 +199,7 @@
                               <!--.........AJAX DATA......-->           
                         </div>
 
-                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                         </div>
 
                      <div class="col-md-1">
@@ -284,11 +281,11 @@
                   <span class="mes">
                      <div id="popup-form">
 
-                     <div class="fw" id="loader_popup"  style="text-align:center; display:none;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                     <div class="fw" id="loader_popup"  style="text-align:center; display:none;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
 
                      <form id ="userimage" name ="userimage" class ="clearfix" enctype="multipart/form-data" method="post">
 
-                        <div class="col-md-5">
+                        <div class="fw">
                                  <input type="file" name="profilepic" accept="image/gif, image/jpeg, image/png" id="upload-one">
                         </div>
 
@@ -308,24 +305,22 @@
       </div>
       <!-- Model Popup Close -->
 
- <footer>        
+ <!-- <footer>   -->
+ <?php echo $login_footer ?>      
 <?php echo $footer;  ?>
-</footer>
+<!-- </footer> -->
 
 <!-- script for skill textbox automatic start-->
-<script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
+<!--<script src="<?php //echo base_url('assets/js/jquery-ui.min.js?ver='.time()); ?>"></script>-->
+
 <script src="<?php echo base_url('assets/js/croppie.js?ver='.time()); ?>"></script>
-<link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css?ver='.time()); ?>">
 <!-- script for skill textbox automatic end-->
 
-<script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/raphael-min.js
-?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/progressloader.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
+<!--<script type="text/javascript" src="<?php// echo base_url('assets/js/raphael-min.js
+//?ver='.time()); ?>"></script>-->
+<script type="text/javascript" src="<?php echo base_url('assets/js/progressloader.js?ver='.time()); ?>"></script>
 
 <script>
     var base_url = '<?php echo base_url(); ?>';
@@ -333,10 +328,10 @@
     var count_profile='<?php echo $count_profile;?>';
 </script>
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_applied_post.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/cover_profile_common.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/progressbar_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_applied_post.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/cover_profile_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/progressbar_common.js?ver='.time()); ?>"></script>
 
 </body>
 </html>

@@ -3,21 +3,17 @@
     <head><title><?php echo $title; ?></title>
         <?php echo $head; ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver=' . time()); ?>">
-        <!--<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/demo.css'); ?>">-->
-        <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver=' . time()) ?>" />
-
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/freelancer-apply/freelancer-apply.css?ver=' . time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/freelancer-apply.css?ver=' . time()); ?>">
     </head>
     <body>
         <?php echo $header; ?>
         <?php echo $freelancer_post_header2_border; ?>
         <section>
             <div class="user-midd-section" id="paddingtop_fixed">
-                <div class="container">
-                    <div class="row">
+                <div class="container padding-360">
+                    <div class="">
                         <!--COVER PIC START-->
-                        <div class="col-md-4 profile-box  animated fadeInLeftBig profile-box-left"><div class="">
+                        <div class="profile-box-custom fl animated fadeInLeftBig left_side_posrt"><div class="">
                                 <div class="full-box-module">   
                                     <div class="profile-boxProfileCard  module">
                                         <div class="profile-boxProfileCard-cover"> 
@@ -44,20 +40,42 @@
                                                 <a class="profile-boxProfilebuisness-avatarLink2 a-inlineBlock" 
                                                    href="<?php echo base_url('freelancer-work/freelancer-details/' . $freepostdata[0]['user_id']); ?>" title="<?php echo $freepostdata[0]['freelancer_post_fullname'] . ' ' . $freepostdata[0]['freelancer_post_username']; ?>" tabindex="-1" aria-hidden="true" rel="noopener">
                                                        <?php
-                                                       $filename = $this->config->item('free_post_profile_main_upload_path') . $freepostdata[0]['freelancer_post_user_image'];
-                                                       $s3 = new S3(awsAccessKey, awsSecretKey);
-                                                       $info = $s3->getObjectInfo(bucket, $filename);
-                                                       if ($info) {
-                                                           ?>
-                                                        <div class="data_img_2">
-                                                            <img src="<?php echo FREE_POST_PROFILE_MAIN_UPLOAD_URL . $freepostdata[0]['freelancer_post_user_image']; ?>" alt="<?php echo $freepostdata[0]['freelancer_post_fullname'] . ' ' . $freepostdata[0]['freelancer_post_username']; ?>" >
-                                                        </div>
-                                                        <?php
+                                                       $fname = $freepostdata[0]['freelancer_post_fullname'];
+                                                       $lname = $freepostdata[0]['freelancer_post_username'];
+                                                       $sub_fname = substr($fname, 0, 1);
+                                                       $sub_lname = substr($lname, 0, 1);
+
+                                                       if ($freepostdata[0]['freelancer_post_user_image']) {
+                                                           if (IMAGEPATHFROM == 'upload') {
+                                                               if (!file_exists($this->config->item('free_post_profile_main_upload_path') . $freepostdata[0]['freelancer_post_user_image'])) {
+                                                                   ?>
+                                                                <div class="post-img-profile">
+                                                                    <?php echo ucfirst(strtolower($sub_fname)) . ucfirst(strtolower($sub_lname)); ?>
+                                                                </div> 
+                                                            <?php } else {
+                                                                ?>
+                                                                <div class="data_img_2">
+                                                                    <img src="<?php echo FREE_POST_PROFILE_MAIN_UPLOAD_URL . $freepostdata[0]['freelancer_post_user_image']; ?>" alt="<?php echo $freepostdata[0]['freelancer_post_fullname'] . ' ' . $freepostdata[0]['freelancer_post_username']; ?>" >
+                                                                </div>
+                                                                <?php
+                                                            }
+                                                        } else {
+                                                            $filename = $this->config->item('free_post_profile_main_upload_path') . $freepostdata[0]['freelancer_post_user_image'];
+                                                            $s3 = new S3(awsAccessKey, awsSecretKey);
+                                                            $info = $s3->getObjectInfo(bucket, $filename);
+                                                            if ($info) {
+                                                                ?>
+                                                                <div class="data_img_2">
+                                                                    <img src="<?php echo FREE_POST_PROFILE_MAIN_UPLOAD_URL . $freepostdata[0]['freelancer_post_user_image']; ?>" alt="<?php echo $freepostdata[0]['freelancer_post_fullname'] . ' ' . $freepostdata[0]['freelancer_post_username']; ?>" >
+                                                                </div>
+                                                            <?php } else { ?>
+                                                                <div class="post-img-profile">
+                                                                    <?php echo ucfirst(strtolower($sub_fname)) . ucfirst(strtolower($sub_lname)); ?>
+                                                                </div> 
+                                                                <?php
+                                                            }
+                                                        }
                                                     } else {
-                                                        $fname = $freepostdata[0]['freelancer_post_fullname'];
-                                                        $lname = $freepostdata[0]['freelancer_post_username'];
-                                                        $sub_fname = substr($fname, 0, 1);
-                                                        $sub_lname = substr($lname, 0, 1);
                                                         ?>
                                                         <div class="post-img-profile">
                                                             <?php echo ucfirst(strtolower($sub_fname)) . ucfirst(strtolower($sub_lname)); ?>
@@ -71,7 +89,7 @@
                                                 <span class="profile-company-name ">
                                                     <a href="<?php echo base_url('freelancer-work/freelancer-details'); ?>"><?php echo ucwords($freepostdata[0]['freelancer_post_fullname']) . ' ' . ucwords($freepostdata[0]['freelancer_post_username']); ?></a>
                                                 </span>
-                                                <?php $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' => 1))->row()->industry_name; ?>
+                                                <?php $category = $this->db->get_where('industry_type', array('industry_id' => $businessdata[0]['industriyal'], 'status' =>'1'))->row()->industry_name; ?>
                                                 <div class="profile-boxProfile-name">
                                                     <a  href="<?php echo base_url('freelancer-work/freelancer-details'); ?>">
                                                         <?php
@@ -94,10 +112,28 @@
                                         </div>
                                     </div>                             
                                 </div>
+
+                                <div class="tablate-potrat-add">
+                                    <div class="fw text-center pt10">
+                                        <script type="text/javascript">
+                                            (function () {
+                                                if (window.CHITIKA === undefined) {
+                                                    window.CHITIKA = {'units': []};
+                                                }
+                                                ;
+                                                var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                                var placement_id = window.CHITIKA.units.length;
+                                                window.CHITIKA.units.push(unit);
+                                                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                            }());
+                                        </script>
+                                        <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!--COVER PIC END-->
-                        <div class="col-md-7 col-sm-7 col-md-push-4 col-sm-push-4 custom-right animated fadeInUp">
+                        <div class="custom-right-art mian_middle_post_box animated fadeInUp">
                             <div class="common-form">
                                 <div class="job-saved-box">
                                     <h3>Search result of 
@@ -108,25 +144,79 @@
                                             echo '"' . $keyword1 . '"';
                                         } else {
                                             echo '"' . $keyword . '"';
-                                            echo " and ";
+                                            echo " In ";
                                             echo '"' . $keyword1 . '"';
                                         }
                                         ?></h3>
                                     <div class="contact-frnd-post">
+                                        <div class="mob-add">
+                                            <div class="fw text-center pt10 pb5">
+                                                <script type="text/javascript">
+                                            (function () {
+                                                if (window.CHITIKA === undefined) {
+                                                    window.CHITIKA = {'units': []};
+                                                }
+                                                ;
+                                                var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                                var placement_id = window.CHITIKA.units.length;
+                                                window.CHITIKA.units.push(unit);
+                                                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                            }());
+                                                </script>
+                                                <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                                            </div>
+                                        </div>
 
                                         <!--....................AJAX DATA..............-->
-                                        <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver=' . time()) ?>" /></div>
+                                        <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) ?>" /></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div id="hideuserlist" class="right_middle_side_posrt fixed_right_display animated fadeInRightBig"> 
+
+                            <div class="fw text-center">
+                                <script type="text/javascript">
+                                            (function () {
+                                                if (window.CHITIKA === undefined) {
+                                                    window.CHITIKA = {'units': []};
+                                                }
+                                                ;
+                                                var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                                var placement_id = window.CHITIKA.units.length;
+                                                window.CHITIKA.units.push(unit);
+                                                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                            }());
+                                </script>
+                                <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                            </div>
+                            <div class="fw pt20" style="text-align:center;">
+                                <a href="https://www.chitika.com/publishers/apply?refid=aileensoul"><img src="https://images.chitika.net/ref_banners/300x250_hidden_ad.png" /></a>
+                            </div>
+                        </div>
+                        <div class="tablate-add">
+
+                            <script type="text/javascript">
+                                            (function () {
+                                                if (window.CHITIKA === undefined) {
+                                                    window.CHITIKA = {'units': []};
+                                                }
+                                                ;
+                                                var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 160, "height": 600, "sid": "Chitika Default"};
+                                                var placement_id = window.CHITIKA.units.length;
+                                                window.CHITIKA.units.push(unit);
+                                                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                            }());
+                            </script>
+                            <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </section>
-        <footer>
-            <?php echo $footer; ?>
-        </footer>
+<?php echo $footer; ?>
         <div class="modal fade message-box biderror" id="bidmodal" role="dialog">
             <div class="modal-dialog modal-lm">
                 <div class="modal-content">
@@ -138,21 +228,18 @@
             </div>
         </div>
         <!-- script for skill textbox automatic start (option 2)-->
-        <script src="<?php echo base_url('js/jquery.wallform.js?ver=' . time()); ?>"></script>
-        <!--<script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>-->
 
-    </script>
-    <script>
-        var base_url = '<?php echo base_url(); ?>';
-        var skill = '<?php echo $this->input->get('skills'); ?>';
-        var place = '<?php echo $this->input->get('searchplace'); ?>';
-        var button = '<?php echo $this->input->get('search_submit'); ?>';
+        <script>
+                                            var base_url = '<?php echo base_url(); ?>';
+                                            var skill = '<?php echo $keyword; ?>';
+                                            var place = '<?php echo $keyword1; ?>';
+                                            // var button = '<?php //echo $this->input->get('search_submit');   ?>';
 
-    </script>
-    <!-- script for skill textbox automatic end -->
-    <script type="text/javascript" src="<?php echo base_url('js/webpage/freelancer-apply/freelancer_apply_search_result.js?ver=' . time()); ?>"></script>
-    <script type="text/javascript" src="<?php echo base_url('js/webpage/freelancer-apply/freelancer_apply_common.js?ver=' . time()); ?>"></script>
-</body>
+        </script>
+        <!-- script for skill textbox automatic end -->
+        <script async type="text/javascript" src="<?php echo base_url('assets/js/webpage/freelancer-apply/freelancer_apply_search_result.js?ver=' . time()); ?>"></script>
+        <script async type="text/javascript" src="<?php echo base_url('assets/js/webpage/freelancer-apply/freelancer_apply_common.js?ver=' . time()); ?>"></script>
+    </body>
 </html>
 
 

@@ -3,11 +3,16 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
+        <?php
+        if (IS_REC_CSS_MINIFY == '0') {
+            ?>
+           <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/recruiter/rec_common_header.min.css?ver=' . time()); ?>">
+        <?php } ?>
     </head>
     <body class="page-container-bg-solid page-boxed pushmenu-push">
         <?php echo $header; ?>
@@ -19,7 +24,13 @@
         <!-- START CONTAINER -->
         <section>
 
-            <div class="user-midd-section" id="paddingtop_fixed">
+            
+               <?php if ($recdata[0]['re_step'] == 3) { ?>
+         
+            <div class="user-midd-section" id="paddingtop_fixed" >
+                    <?php }else{ ?>
+                <div class="user-midd-section" id="paddingtop_make_fixed">
+                    <?php } ?>
                 <div class="common-form1">
                     <div class="col-md-3 col-sm-4"></div>
 
@@ -56,7 +67,7 @@
                             <div>
                                 <?php
                                 if ($this->session->flashdata('error')) {
-                                    echo '<div class="alert alert-danger">' . $this->session->flashdata('error') . '</div>';
+                                    echo '<div class="alert alert-success">' . $this->session->flashdata('error') . '</div>';
                                 }
                                 if ($this->session->flashdata('success')) {
                                     echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
@@ -115,7 +126,7 @@
                                     </fieldset>
 
                                     <fieldset>
-                                        <label>Phone number:</label>
+                                        <label>Phone number:<span class="optional">(optional)</span></label>
                                         <input name="phoneno" placeholder="Enter Phone Number" tabindex="4" value="<?php
                                         if ($phone) {
                                             echo $phone;
@@ -142,16 +153,16 @@
         </section>
         <!-- END CONTAINER -->
         <!-- BEGIN FOOTER -->
+        <?php echo $login_footer ?>
         <?php echo $footer; ?>
         <!-- END FOOTER -->
 
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js') ?>"></script>
+        
+        
+        
+        
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js') ?>"></script>
         <script>
                                         var base_url = '<?php echo base_url(); ?>';
                                         var data1 = <?php echo json_encode($de); ?>;
@@ -160,7 +171,16 @@
                                         var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/search.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/basic_info.js'); ?>"></script>
+         <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+     <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/search.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/basic_info.js'); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/webpage/recruiter/rec_basic_info.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+       
     </body>
 </html>

@@ -7,12 +7,9 @@
 
       <title><?php echo $title; ?></title>
 
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/demo.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-      <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()); ?>" />
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+      
+	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
    </head>
    <!-- END HEAD -->
    <style>
@@ -391,7 +388,7 @@
                             <div class="job-contact-frnd ">
                               <!--.........AJAX DATA......-->           
                             </div>
-                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                         <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
               </div>
 
             </div>
@@ -412,9 +409,10 @@
       </div>
       <!-- Model Popup Close -->
       
-<footer>        
+<!-- <footer>      -->   
+    <?php echo $login_footer ?> 
 <?php echo $footer;  ?>
-</footer>
+<!-- </footer> -->
 
 <!-- Login-->
         <div class="modal fade login" id="login" role="dialog">
@@ -682,7 +680,7 @@
                                         </div>
                                         <div class="form-group dob">
                                             <label class="d_o_b"> Date Of Birth :</label>
-                                            <select tabindex="9" class="day" name="selday" id="selday">
+                                            <span><select tabindex="9" class="day" name="selday" id="selday">
                                                 <option value="" disabled selected value>Day</option>
                                                 <?php
                                                 for ($i = 1; $i <= 31; $i++) {
@@ -691,7 +689,8 @@
                                                     <?php
                                                 }
                                                 ?>
-                                            </select>
+                                            </select></span>
+                                            <span>
                                             <select tabindex="10" class="month" name="selmonth" id="selmonth">
                                                 <option value="" disabled selected value>Month</option>
                                                 //<?php
@@ -714,7 +713,8 @@
 //                  }
 //                  
                                                 ?>
-                                            </select>
+                                            </select></span>
+                                            <span>
                                             <select tabindex="11" class="year" name="selyear" id="selyear">
                                                 <option value="" disabled selected value>Year</option>
                                                 <?php
@@ -726,16 +726,16 @@
                                                 ?>
 
                                             </select>
-
+                                        </span>
                                         </div>
                                         <div class="dateerror" style="color:#f00; display: block;"></div>
 
                                         <div class="form-group gender-custom">
-                                            <select tabindex="12" class="gender"  onchange="changeMe(this)" name="selgen" id="selgen">
+                                            <span><select tabindex="12" class="gender"  onchange="changeMe(this)" name="selgen" id="selgen">
                                                 <option value="" disabled selected value>Gender</option>
                                                 <option value="M">Male</option>
                                                 <option value="F">Female</option>
-                                            </select>
+                                            </select></span>
                                         </div>
 
                                         <p class="form-text">
@@ -756,13 +756,10 @@
         <!-- register -->
 
 <!-- script for skill textbox automatic start-->
-<script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery.highlite.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
- <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.js?ver='.time()); ?>"></script>
+<!--<script src="<?php //echo base_url('assets/js/jquery-ui.min.js?ver='.time()); ?>"></script>-->
+
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
+ <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.js?ver='.time()); ?>"></script>
 
 <script>
     var base_url = '<?php echo base_url(); ?>';
@@ -774,6 +771,6 @@
     var csrf_hash='<?php echo $this->security->get_csrf_hash(); ?>';
 </script>
 
-  <script type="text/javascript" src="<?php echo base_url('js/webpage/job/recruiter_post_login.js'); ?>"></script>
+  <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/recruiter_post_login.js'); ?>"></script>
 </body>
 </html>

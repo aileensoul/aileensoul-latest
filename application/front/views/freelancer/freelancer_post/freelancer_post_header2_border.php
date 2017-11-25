@@ -76,7 +76,7 @@
                                                     <!-- <div class="content mCustomScrollbar light notifications" id="notification_main_in" data-mcs-theme="minimal-dark"> -->
                                                     <div>
                                                         <ul class="notification_data_in_h2">
-                                                            <div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver=' . time()) ?>" /></div>  
+                                                            <div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) ?>" /></div>  
                                                         </ul>
                                                     </div>
 
@@ -128,7 +128,7 @@
     </div>
     <!-- Model Popup Close -->
 
-    <script src="<?php echo base_url('js/bootstrap.min.js?ver=' . time()); ?>"></script>
+    <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script>
 
 
     <script type="text/javascript">
@@ -177,7 +177,7 @@
     </script>
     <!-- all popup close close using esc end -->
 
-    <script type="text/javascript">
+<!--    <script type="text/javascript">
     $(document).ready(function() {
 var images = new Array()
             function preload(image) {
@@ -190,14 +190,14 @@ var images = new Array()
             preload(
                     
                   
-                      '<?php echo base_url(); ?>img/h3.png',
-                      '<?php echo base_url(); ?>img/index.png',
-                      '<?php echo base_url(); ?>img/edit_profile.png',
+                      <?php echo base_url('assets/img/h3.png'); ?>,
+                      <?php echo base_url('assets/img/index.png'); ?>,
+                      <?php echo base_url('assets/img/edit_profile.png'); ?>,
 
                    
             )
 });
-</script>
+</script>-->
 
     <script type="text/javascript" charset="utf-8">
 
@@ -224,7 +224,7 @@ var images = new Array()
         {
             $.ajax({
                 type: "GET",
-                url: "<?php echo base_url(); ?>notification/select_msg_noti/3",
+                url: "<?php echo base_url(); ?>notification/select_msg_noti/5",
 
                 async: true,
                 cache: false,
@@ -300,7 +300,7 @@ var images = new Array()
                     $('#seemsg').html(data.seeall);
                     setTimeout(
                             chatmsg,
-                            100000
+                            100
                             );
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {

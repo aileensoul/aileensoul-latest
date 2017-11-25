@@ -2,9 +2,10 @@
 <html lang="en" class="custom-main">
     <head>
         <title>Build Career in Business, Freelancing, Job & Art with Aileensoul.com</title>
+        <meta name="description" content="Aileensoul provides completely free platform for career-related services, such as job, hiring, freelancing, business networking, artistic and much more.">
         <meta property="og:title" content="Build Career in Business, freelancing, Job & Art with Aileensoul.com" />
-        <meta property="og:description" content="Aileensoul.com is the free platform where you can grow business, hire employees, freelancers & artists. Also find job, freelance work & artistic opportunities."/>
-        <meta property="og:image" content="<?php echo base_url('images/meta-icon.png'); ?>" />
+        <meta property="og:description" content="Aileensoul provides completely free platform for career-related services, such as job, hiring, freelancing, business networking, artistic and much more."/>
+        <meta property="og:image" content="<?php echo base_url('assets/images/meta-icon.png'); ?>" />
         <?php
         if($_SERVER['HTTP_HOST'] != "localhost"){
         ?>
@@ -30,58 +31,27 @@
         <?php
         }
         ?>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!--        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({
                 google_ad_client: "ca-pub-6060111582812113",
                 enable_page_level_ads: true
             });
-        </script>
+        </script>-->
         <meta name="p:domain_verify" content="d0a13cf7576745459dc0ca6027df5513"/>
-        <link rel="icon" href="<?php echo base_url('images/favicon.png?ver=' . time()); ?>">
+        <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, 
               minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/common-style.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style-main.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/sprite_img.css?ver=' . time()); ?>">
-        <script type="text/javascript" src="<?php echo base_url('js/jquery-3.2.1.min.js?ver=' . time()); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/bootstrap.min.js?ver=' . time()); ?>"></script> 
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/common-style.css?ver=' . time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style-main.css?ver=' . time()); ?>">
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js?ver=' . time()); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script> 
         
-        <!-- Facebook Pixel Code -->
-        <script>
-                    !function (f, b, e, v, n, t, s)
-                    {
-                        if (f.fbq)
-                            return;
-                        n = f.fbq = function () {
-                            n.callMethod ?
-                                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-                        };
-                        if (!f._fbq)
-                            f._fbq = n;
-                        n.push = n;
-                        n.loaded = !0;
-                        n.version = '2.0';
-                        n.queue = [];
-                        t = b.createElement(e);
-                        t.async = !0;
-                        t.src = v;
-                        s = b.getElementsByTagName(e)[0];
-                        s.parentNode.insertBefore(t, s)
-                    }(window, document, 'script',
-                            'https://connect.facebook.net/en_US/fbevents.js');
-                    fbq('init', '1322241531218358');
-                    fbq('track', 'PageView');
-        </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=1322241531218358&ev=PageView&noscript=1"
-                   /></noscript>
-    <!-- End Facebook Pixel Code -->
 </head>
-<body>
-    <script type="application/ld+json">
+<body class="custom-landscape">
+<!--    <script type="application/ld+json">
         {
         "@context": "http://schema.org",
         "@type": "Organization",
@@ -95,7 +65,7 @@
         "https://plus.google.com/+Aileensoul",
         ]
         }
-    </script>
+    </script>-->
     <div class="main-login">
         <header>
             <div class="container">
@@ -113,8 +83,8 @@
                                 <input type="password" tabindex="2" name="password_login" id="password_login" class="form-control input-sm" placeholder="Password">
                             </div>
                             <div class="btn-right">
-                                <button id="login-new" tabindex="2" class="btn1">Login</button>
-                                <a tabindex="4" id="myBtn" class="f-pass" href="javascript:void(0)">Forgot Password?</a>
+                                <button id="login-new" title="Login" tabindex="2" class="btn1">Login</button>
+                                <a tabindex="4" id="myBtn"  class="f-pass" href="javascript:void(0)" title="Forgot Password">Forgot Password?</a>
                             </div>
                         </form>
                     </div>
@@ -138,7 +108,7 @@
                                     <div class="carousel-inner" role="listbox">
                                         <div class="item active">  
                                             <div class="carousel-caption">
-                                                <img src="<?php echo base_url('img/job1.png?ver=' . time()); ?>" alt="Job Profile">
+                                                <img src="<?php echo base_url('assets/img/job1.png?ver=' . time()); ?>" alt="Job Profile">
                                                 <div class="carousel-text">
                                                     <h3>Job Profile</h3>
                                                     <p>Find best job options and connect with recruiters.</p>
@@ -147,7 +117,7 @@
                                         </div>
                                         <div class="item"> 
                                             <div class="carousel-caption">
-                                                <img src="<?php echo base_url('img/rec.png?ver=' . time()); ?>" alt="Recruiter">
+                                                <img src="<?php echo base_url('assets/img/rec.png?ver=' . time()); ?>" alt="Recruiter">
                                                 <div class="carousel-text">
                                                     <h3>Recruiter Profile</h3>
                                                     <p>Hire quality employees here.</p>
@@ -156,7 +126,7 @@
                                         </div>
                                         <div class="item"> 
                                             <div class="carousel-caption">
-                                                <img src="<?php echo base_url('img/freelancer.png?ver=' . time()); ?>" alt="Freelancer">
+                                                <img src="<?php echo base_url('assets/img/freelancer.png?ver=' . time()); ?>" alt="Freelancer">
                                                 <div class="carousel-text">
                                                     <h3>Freelance Profile</h3>
                                                     <p>Hire freelancers and also find freelance work.</p>
@@ -165,7 +135,7 @@
                                         </div>
                                         <div class="item"> 
                                             <div class="carousel-caption">
-                                                <img src="<?php echo base_url('img/business.png?ver=' . time()); ?>" alt="Business">
+                                                <img src="<?php echo base_url('assets/img/business.png?ver=' . time()); ?>" alt="Business">
                                                 <div class="carousel-text">
                                                     <h3>Business Profile</h3>
                                                     <p>Grow your business network.</p>
@@ -174,7 +144,7 @@
                                         </div>
                                         <div class="item"> 
                                             <div class="carousel-caption">
-                                                <img src="<?php echo base_url('img/art.png?ver=' . time()); ?>" alt="Artistic">
+                                                <img src="<?php echo base_url('assets/img/art.png?ver=' . time()); ?>" alt="Artistic">
                                                 <div class="carousel-text">
                                                     <h3>Artistic Profile</h3>
                                                     <p> Show your art & talent to the world.</p>
@@ -186,7 +156,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5 col-sm-6">
+                        <div class="col-md-5 col-sm-6 custom-padd">
                             <div class="login">
                                 <h4>Join Aileensoul - It's Free</h4>
                                 <form role="form" name="register_form" id="register_form" method="post">
@@ -211,6 +181,7 @@
                                     </div>
                                     <div class="form-group dob">
                                         <label class="d_o_b"> Date Of Birth :</label>
+                                        <span>
                                         <select tabindex="9" class="day" name="selday" id="selday">
                                             <option value="" disabled selected value>Day</option>
                                             <?php
@@ -221,6 +192,8 @@
                                             }
                                             ?>
                                         </select>
+                                        </span>
+                                        <span>
                                         <select tabindex="10" class="month" name="selmonth" id="selmonth">
                                             <option value="" disabled selected value>Month</option>
                                             <option value="1">Jan</option>
@@ -236,6 +209,8 @@
                                             <option value="11">Nov</option>
                                             <option value="12">Dec</option>
                                         </select>
+                                        </span>
+                                        <span>
                                         <select tabindex="11" class="year" name="selyear" id="selyear">
                                             <option value="" disabled selected value>Year</option>
                                             <?php
@@ -245,22 +220,24 @@
                                                 <?php
                                             }
                                             ?>
-                                        </select>
+                                        </select></span>
                                     </div>
                                     <div class="dateerror" style="color:#f00; display: block;"></div>
                                     <div class="form-group gender-custom">
+                                       <span>
                                         <select tabindex="12" class="gender"  onchange="changeMe(this)" name="selgen" id="selgen">
                                             <option value="" disabled selected value>Gender</option>
                                             <option value="M">Male</option>
                                             <option value="F">Female</option>
                                         </select>
+                                        </span>
                                     </div>
                                     <p class="form-text">
                                         By Clicking on create an account button you agree our<br class="mob-none">
                                         <a href="<?php echo base_url('terms-and-condition'); ?>" title="Terms and Condition" tabindex="14" target="_blank">Terms and Condition</a> and <a tabindex="15" href="<?php echo base_url('privacy-policy'); ?>" title="Privacy policy" target="_blank">Privacy policy</a>.
                                     </p>
                                     <p>
-                                        <button id="create-acc-new" tabindex="13" class="btn1">Create an account</button>
+                                        <button id="create-acc-new" title="Create an account" tabindex="13" class="btn1">Create an account</button>
                                     </p>
                                 </form>
                             </div>
@@ -268,6 +245,19 @@
                     </div>
                 </div>
             </div>
+			<div style="opacity:0; position:absolute; left:0; top:0; pointer-events:none;">
+				<script type="text/javascript">
+						  ( function() {
+							if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+							var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":160,"height":600,"sid":"Chitika Default"};
+							var placement_id = window.CHITIKA.units.length;
+							window.CHITIKA.units.push(unit);
+							document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+						}());
+						</script>
+						<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+			</div>
+
             <div id="myModal" class="modal">
                 <div class="modal-content md-2">
                     <?php
@@ -290,16 +280,18 @@
                     <?php echo form_close(); ?>
                 </div>
             </div>
+
+            
         </section>
         <?php echo $login_footer ?>
     </div>
-    <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver=' . time()) ?>"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver=' . time()) ?>"></script>
+<!--    <script type="text/javascript">
                                             var loader = document.getElementById('adsense-loader');
                                             document.getElementById("adsense").appendChild(loader);
-    </script>
+    </script>-->
 
-    <div id="adsense-loader" style="display:block;">
+<!--    <div id="adsense-loader" style="display:block;">
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script type="text/javascript">
                                             (adsbygoogle = window.adsbygoogle || []).push({
@@ -307,7 +299,7 @@
                                                 enable_page_level_ads: true
                                             });
         </script>
-    </div>
+    </div>-->
     <script>
         var base_url = '<?php echo base_url(); ?>';
         var data = <?php echo json_encode($demo); ?>;
@@ -315,7 +307,7 @@
         var get_csrf_token_name = '<?php echo $this->security->get_csrf_token_name(); ?>';
         var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
     </script>
-    <script type="text/javascript" src="<?php echo base_url('js/webpage/main.js?ver=' . time()); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/main.js?ver=' . time()); ?>"></script>
 </body>
 </html>
 

@@ -112,9 +112,7 @@ class Common extends CI_Model {
 
     function select_data_by_condition($tablename, $contition_array = array(), $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '') {
 
-        //print_r($join_str);
-        //die();
-
+        $this->db->simple_query('SET SESSION group_concat_max_len=15000');
         $this->db->select($data);
 
         if (!empty($join_str)) {
@@ -611,17 +609,30 @@ class Common extends CI_Model {
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 
+    //old but latest
      function make_links($text, $class='content_link', $target='_blank'){ 
          return preg_replace('!((http\:\/\/|ftp\:\/\/|https\:\/\/)|www\.)([-a-zA-Z?-??-?0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?!ism','<a href="//$3" class="' . $class . '" target="'.$target.'">$1$3</a>', 
              $text);
      }
+// very old     
 //    function make_links($text, $class = 'content_link', $target = '_blank') {
 //        return preg_replace('!((http:\:\/\/|ftp\:\/\/|https:\:\/\/)|www\.)([-a-zA-Z?-??-?0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\'\,]*)?!ism', '<a href="//$1$3" class="' . $class . '" target="' . $target . '">$1$3</a>', $text);
 //    }
-    function rec_profile_links($text, $class='content_link', $target='_blank'){
-    return preg_replace('!(((f|ht)tp(s)?://)[-a-zA-Z?-??-?()0-9@:%_+.~#?&;//=]+)!i', '<a href="$1" class="' . $class . '" target="'.$target.'">$1</a>', $text);
+
+//    function make_links($comment) {
+//        return $string = auto_link($comment, 'both', TRUE);
+//    }
+
+    function rec_profile_links($text, $class = 'content_link', $target = '_blank') {
+        return preg_replace('!(((f|ht)tp(s)?://)[-a-zA-Z?-??-?()0-9@:%_+.~#?&;//=]+)!i', '<a href="$1" class="' . $class . '" target="' . $target . '">$1</a>', $text);
+    }
+   // for remove unexpected special character from slug 
+  public function clean($string) { 
+      
+   $string = str_replace(' ', '-', $string);  // Replaces all spaces with hyphens.
+   $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // replace double --- in single -
+  
+   return preg_replace('/-+/', '-', $string); // Removes special chars.
 }
-
-
 
 }

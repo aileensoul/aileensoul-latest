@@ -3,11 +3,17 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
+         <?php
+        if (IS_REC_CSS_MINIFY == '0') {
+            ?>
+           <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/jquery.fancybox.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/recruiter/rec_common_header.min.css?ver=' . time()); ?>">
+        <?php } ?>
     </head>
     <body class="page-container-bg-solid page-boxed pushmenu-push">
         <?php echo $header; ?>
@@ -17,7 +23,12 @@
         <div id="preloader"></div>
         <!-- START CONTAINER -->
         <section>
-            <div class="user-midd-section" id="paddingtop_fixed">
+               <?php if ($recdata[0]['re_step'] == 3) { ?>
+            
+            <div class="user-midd-section" id="paddingtop_fixed" >
+                    <?php }else{ ?>
+                <div class="user-midd-section" id="paddingtop_make_fixed">
+                    <?php } ?>
                 <div class="common-form1">
                     <div class="col-md-3 col-sm-4"></div>
 
@@ -98,7 +109,7 @@
                                 <?php echo form_error('comp_email'); ?>
 
                                 <fieldset <?php if ($comp_num) { ?> class="error-msg" <?php } ?>>
-                                    <label>Company Number:</label>
+                                    <label>Company Number:<span class="optional">(optional)</span></label>
                                     <input name="comp_num"  type="text" id="comp_num" tabindex="3" placeholder="Enter Comapny Number" value="<?php
                                     if ($compnum) {
                                         echo $compnum;
@@ -108,7 +119,7 @@
                                 <?php echo form_error('comp_num'); ?>
 
                                 <fieldset>
-                                    <label>Company Website:</span></label>        
+                                    <label>Company Website:<span class="optional">(optional)</span></span></label>        
                                     <input name="comp_site"  type="url" id="comp_url" tabindex="4" placeholder="Enter Comapny Website" value="<?php
                                     if ($compweb) {
                                         echo $compweb;
@@ -204,7 +215,7 @@
 
 
                                 <fieldset class="full-width">
-                                    <label for="country-suggestions">Sector/Skill You hire for:</span></label>
+                                    <label for="country-suggestions">Sector/Skill You hire for:<span class="optional">(optional)</span></span></label>
 
 
                                     <textarea name ="comp_sector" id="comp_sector" rows="4" cols="50" tabindex="8" placeholder=" Ex.php, java, information technology ,automobile ,construction" style="resize: none;"><?php
@@ -216,7 +227,7 @@
                                 </fieldset>
 
                                 <fieldset <?php if ($comp_profile) { ?> class="error-msg" <?php } ?> class="full-width">
-                                    <label>Company Profile:<!-- <span style="color:red">*</span> -->
+                                    <label>Company Profile:<span class="optional">(optional)</span><!-- <span style="color:red">*</span> -->
 
                                         <textarea tabindex="9" name ="comp_profile" id="comp_profile" rows="4" cols="50" placeholder="Enter Company Profile" style="resize: none;"><?php
                                             if ($comp_profile1) {
@@ -229,7 +240,7 @@
 
 
                                 <fieldset <?php if ($other_activities) { ?> class="error-msg" <?php } ?> class="full-width">
-                                    <label>Other activities:<!-- <span style="color:red">*</span> --></label>
+                                    <label>Other activities:<!-- <span style="color:red">*</span> --><span class="optional">(optional)</span></label>
 
 
                                     <textarea name ="other_activities" tabindex="10" id="other_activities" rows="4" cols="50" placeholder="Enter Other Activities" style="resize: none;"><?php
@@ -240,7 +251,7 @@
 
                                 </fieldset>
                                 <fieldset id="logo_remove">
-                                    <label>Company Logo:</label>
+                                    <label>Company Logo:<span class="optional">(optional)</span></label>
                                     <input  type="file" name="comp_logo" tabindex="11" id="comp_logo" class="comp_logo" placeholder="Company Logo" multiple="" onchange=" return comlogo();" />
 
                                     <div id="com_logo" class="com_logo" style="color:#f00; display: block;"></div>
@@ -268,14 +279,7 @@
                                 }
                                 ?>
 
-                                <fieldset>
-
-                                    <input type="hidden" name="image_hidden_logo" value="<?php
-                                    if ($complogo1) {
-                                        echo $complogo1;
-                                    }
-                                    ?>">
-                                </fieldset>
+                               
 
                                 <fieldset class="hs-submit full-width">
 
@@ -296,17 +300,38 @@
             </div>
         </section>
         <!-- END CONTAINER -->
+
+         <!-- Bid-modal  --> 
+      <div class="modal fade message-box biderror custom-message in" id="bidmodal" role="dialog"  >
+         <div class="modal-dialog modal-lm" >
+            <div class="modal-content message">
+               <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
+               <div class="modal-body">
+                  <span class="mes"></span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Model Popup Close -->
+
         <!-- BEGIN FOOTER -->
+        <?php echo $login_footer ?>
         <?php echo $footer; ?>
         <!-- END FOOTER -->
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js') ?>"></script>
-        <script src="<?php echo base_url('js/jquery.fancybox.js'); ?>"></script>
+        
+       
+ <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+         <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js') ?>"></script>
+        <script src="<?php echo base_url('assets/js/jquery.fancybox.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/bootstrap_validate.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
 
         <script>
             var base_url = '<?php echo base_url(); ?>';
@@ -316,7 +341,17 @@
             var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/search.js'); ?>"></script>
-       <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/company_info.js'); ?>"></script>
+         <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+    <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/search.js'); ?>"></script>
+       <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/company_info.js'); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/webpage/recruiter/rec_company_info.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+      
+       
     </body>
 </html>

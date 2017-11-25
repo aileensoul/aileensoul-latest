@@ -3,17 +3,12 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
 
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css'); ?>">  
         <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-3.min.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-        <link rel="stylesheet" href="css/jquery.fancybox.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css'); ?>">
+       
+       <!--  <link rel="stylesheet" href="css/jquery.fancybox.css"> -->
     </head>
     <body class="page-container-bg-solid page-boxed pushmenu-push">
         <?php echo $header; ?>
@@ -193,7 +188,7 @@
                                          <div class = "job-contact-frnd">
                                        <!--AJAX DATA START FOR RECOMMAND CANDIDATE-->
                                          </div>
-                                       <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                                       <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                                     </div>
                         </div>
                     </div>
@@ -214,7 +209,7 @@
                   <span class="mes">
                      <div id="popup-form">
 
-                        <div class="fw" id="profi_loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                        <div class="fw" id="profi_loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                      <form id ="userimage" name ="userimage" class ="clearfix" enctype="multipart/form-data" method="post">
                                     <div class="col-md-5">
                                         <input type="file" name="profilepic" accept="image/gif, image/jpeg, image/png" id="upload-one" >
@@ -234,20 +229,21 @@
       </div>
      <!--PROFILE PIC MODEL END-->
         <!-- START FOOTER -->
-        <footer>
+        <!-- <footer> -->
+            <?php echo $login_footer ?> 
 <?php echo $footer; ?>
-        </footer>
+        <!-- </footer> -->
         <!-- END FOOTER -->
 
 
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>  
+        
+        
+        
+          
         <script src="<?php echo base_url('assets/js/croppie.js'); ?>"></script>  
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.fancybox.js'); ?>"></script>
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+       <!--  <script type="text/javascript" src="<?php// echo base_url('assets/js/jquery.fancybox.js'); ?>"></script> -->
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
        
         <script>
                   var base_url = '<?php echo base_url(); ?>';
@@ -256,7 +252,7 @@
         </script>
 
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/job/recruiter_post.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/recruiter_post.js'); ?>"></script>
     </body>
 </html>

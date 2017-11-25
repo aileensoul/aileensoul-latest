@@ -7,12 +7,8 @@
 
       <title><?php echo $title; ?></title>
 
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-      <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css?ver='.time()); ?>">
-      <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()); ?>" />
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
    </head>
    <!-- END HEAD -->
    <!-- Start HEADER -->
@@ -75,7 +71,11 @@
                         $image = $this->common->select_data_by_condition('job_reg', $contition_array, $data = 'profile_background', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
                         
                         $image_ori = $image[0]['profile_background'];
-                        if ($image_ori) {
+                        
+                         $filename = $this->config->item('job_bg_main_upload_path') . $image[0]['profile_background'];
+                         $s3 = new S3(awsAccessKey, awsSecretKey);
+                         $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                        if ($info && $image[0]['profile_background'] != '') {
                             ?>
                            <img src = "<?php echo JOB_BG_MAIN_UPLOAD_URL . $image[0]['profile_background']; ?>" name="image_src" id="image_src" />
                    
@@ -102,7 +102,10 @@
             <div class="profile-photo">
                <div class="profile-pho">
                   <div class="user-pic padd_img">
-                     <?php if ($job[0]['job_user_image'] != '') { ?>
+                     <?php  $filename = $this->config->item('job_profile_thumb_upload_path') . $job[0]['job_user_image'];
+                         $s3 = new S3(awsAccessKey, awsSecretKey);
+                         $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                      if ($job[0]['job_user_image'] != '' && $info) { ?>
                      <img src="<?php echo JOB_PROFILE_THUMB_UPLOAD_URL . $job[0]['job_user_image']; ?>" alt="" >
                      <?php } else { ?>
                      <?php
@@ -124,7 +127,7 @@
                      </div>
                      <?php } ?>
                      <?php if ($returnpage == '') { ?>
-                     <a href="javascript:void(0);" class="cusome_upload" onclick="updateprofilepopup();"><img  src="<?php echo base_url(); ?>img/cam.png"> Update Profile Picture</a>
+                     <a href="javascript:void(0);" class="cusome_upload" onclick="updateprofilepopup();"><img  src="<?php echo base_url(); ?>assets/img/cam.png"> Update Profile Picture</a>
                      <?php } ?>
                   </div>
                </div>
@@ -387,7 +390,7 @@
                                               {
                                           ?>
                                        <li> <b>Gender</b><span>  
-                                          <?php echo $job[0]['gender']; ?>
+                                          <?php echo ucfirst($job[0]['gender']); ?>
                                           </span>
                                        </li>
                                        <?php
@@ -405,7 +408,7 @@
                                           <?php 
                                              if($job[0]['gender'])
                                              {
-                                                   echo $job[0]['gender']; 
+                                                   echo ucfirst($job[0]['gender']); 
                                              }
                                              else
                                               echo PROFILENA;
@@ -580,11 +583,11 @@
                                              $ext = explode('.', $job_add_edu[0]['edu_certificate_primary']);
                                              if ($ext[1] == 'pdf') {
                                              ?>
-                                          <a title="open pdf" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_primary'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
+                                          <a title="open pdf" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_primary'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
                                           <?php
                                              } else {
                                              ?>
-                                          <a class="example-image-link" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_primary'] ?>" data-lightbox="example-1">certificate </a>
+                                          <a class="example-image-link" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_primary'] ?>" data-lightbox="example-1">certificate </a>
                                           <?php
                                              }//else complete
                                              }//if ($job_add_edu[0]['edu_certificate_primary']) complete
@@ -626,11 +629,11 @@
                                               $ext = explode('.', $job_add_edu[0]['edu_certificate_secondary']);
                                               if ($ext[1] == 'pdf') {
                                              ?>
-                                          <a title="open pdf" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_secondary'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
+                                          <a title="open pdf" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_secondary'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
                                           <?php
                                              } else {
                                              ?>
-                                          <a class="example-image-link" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_secondary'] ?>" data-lightbox="example-1">certificate </a>
+                                          <a class="example-image-link" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_secondary'] ?>" data-lightbox="example-1">certificate </a>
                                           <?php
                                              }
                                              }
@@ -673,11 +676,11 @@
                                                  $ext = explode('.', $job_add_edu[0]['edu_certificate_higher_secondary']);
                                                  if ($ext[1] == 'pdf') {
                                              ?>
-                                          <a title="open pdf" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_higher_secondary'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
+                                          <a title="open pdf" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_higher_secondary'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
                                           <?php
                                              } else {
                                              ?>
-                                          <a class="example-image-link" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_higher_secondary'] ?>" data-lightbox="example-1">certificate </a>
+                                          <a class="example-image-link" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $job_add_edu[0]['edu_certificate_higher_secondary'] ?>" data-lightbox="example-1">certificate </a>
                                           <?php
                                              }
                                              }
@@ -785,11 +788,11 @@
                                                 $ext = explode('.', $graduation['edu_certificate']);
                                                                                           if ($ext[1] == 'pdf') {
                                                                                       ?>
-                                             <a title="open pdf" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $graduation['edu_certificate'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
+                                             <a title="open pdf" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $graduation['edu_certificate'] ?>"><i class="fa fa-file-pdf-o fa-2x" style="color: red; padding-left: 8px; padding-top: 10px; padding-bottom: 10px; position: relative;" aria-hidden="true"></i></a>
                                              <?php
                                                 } else {
                                                 ?>
-                                             <a class="example-image-link" href="<?php echo job_add_edu_MAIN_UPLOAD_URL . $graduation['edu_certificate'] ?>" data-lightbox="example-1">certificate <?php echo $new; ?></a>
+                                             <a class="example-image-link" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $graduation['edu_certificate'] ?>" data-lightbox="example-1">certificate <?php echo $new; ?></a>
                                              <?php
                                                 }
                                                 ?>
@@ -1235,6 +1238,33 @@
                                              </ul>
                                           </div>
                                        </div>
+                                         <div class="profile-job-profile-menu">                          
+                                        <ul class="clearfix">
+                                           <?php   if($job[0]['experience'] == 'Experience'){ ?>
+                                          <li> <b> Total Experience</b> <span><?php  if($job[0]['exp_y'] != " " && $job[0]['exp_m'] != " "){ 
+                                         if ($job[0]['exp_m'] == '12 month' && $job[0]['exp_y'] == '0 year') {
+                                                    echo "1 year";
+                                                } else {
+                                                  
+                                                if($job[0]['exp_y'] != '0 year'){
+                                                    echo $job[0]['exp_y'];
+                                                }
+                                                    if ($job[0]['exp_m'] != '0 month') {
+                                                        echo ' ' . $job[0]['exp_m'];
+                                                        
+                                                    } 
+                                                }
+                                             } ?> </span>
+                                          </li>
+                                         <?php } ?>
+                                       </ul>
+                                     </div>
+
+
+
+
+
+
                                        <div class="profile-job-profile-menu">
                                           <ul class="clearfix">
                                              <div class="text-center">
@@ -1266,6 +1296,8 @@
                                              <b> Total Experience </b>
                                              <span>
                                              <?php
+                                             
+                                             if($job[0]['exp_y'] == " " && $job[0]['exp_m'] == " "){
                                                 $total_work_year = 0;
                                                 $total_work_month = 0;
                                                 foreach ($job_work as $work1) {
@@ -1303,6 +1335,20 @@
                                                     }
                                                 } 
                                                 }
+                                    }else{
+                                        if ($userdata[0]['exp_m'] == '12 month' && $userdata[0]['exp_y'] == '0 year') {
+                                                    echo "1 year";
+                                                } else {
+                                                  
+                                                if($userdata[0]['exp_y'] != '0 year'){
+                                                    echo $userdata[0]['exp_y'];
+                                                }
+                                                    if ($userdata[0]['exp_m'] != '0 month') {
+                                                        echo ' ' . $userdata[0]['exp_m'];
+                                                        
+                                                    } 
+                                                }
+                                    }
                                                 ?> 
                                              </span>
                                           </li>
@@ -1423,7 +1469,7 @@
                                                 <?php
                                                    } else {
                                                        ?>
-                                                <a class="example-image-link" href="<?php echo JOB_WORK_MAIN_UPLOAD_URL . $work['work_certificate'] ?>" data-lightbox="example-1">certificate</a>
+                                                <a class="example-image-link" href="<?php echo JOB_EDU_MAIN_UPLOAD_URL . $work['work_certificate'] ?>" data-lightbox="example-1">certificate</a>
                                                 <?php
                                                    }
                                                    ?>
@@ -1566,11 +1612,11 @@
                   <span class="mes">
                      <div id="popup-form">
 
-                     <div class="fw" id="loader_popup"  style="text-align:center; display:none;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                     <div class="fw" id="loader_popup"  style="text-align:center; display:none;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
 
                      <form id ="userimage" name ="userimage" class ="clearfix" enctype="multipart/form-data" method="post">
 
-                        <div class="col-md-5">
+                        <div class="fw">
                                  <input type="file" name="profilepic" accept="image/gif, image/jpeg, image/png" id="upload-one">
                         </div>
 
@@ -1602,22 +1648,21 @@
       </div>
       <!-- Model Popup Close -->
 
-<footer>        
+<!-- <footer>   -->   
+<?php echo $login_footer ?>   
 <?php echo $footer;  ?>
-</footer>
+<!-- </footer> -->
 
       <!-- script for skill textbox automatic start-->
-      <script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-      <script src="<?php echo base_url('js/jquery-ui.min.js?ver='.time()); ?>"></script>
-      <script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-      <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
+      <!--<script src="<?php //echo base_url('assets/js/jquery-ui.min.js?ver='.time()); ?>"></script>-->
+    
       <script src="<?php echo base_url('assets/js/croppie.js?ver='.time()); ?>"></script> 
       <!-- script for skill textbox automatic end (option 2)-->
-      <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
-      <script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/raphael-min.js
-         ?ver='.time()); ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/progressloader.js?ver='.time()); ?>"></script>
+      <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
+      <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
+<!--      <script type="text/javascript" src="<?php //echo base_url('assets/js/raphael-min.js
+        // ?ver='.time()); ?>"></script>-->
+      <script type="text/javascript" src="<?php echo base_url('assets/js/progressloader.js?ver='.time()); ?>"></script>
 
       <script>
          var base_url = '<?php echo base_url(); ?>';
@@ -1625,10 +1670,10 @@
          var count_profile='<?php echo $count_profile;?>';
       </script>
 
-      <script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_printpreview.js?ver='.time()); ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/webpage/job/cover_profile_common.js?ver='.time()); ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/webpage/job/progressbar_common.js?ver='.time()); ?>"></script>
+      <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_printpreview.js?ver='.time()); ?>"></script>
+      <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/cover_profile_common.js?ver='.time()); ?>"></script>
+      <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+      <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/progressbar_common.js?ver='.time()); ?>"></script>
       
    </body>
 </html>

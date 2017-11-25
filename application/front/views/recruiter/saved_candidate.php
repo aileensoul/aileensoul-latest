@@ -3,12 +3,16 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css?ver='.time()); ?>" />
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
+       <?php
+        if (IS_REC_CSS_MINIFY == '0') {
+            ?>
+           <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/recruiter/rec_common_header.min.css?ver=' . time()); ?>">
+        <?php } ?>
     </head>
     <body class="page-container-bg-solid page-boxed pushmenu-push">
         <?php echo $header; ?>
@@ -64,12 +68,14 @@
                         }
                         $contition_array = array('user_id' => $user_id, 'is_delete' => '0', 're_status' => '1');
                         $image = $this->common->select_data_by_condition('recruiter', $contition_array, $data = 'profile_background', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
-                        $image_ori = $this->config->item('rec_bg_main_upload_path') . $image[0]['profile_background'];
-                        if (file_exists($image_ori) && $image[0]['profile_background'] != '') {
+                          $image_ori = $image[0]['profile_background'];
+                         $filename = $this->config->item('rec_bg_main_upload_path') . $image[0]['profile_background'];
+                         $s3 = new S3(awsAccessKey, awsSecretKey);
+                         $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                        if ($info && $image[0]['profile_background'] != '') {
                             ?>
-
-                            <img src="<?php echo base_url($this->config->item('rec_bg_main_upload_path') . $image[0]['profile_background']); ?>" name="image_src" id="image_src" / >
-                            <?php
+                           <img src = "<?php echo REC_BG_MAIN_UPLOAD_URL . $image[0]['profile_background']; ?>" name="image_src" id="image_src" />
+                     <?php
                         } else {
                             ?>
 <div class="bg-images no-cover-upload">
@@ -101,11 +107,11 @@
                     <!--PROFILE PIC CODE START-->
                     <div class="profile-pho">
                         <div class="user-pic padd_img">
-                            <?php
-                            $imageee = $this->config->item('rec_profile_thumb_upload_path') . $recdata[0]['recruiter_user_image'];
-                            if (file_exists($imageee) && $recdata[0]['recruiter_user_image'] != '') {
-                                ?>
-                                <img src="<?php echo base_url($this->config->item('rec_profile_thumb_upload_path') . $recdata[0]['recruiter_user_image']); ?>" alt="" >
+                                   <?php  $filename = $this->config->item('rec_profile_thumb_upload_path') . $recdata[0]['recruiter_user_image'];
+                         $s3 = new S3(awsAccessKey, awsSecretKey);
+                         $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                      if ($recdata[0]['recruiter_user_image'] != '' && $info) { ?>
+                     <img src="<?php echo REC_PROFILE_THUMB_UPLOAD_URL . $recdata[0]['recruiter_user_image']; ?>" alt="" >
                                 <?php
                             } else {
                                 $a = $recdata[0]['rec_firstname'];
@@ -120,7 +126,7 @@
                                 </div>
                             <?php } ?>
                             <?php if ($returnpage == '') { ?>
-                                <a class="cusome_upload" href="javascript:void(0);" onclick="updateprofilepopup();"><img src="<?php echo base_url(); ?>img/cam.png"> Update Profile Picture</a>
+                                <a class="cusome_upload" href="javascript:void(0);" onclick="updateprofilepopup();"><img src="<?php echo base_url(); ?>assets/img/cam.png"> Update Profile Picture</a>
                             <?php } ?>
                         </div>
                     </div>
@@ -195,7 +201,7 @@
             </div>
             <div  class="add-post-button mob-block">
                 <?php if ($returnpage == '') { ?>
-                    <a class="btn btn-3 btn-3b" style="background: -o-linear-gradient(top, rgba(248,48,125,1) 0%, rgba(27,138,185,1) 0%, rgba(190,199,202,1) 90%, rgba(204,204,204,1) 98%, rgba(242,230,235,1) 100%);" href="<?php echo base_url('recruiter/add-post'); ?>"><i class="fa fa-plus" aria-hidden="true"></i>  Post a Job</a>
+                    <a title="Post a Job" class="btn btn-3 btn-3b" style="background: -o-linear-gradient(top, rgba(248,48,125,1) 0%, rgba(27,138,185,1) 0%, rgba(190,199,202,1) 90%, rgba(204,204,204,1) 98%, rgba(242,230,235,1) 100%);" href="<?php echo base_url('recruiter/add-post'); ?>"><i class="fa fa-plus" aria-hidden="true"></i>  Post a Job</a>
                 <?php } ?>
             </div>
 
@@ -225,7 +231,7 @@
 
                     <div  class="add-post-button">
                         <?php if ($returnpage == '') { ?>
-                            <a class="btn btn-3 btn-3b" style="background: -o-linear-gradient(top, rgba(248,48,125,1) 0%, rgba(27,138,185,1) 0%, rgba(190,199,202,1) 90%, rgba(204,204,204,1) 98%, rgba(242,230,235,1) 100%);" href="<?php echo base_url('recruiter/add-post'); ?>"><i class="fa fa-plus" aria-hidden="true"></i>  Post a Job</a>
+                            <a title="Post a Job" class="btn btn-3 btn-3b" style="background: -o-linear-gradient(top, rgba(248,48,125,1) 0%, rgba(27,138,185,1) 0%, rgba(190,199,202,1) 90%, rgba(204,204,204,1) 98%, rgba(242,230,235,1) 100%);" href="<?php echo base_url('recruiter/add-post'); ?>"><i class="fa fa-plus" aria-hidden="true"></i>  Post a Job</a>
                         <?php } ?>
                     </div>
 
@@ -242,7 +248,7 @@
                                 <div class = "job-contact-frnd">
                                     <!--AJAX DATA START FOR RECOMMAND CANDIDATE-->
                                 </div>
-                                <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver=' . time()) ?>" /></div>
+                                <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) ?>" /></div>
                             </div>
 
                         </div>
@@ -254,7 +260,7 @@
         <!-- END CONTAINER -->
         
          <!--PROFILE PIC MODEL START-->
-      <div class="modal message-box" id="bidmodal-2" role="dialog">
+      <div class="modal fade message-box" id="bidmodal-2" role="dialog">
          <div class="modal-dialog modal-lm">
             <div class="modal-content">
                <button type="button" class="modal-close" data-dismiss="modal">&times;</button>      
@@ -262,9 +268,9 @@
                   <span class="mes">
                      <div id="popup-form">
 
-                        <div class="fw" id="profi_loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                        <div class="fw" id="profi_loader"  style="display:none;" style="text-align:center;" ><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                      <form id ="userimage" name ="userimage" class ="clearfix" enctype="multipart/form-data" method="post">
-                                    <div class="col-md-5">
+                                    <div class="fw">
                                         <input type="file" name="profilepic" accept="image/gif, image/jpeg, image/png" id="upload-one" >
                                     </div>
                                     
@@ -282,26 +288,28 @@
       </div>
      <!--PROFILE PIC MODEL END-->
         <!-- BEGIN FOOTER -->
+        <?php echo $login_footer ?>
         <?php echo $footer; ?>
         <!-- END FOOTER -->
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js') ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/additional-methods1.15.0.min.js'); ?>"></script>
-
-        <script src="<?php echo base_url('js/jquery.fancybox.js'); ?>"></script>
+        
+          <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+          <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js') ?>"></script>
+      
         <!-- THIS SCRIPT ALWAYS PUT UNDER FANCYBOX JS-->
         <script src="<?php echo base_url('assets/js/croppie.js?ver='.time()); ?>"></script>
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script> 
-
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script> 
         <!--SCRIPT FOR DATE START-->
-
-        <script src="<?php echo base_url('js/jquery.date-dropdowns.js'); ?>"></script>
-
+        <script src="<?php echo base_url('assets/js/jquery.date-dropdowns.js'); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/val_crop_boot_drop.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+        
+        
         <script>
                                 var base_url = '<?php echo base_url(); ?>';
                                 var data1 = <?php echo json_encode($de); ?>;
@@ -311,8 +319,17 @@
                                 var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/search.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/saved_candidate.js'); ?>"></script>
+        <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+          <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/search.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/saved_candidate.js'); ?>"></script>
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/recruiter/saved_candidate.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+      
 
 
         <style type="text/css">

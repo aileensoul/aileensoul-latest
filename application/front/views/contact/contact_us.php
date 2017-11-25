@@ -3,7 +3,7 @@
     <head>
         <title>Contact Us by filling given form</title>
         <meta name="description" content="Contact us for any concern and query regarding Aileensoul.com platform." />
-        <link rel="icon" href="<?php echo base_url('images/favicon.png'); ?>">
+        <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver='.time()); ?>">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <?php
@@ -31,11 +31,10 @@
         <?php
         }
         ?>
-        <link rel="stylesheet" href="css/common-style.css">
-        <link rel="stylesheet" href="css/style-main.css">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/jquery.fancybox.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script src="<?php echo base_url('js/jquery.fancybox.js'); ?>"></script>
+       <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/common-style.css?ver='.time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style-main.css?ver='.time()); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css?ver='.time()); ?>">
+       
     </head>
     <body class="contact">
         <div class="main-inner">
@@ -76,7 +75,7 @@
                                         <span class="red">*</span>All fields are mendatory
                                     </p>
                                     <p>
-                                        <button class="btn1">Submit</button>
+                                        <button title="Submit" class="btn1">Submit</button>
                                     </p>
                             </div>
                         </div>
@@ -86,12 +85,26 @@
     </section>
     <?php echo $login_footer; ?>
 </div>
+
+ <div class="modal fade message-box biderror" id="bidmodal" role="dialog"  >
+         <div class="modal-dialog modal-lm" >
+            <div class="modal-content">
+               <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
+               <div class="modal-body">
+                  <span class="mes"></span>
+               </div>
+            </div>
+         </div>
+      </div>
+
 <script>
     var base_url = '<?php echo base_url(); ?>';
     var get_csrf_token_name = '<?php echo $this->security->get_csrf_token_name(); ?>';
     var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
 </script>
-<script type="text/javascript" src="<?php echo base_url() ?>js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/contactus.js'); ?>"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/webpage/contactus.js?ver='.time()); ?>"></script>
 </body>
 </html>

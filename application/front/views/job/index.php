@@ -5,13 +5,10 @@
       <?php echo $head; ?>
       <title><?php echo $title; ?></title>
       <!-- Calender Css Start-->
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/jquery.datetimepicker.css?ver='.time()); ?>">
+      <!--<link rel="stylesheet" type="text/css" href="<?php // echo base_url('assets/css/jquery.datetimepicker.css?ver='.time()); ?>">-->
       <!-- Calender Css End-->
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
    </head>
    <!-- END HEAD -->
    <!-- start header -->
@@ -45,7 +42,7 @@
                      <div>
                         <?php
                            if ($this->session->flashdata('error')) {
-                               echo '<div class="alert alert-danger">' . $this->session->flashdata('error') . '</div>';
+                               echo '<div class="alert alert-success">' . $this->session->flashdata('error') . '</div>';
                            }
                            if ($this->session->flashdata('success')) {
                                echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
@@ -86,7 +83,7 @@
                               <?php echo form_error('email'); ?>
                            </fieldset>
                            <fieldset <?php if ($phnno) { ?> class="error-msg" <?php } ?>>
-                              <label>Phone Number :</label>
+                              <label>Phone Number :<span class="optional">(optional)</span></label>
                               <input type="text" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" name="phnno" id="phnno" tabindex="4" placeholder="Enter Phone Number" value="<?php if ($phnno1) {
                                  echo $phnno1;
                                  } ?>" maxlength="15" tabindex="4"/> <span id="phnno-error"> </span>
@@ -121,7 +118,7 @@
                               <?php echo form_error('city'); ?>
                            </fieldset>
                            <fieldset <?php if ($pincode_error) { ?> class="error-msg" <?php } ?>>
-                              <label>Pincode :<span class="red">*</span></label>
+                              <label>Pincode :<span class="optional">(optional)</span></label>
                               <input type="text" tabindex="10" name="pincode" id="pincode" placeholder="Enter Pincode" value="<?php
                                  if ($pincode1) {
                                      echo $pincode1;
@@ -130,7 +127,7 @@
                               <?php echo form_error('pincode'); ?>
                            </fieldset>
                            <fieldset class="full-width">
-                              <label>Postal Address: <span class="red">*</span> </label>
+                              <label>Postal Address:<span class="optional">(optional)</span></label>
                               <textarea name ="address" tabindex="11" id="address" rows="4" cols="50" placeholder="Enter Address" maxlength="4000" onfocus="var temp_value=this.value; this.value=''; this.value=temp_value" style="resize: none;" onpaste="OnPaste_StripFormatting(this, event);"><?php
                                  if ($address1) {
                                      echo $address1;
@@ -140,7 +137,7 @@
                            </fieldset>
                           
                            <fieldset class="hs-submit full-width">
-                              <input type="submit"  id="next" name="next" value="Save" tabindex="12">
+                              <input title="Save" type="submit"  id="next" name="next" value="Save" tabindex="12">
                            </fieldset>
                            </form>
                         </div>
@@ -152,22 +149,20 @@
          </div>
       </section>
       <!-- END CONTAINER -->
-<footer>        
+<!-- <footer>    -->
+<?php echo $login_footer ?>     
 <?php echo $footer;  ?>
-</footer>
+<!-- </footer> -->
 
-<!-- script for skill textbox automatic start -->
-<script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
-<!-- script for skill textbox automatic end -->
 
-<script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
+
+<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
 
 <!-- js for modal start-->
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
 <!-- js for modal end-->
 
-<script src="<?php echo base_url('js/jquery.date-dropdowns.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.date-dropdowns.js?ver='.time()); ?>"></script>
 
 <script>
 var base_url = '<?php echo base_url(); ?>';
@@ -177,8 +172,8 @@ var  date_picker_edit='<?php echo date('Y-m-d',strtotime($dob1));?>';
 </script>
 
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/index.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/index.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
 
 </body>
 </html>

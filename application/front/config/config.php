@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 if ($_SERVER['HTTP_HOST'] == "localhost") {
-    $config['base_url'] = 'http://localhost/aileensoul-latest/';
+    $config['base_url'] = 'http://localhost/aileensoul-new/';
 } else {
     $config['base_url'] = 'https://www.aileensoul.com/';
 }
@@ -377,7 +377,7 @@ $config['encryption_key'] = 'CIPAMA';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
+$config['sess_cookie_name'] = 'aileensoul_front_session';
 //$config['sess_expiration'] = 7200;
 //$config['sess_expiration'] = (60*60*24*365*10);
 $config['sess_expiration'] = 315360000;
@@ -762,8 +762,8 @@ $config['bus_bg_main_max_height'] = '3000';
 
 // BUSINESS PROFILE BACKGROUND THUMBS
 $config['bus_bg_thumb_upload_path'] = 'uploads/business_bg/thumbs/';
-$config['bus_bg_thumb_width'] = '305'; //400
-$config['bus_bg_thumb_height'] = '110'; //150
+$config['bus_bg_thumb_width'] = '450'; //400
+$config['bus_bg_thumb_height'] = '130'; //150
 
 // BUSINESS PROFILE BACKGROUND ORIGINAL
 $config['bus_bg_original_upload_path'] = 'uploads/business_bg/original/';
@@ -899,3 +899,5 @@ $config['blog_main_max_height'] = '5000';
 $config['blog_thumb_upload_path'] = 'uploads/blog/thumbs/';
 $config['blog_thumb_width'] = '150';
 $config['blog_thumb_height'] = '150';
+
+

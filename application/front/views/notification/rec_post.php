@@ -132,14 +132,9 @@ echo $head;
 </style>
 
 <!--post save success pop up style end -->
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
 
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css'); ?>">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap-3.min.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-<script src="<?php echo base_url('js/fb_login.js'); ?>"></script>
+
 
 <style type="text/css" media="screen">
     #row2 { overflow: hidden; width: 100%; }
@@ -412,7 +407,10 @@ echo $head;
                                                 </li>
                                                 <li>
                                                     <a href="#" title="Post Title"  style="font-size: 19px;font-weight: 600;cursor:default;">
-                                                        <?php echo $post['post_name'] ?> </a>     </li>
+                                                        <?php 
+                                                $post_title =  $this->db->select('name')->get_where('job_title', array('title_id' => $post['post_name']))->row()->name;
+                                                        
+                                                        echo $post_title ?> </a>     </li>
                                                 <li>   
                                                     <div class="fr lction">
                                                     <?php $cityname = $this->db->get_where('cities', array('city_id' => $post['city']))->row()->city_name; ?>
@@ -574,7 +572,6 @@ echo $head;
                 </body>
 
             </html>
-            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> --> 
 
 
 
@@ -582,11 +579,10 @@ echo $head;
             <!-- script for skill textbox automatic end (option 2)-->
 
 
-            <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-            <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-            <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-            <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+            
+            
+            
+            
 
 
 
@@ -595,9 +591,7 @@ echo $head;
 
 
             <script src="<?php echo base_url('assets/js/croppie.js'); ?>"></script>
-            <link rel="stylesheet" href="<?php echo base_url('assets/css/croppie.css'); ?>">
 
-            <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
             <script>
 
                     var data = <?php echo json_encode($demo); ?>;
@@ -629,7 +623,7 @@ echo $head;
                     });
 
             </script>
-            <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+            <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
             <script>
                     function removepopup(id) {
                         $('.biderror .mes').html("<div class='pop_content'>Are you sure want to remove this post?<div class='model_ok_cancel'><a class='okbtn' id=" + id + " onClick='remove_post(" + id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
@@ -901,7 +895,7 @@ echo $head;
             </script>
 
             <!-- remove  post end -->
-            <!-- <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+            <!-- <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
             <script>
                 function removepopup(id) {
                     $('.biderror .mes').html("<div class='pop_content'>Are you sure want to remove this post?<div class='model_ok_cancel'><a class='okbtn' id="+ id +" onClick='remove_post(" + id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");

@@ -3,10 +3,8 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?>
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver='.time()); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()) ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/freelancer-apply/freelancer-apply.css?ver='.time()); ?>">
-        <!--<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css'); ?>">-->
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/freelancer-apply.css?ver='.time()); ?>">
+      
     </head>
     <div class="js">
         <body>
@@ -18,13 +16,18 @@
             }
             ?>
             <section>
-                <div class="user-midd-section" id="paddingtop_fixed">
-                    <div class="common-form1">
-                        <div class="col-md-3 col-sm-4"></div>
-                        <?php
+                 <?php
                         $userid = $this->session->userdata('aileenuser');
                         $contition_array = array('user_id' => $userid, 'status' => '1');
                         $freepostdata = $this->common->select_data_by_condition('freelancer_post_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+                        if ($freepostdata[0]['free_post_step'] == 7) { ?>
+                <div class="user-midd-section" id="paddingtop_fixed">
+                        <?php }else{ ?>
+                    <div class="user-midd-section" id="paddingtop_make_fixed">
+                        <?php }?>
+                    <div class="common-form1">
+                        <div class="col-md-3 col-sm-4"></div>
+                        <?php
                         if ($freepostdata[0]['free_post_step'] == 7) {
                             ?>
                             <div class="col-md-6 col-sm-8"><h3><?php echo $this->lang->line("apply-regi-title_update"); ?></h3></div>
@@ -80,8 +83,16 @@
                                     $job_type = form_error('job_type');
                                     $work_hour = form_error('work_hour');
                                     ?>
-                                    <fieldset class="col-md-5" <?php if ($inweek) { ?> class="error-msg" <?php } ?>>
-                                        <label><?php echo $this->lang->line("work_as"); ?></label>
+                                    <fieldset class="col-md-6" <?php if ($inweek) { ?> class="error-msg" <?php } ?>>
+
+                                       
+                                       <?php     if ($livepostid) { ?>
+                                         <input type="hidden" name="livepostid" id="livepostid" tabindex="5"  value="<?php echo $livepostid;?>">
+                                    <?php    }
+                                        ?>
+
+                                        <label class="custom-opt"><?php echo $this->lang->line("work_as"); ?><span class="optional">(optional)</span></label>
+
                                         <input type="radio" tabindex="1" autofocus name="job_type" id="job_type" checked="checked" value="Full Time" <?php
                                         if ($job_type1 == 'Full Time') {
                                             echo 'checked';
@@ -95,7 +106,7 @@
                                                <?php echo form_error('job_type'); ?>
                                     </fieldset>
                                     <fieldset class=""<?php if ($work_hour) { ?> class="error-msg" <?php } ?>>
-                                        <label><?php echo $this->lang->line("working_hours_week"); ?>:</label>
+                                        <label><?php echo $this->lang->line("working_hours_week"); ?>:<span class="optional">(optional)</span></label>
                                         <input type="text" name="work_hour" tabindex="2" placeholder="Enter working hour" value="<?php
                                         if ($work_hour1) {
                                             echo $work_hour1;
@@ -113,19 +124,16 @@
                     </div>
                 </div>
             </section>
-            <footer>
+                <?php echo $login_footer ?>
                 <?php echo $footer; ?>
-            </footer>
-            <script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-            <!--<script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>-->
-            <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
-            <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.js?ver='.time()); ?>"></script>
+            <script  type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
+            
             <script>
                 var base_url = '<?php echo base_url(); ?>';
                
             </script>
-            <script type="text/javascript" src="<?php echo base_url('js/webpage/freelancer-apply/freelancer_post_avability.js?ver='.time()); ?>"></script>
-             <script type="text/javascript" src="<?php echo base_url('js/webpage/freelancer-apply/freelancer_apply_common.js?ver='.time()); ?>"></script>
+            <script  type="text/javascript" src="<?php echo base_url('assets/js/webpage/freelancer-apply/freelancer_post_avability.js?ver='.time()); ?>"></script>
+             <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/freelancer-apply/freelancer_apply_common.js?ver='.time()); ?>"></script>
         </body>
     </div>
 </html>

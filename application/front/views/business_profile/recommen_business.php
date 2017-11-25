@@ -4,17 +4,21 @@
         <title><?php echo $title; ?></title>
         <?php echo $head; ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/demo.css?ver=' . time()); ?>">
-        <link rel="stylesheet" href="<?php echo base_url('css/bootstrap.min.css?ver=' . time()) ?>" />
-        <link href="<?php echo base_url('css/fileinput.css?ver=' . time()) ?>" media="all" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo base_url('js/themes/explorer/theme.css?ver=' . time()) ?>" media="all" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo base_url('js/plugins/sortable.js?ver=' . time()) ?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('js/fileinput.js?ver=' . time()) ?>" type="text/javascript"></script>
-        <script src="<?php echo base_url('js/themes/explorer/theme.js?ver=' . time()) ?>" type="text/javascript"></script>
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/timeline.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/business/business.css?ver=' . time()); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/mobile.css'); ?>" />
+        <link href="<?php echo base_url('assets/css/fileinput.css?ver=' . time()) ?>" media="all" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo base_url('assets/js/themes/explorer/theme.css?ver=' . time()) ?>" media="all" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo base_url('assets/js/plugins/sortable.js?ver=' . time()) ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url('assets/js/fileinput.js?ver=' . time()) ?>" type="text/javascript"></script>
+        <script src="<?php echo base_url('assets/js/themes/explorer/theme.js?ver=' . time()) ?>" type="text/javascript"></script>
+        <?php
+        if (IS_BUSINESS_CSS_MINIFY == '0') {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/business.css?ver=' . time()); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/business_profile/business-common.min.css?ver=' . time()); ?>">
+        <?php } ?>
         <script>
             $(function () {
                 var showTotalChar = 200, showChar = "ReadMore", hideChar = "";
@@ -125,19 +129,35 @@
         <?php echo $header; ?>
         <!-- END HEADER -->
 
-        <?php if ($is_business) {
+        <?php
+        if ($is_business) {
             echo $business_header2_border;
-        } ?>
+        }
+        ?>
         <section class="search-page">
             <div class="user-midd-section bui_art_left_box" id="paddingtop_fixed">
-                <div class="container">
+                <div class="container art_container padding-360">
                     <div class="">
                         <div class="profile-box-custom fl animated fadeInLeftBig left_side_posrt">
                             <div class="">
-<?php echo $business_left; ?>
+                                <?php echo $business_left; ?>
+								<div class="tablate-potrat-add">
+								<div class="fw text-center pt10">
+									<script type="text/javascript">
+									  ( function() {
+										if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+										var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+										var placement_id = window.CHITIKA.units.length;
+										window.CHITIKA.units.push(unit);
+										document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+									}());
+									</script>
+									<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+								</div>
+							</div>
                             </div>
                         </div>
-                        <div class="col-md-6 search-post-box col-sm-12 fixed_middle_side  custom-right-business animated fadeInUp" style="height: 150%;">
+                        <div class="custom-right-art mian_middle_post_box animated fadeInUp">
                             <div class="common-form">
                                 <div class="job-saved-box">
                                     <h3 style="background-color: #fff; text-align: center; color: #003; border-bottom: 1px solid #d9d9d9;">
@@ -154,13 +174,61 @@
                                         }
                                         ?>
                                     </h3>
+										<div class="mob-add">
+								<div class="fw text-center pt10 pb5">
+									<script type="text/javascript">
+									  ( function() {
+										if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+										var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+										var placement_id = window.CHITIKA.units.length;
+										window.CHITIKA.units.push(unit);
+										document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+									}());
+									</script>
+									<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+								</div>
+							</div>
                                     <div class="job-contact-frnd">
                                         <!-- AJAX DATA... -->
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+						
+						<div id="hideuserlist" class="right_middle_side_posrt fixed_right_display animated fadeInRightBig"> 
+					
+							<div class="fw text-center">
+								<script type="text/javascript">
+									  ( function() {
+										if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+										var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+										var placement_id = window.CHITIKA.units.length;
+										window.CHITIKA.units.push(unit);
+										document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+									}());
+									</script>
+								<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+								<div class="fw pt10">
+									<a href="https://www.chitika.com/publishers/apply?refid=aileensoul"><img src="https://images.chitika.net/ref_banners/300x250_tired_of_adsense.png" /></a>
+								</div>
+							</div>
+						
+						</div>
+						<div class="tablate-add">
+
+                            <script type="text/javascript">
+						  ( function() {
+							if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+							var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":160,"height":600,"sid":"Chitika Default"};
+							var placement_id = window.CHITIKA.units.length;
+							window.CHITIKA.units.push(unit);
+							document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+						}());
+						</script>
+						<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                        </div>
+					
+					</div>
                 </div>
             </div>
         </div>
@@ -192,12 +260,12 @@
     </div>
 </div>
 <!-- Model Popup Close -->
-<footer>
-<?php echo $footer ?>
-</footer>
-<script src="<?php echo base_url('js/jquery.wallform.js?ver=' . time()); ?>"></script>
-<script src="<?php echo base_url('js/bootstrap.min.js?ver=' . time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery.highlite.js?ver=' . time()); ?>">
+<!-- <footer> -->
+    <?php echo $footer ?>
+<!-- </footer> -->
+<!--<script src="<?php //echo base_url('assets/js/jquery.wallform.js?ver=' . time());   ?>"></script>-->
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.highlite.js?ver=' . time()); ?>">
 </script>
 <script>
     $('#content').on('change keyup keydown paste cut', 'textarea', function () {
@@ -208,8 +276,14 @@
     var base_url = '<?php echo base_url(); ?>';
     var keyword = '<?php echo $keyword; ?>';
     var keyword1 = '<?php echo $keyword1; ?>';
+    var slug_id = '<?php echo $slug_id; ?>';
 </script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/business-profile/search.js?ver=' . time()); ?>"></script>
-<script type="text/javascript" defer="defer" src="<?php echo base_url('js/webpage/business-profile/common.js?ver=' . time()); ?>"></script>
+<?php if (IS_BUSINESS_JS_MINIFY == '0') { ?>
+    <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/business-profile/search.js?ver=' . time()); ?>"></script>
+    <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js/webpage/business-profile/common.js?ver=' . time()); ?>"></script>
+<?php } else { ?>
+    <script type="text/javascript" src="<?php echo base_url('assets/js_min/webpage/business-profile/search.min.js?ver=' . time()); ?>"></script>
+    <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/webpage/business-profile/common.min.js?ver=' . time()); ?>"></script>
+<?php } ?>
 </body>
 </html>

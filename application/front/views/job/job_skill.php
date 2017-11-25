@@ -8,10 +8,12 @@
       <title><?php echo $title; ?></title>
 
     
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-job-style.css?ver='.time()); ?>">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/job/job.css?ver='.time()); ?>">
+      <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+	  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/job.css?ver='.time()); ?>">
+
+<!-- This Css is used for call popup -->
+<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.fancybox.css?ver='.time()); ?>" />
+
    </head>
    <!-- END HEAD -->
    <!-- Start HEADER -->
@@ -68,7 +70,9 @@
                                  <option value="">Select industry</option>
                                  <?php foreach ($industry as $indu) { ?>
                                  <option value="<?php echo $indu['industry_id']; ?>" <?php if($indu['industry_id'] == $work_industry){ echo "selected"; } ?>><?php echo $indu['industry_name']; ?></option>
+                                 
                                  <?php } ?>
+                                    <option value="<?php echo $other_industry[0]['industry_id']; ?>"><?php echo $other_industry[0]['industry_name']; ?></option>  
                               </select>
                               <?php echo form_error('industry'); ?>
                            </fieldset>
@@ -78,7 +82,7 @@
                               <?php echo form_error('cities'); ?>
                            </fieldset>
                            <fieldset class="hs-submit full-width">
-                              <input type="submit"  id="next" name="next" tabindex="5" value="Save">
+                              <input title="Save" type="submit" title="Save"  id="next" name="next" tabindex="5" value="Save">
                            </fieldset>
                            </form>
                         </div>
@@ -91,26 +95,54 @@
       </section>
       <!-- END CONTAINER -->
 
-<footer>        
+         <!-- Bid-modal  -->
+      <div class="modal fade message-box biderror custom-message in" id="bidmodal" role="dialog"  >
+         <div class="modal-dialog modal-lm" >
+            <div class="modal-content message">
+               <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
+               <div class="modal-body">
+                  <span class="mes"></span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Model Popup Close -->
+
+
+      <!-- Bid-modal  -->
+      <div class="modal fade message-box biderror1 custom-message in" id="bidmodaladdin" role="dialog"  >
+         <div class="modal-dialog modal-lm" >
+            <div class="modal-content message">
+               <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
+               <div class="modal-body">
+                  <span class="mes"></span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Model Popup Close -->
+
+<!-- <footer>       -->
+<?php echo $login_footer ?>  
 <?php echo $footer;  ?>
-</footer>
+<!-- </footer> -->
 
-       <!-- script for skill textbox automatic start -->
-      <script src="<?php echo base_url('js/demo/jquery-1.9.1.js?ver='.time()); ?>"></script>
-      <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js?ver='.time()); ?>"></script>
-      <!-- script for skill textbox automatic end -->
+       
+      <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver='.time()) ?>"></script>
 
-      <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js?ver='.time()) ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.js?ver='.time()); ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/additional-methods1.15.0.min.js?ver='.time()); ?>"></script>
-      <script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
+     <!-- This Js is used for call popup -->
+         <script src="<?php echo base_url('assets/js/jquery.fancybox.js?ver='.time()); ?>"></script>
+      <!-- This Js is used for call popup -->
+      
+      <script type="text/javascript" src="<?php echo base_url('assets/js/additional-methods1.15.0.min.js?ver='.time()); ?>"></script>
+      <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
       <script>
          var base_url = '<?php echo base_url(); ?>';
       </script>
 
-      <script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_skill.js?ver='.time()); ?>"></script>
-      <script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_common.js?ver='.time()); ?>"></script>
-       <script type="text/javascript" src="<?php echo base_url('js/webpage/job/search_job_reg&skill.js?ver='.time()); ?>"></script>
+      <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_skill.js?ver='.time()); ?>"></script>
+      <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_common.js?ver='.time()); ?>"></script>
+       <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/search_job_reg&skill.js?ver='.time()); ?>"></script>
       
    </body>
 </html>

@@ -62,7 +62,7 @@
         });
         $("body").click(function (event) {
             $("#addcontactContainer").hide();
-            event.stopPropagation();
+//            event.stopPropagation();
         });
     });
 </script>
@@ -175,20 +175,26 @@
                                     </li>  
                                     <li id="Inbox_link">
                                         <?php if ($message_count) { ?>
+                                                                        <!--  <span class="badge bg-theme"><?php //echo $message_count;    ?></span> -->
                                         <?php } ?>
-                                        <a class="action-button shadow animate dropbtn_common" href="javascript:void(0)" id="InboxLink" onclick = "return getmsgNotification()"><em class="hidden-xs"> </em> <span class="message3-24x24-h"></span>
-                                            <span id="message_count" class="message_count"></span>
+                                        <a class="action-button shadow animate dropbtn_common" href="#" id="InboxLink" onclick = "return getmsgNotification()"><em class="hidden-xs"> </em> <span class="message3-24x24-h"></span>
+
+                                            <span id="message_count"></span>
                                         </a>
 
                                         <div id="InboxContainer" class="dropdown2_content">
                                             <div id="InboxBody" class="Inbox">
-                                                <div id="notificationTitle">Messages   <span class="see_link" id="seemsg"> </span></div>
-                                                <div>
-                                                    <ul class="notification_data_in_h2">
-                                                    </ul>
+                                                <div id="notificationTitle">Messages<span class="see_link" id="seemsg"> </span></div>
+                                                <div class="content mCustomScrollbar light notifications" id="notification_main_in" data-mcs-theme="minimal-dark">
+
+                                                    <div>
+                                                        <ul class="notification_data_in_h2">
+                                                            <div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) ?>" /></div>
+                                                        </ul></div>
+
                                                 </div>
                                             </div>
-                                    </li>   
+                                    </li> 
                                     <li>
                                         <div class="dropdown_hover">
                                             <span id="art_profile" class="dropbtn_common" >Business Profile <i class="fa fa-caret-down" aria-hidden="true"></i></span>
@@ -196,11 +202,11 @@
                                                 <span class="my_account">
                                                     <div class="my_S">Account</div>
                                                 </span>
-                                                <a href="<?php echo base_url('business-profile/details/' . $businessdata[0]['business_slug']); ?>">
+                                                <a href="<?php echo base_url('business-profile/details/' . $business_common_data[0]['business_slug']); ?>">
                                                     <span class="icon-view-profile edit_data"></span>
                                                     <span> View Profile </span></a> 
-                                                <a href="<?php echo base_url('business-profile/business-information-update'); ?>">
-                                                <!--<a href="<?php echo base_url('business_profile/business_edit_profile'); ?>">-->
+                                                <!--<a href="<?php echo base_url('business-profile/business-information-update'); ?>">-->
+                                                <a href="<?php echo base_url('business-profile/business-information'); ?>">
                                                     <span class="icon-edit-profile edit_data"></span>  
                                                     <span>Edit Profile </span></a>
                                                 <?php
@@ -268,21 +274,26 @@
                                     </li>   
                                     <li id="Inbox_link">
                                         <?php if ($message_count) { ?>
+                                                                       <!--  <span class="badge bg-theme"><?php //echo $message_count;    ?></span> -->
                                         <?php } ?>
-                                        <a class="action-button shadow animate dropbtn_common" href="javascript:void(0)" id="InboxLink" onclick="return getmsgNotification()"><em class="hidden-xs"> </em> <span class="message3-24x24-h"></span>
-                                            <span id="message_count" class="message_count"></span>
+                                        <a class="action-button shadow animate dropbtn_common" href="#" id="InboxLink" onclick = "return getmsgNotification()"><em class="hidden-xs"> </em> <span class="message3-24x24-h"></span>
+
+                                            <span id="message_count"></span>
                                         </a>
 
                                         <div id="InboxContainer" class="dropdown2_content">
                                             <div id="InboxBody" class="Inbox">
-                                                <div id="notificationTitle">Messages   <span class="see_link" id="seemsg"> </span></div>
-                                                <div>
-                                                    <ul class="notification_data_in_h2">
+                                                <div id="notificationTitle">Messages<span class="see_link" id="seemsg"> </span></div>
+                                                <div class="content mCustomScrollbar light notifications" id="notification_main_in" data-mcs-theme="minimal-dark">
 
-                                                    </ul>
+                                                    <div>
+                                                        <ul class="notification_data_in_h2">
+                                                            <div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) ?>" /></div>
+                                                        </ul></div>
+
                                                 </div>
                                             </div>
-                                    </li>        
+                                    </li>       
                                     <li>
                                         <div class="dropdown_hover">
                                             <span id="art_profile" class="dropbtn_common">Business Profile <i class="fa fa-caret-down" aria-hidden="true"></i></span>
@@ -290,11 +301,12 @@
                                                 <span class="my_account">
                                                     <div class="my_S">Account</div>
                                                 </span>
-                                                <a href="<?php echo base_url('business-profile/details/' . $businessdata[0]['business_slug']); ?>">
+                                                <a href="<?php echo base_url('business-profile/details/' . $business_common_data[0]['business_slug']); ?>">
                                                     <span class="icon-view-profile edit_data"></span>
                                                     <span> View Profile </span></a> 
-                                                <a href="<?php echo base_url('business-profile/business-information-edit'); ?>">
-                                                <!--<a href="<?php //echo base_url('business_profile/business_edit_profile');   ?>">-->
+                                                <!--<a href="<?php //echo base_url('business-profile/business-information-edit');  ?>">-->
+                                                <!--<a href="<?php echo base_url('business-profile/signup/edit/business-information'); ?>">-->
+                                                <a href="<?php echo base_url('business-profile/business-information'); ?>">
                                                     <span class="icon-edit-profile edit_data"></span>  
                                                     <span>Edit Profile </span></a>
                                                 <?php
@@ -318,6 +330,7 @@
 <div class="modal fade message-box biderror" id="bidmodal" role="dialog">
     <div class="modal-dialog modal-lm deactive">
         <div class="modal-content">
+            <!--<button type="button" class="modal-close" data-dismiss="modal">&times;</button>-->       
             <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
             <div class="modal-body">
                 <span class="mes"></span>
@@ -441,7 +454,8 @@
             error: function (XMLHttpRequest, textStatus, errorThrown) {
             }
         });
-    };
+    }
+    ;
     $(document).ready(function () {
         waitForMsg1();
     });
@@ -464,7 +478,8 @@
             var segment = '<?php echo "" . $this->uri->segment(1) . "" ?>';
             if (segment != "chat") {
                 chatmsg();
-            };
+            }
+            ;
         }
         $('#Inbox_link').on('click', function () {
             chatmsg();
@@ -536,22 +551,4 @@
         document.getElementById('searchplace1').value = null;
 
     });
-</script>
-<script type="text/javascript">
-  /*  $(document).ready(function () {
-        var images = new Array()
-        function preload(image) {
-
-            for (i = 0; i < preload.arguments.length; i++) {
-                images[i] = new Image()
-                images[i].src = preload.arguments[i]
-            }
-        }
-        preload(
-                '<?php echo base_url(); ?>img/icon_contact_request.png',
-                '<?php echo base_url(); ?>img/h3.png',
-                '<?php echo base_url(); ?>img/index.png',
-                '<?php echo base_url(); ?>img/edit_profile.png',
-                )
-    }); */
 </script>

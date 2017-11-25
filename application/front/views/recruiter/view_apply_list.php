@@ -3,15 +3,19 @@
     <head>
         <title><?php echo $title; ?></title>
         <?php echo $head; ?> 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url() ?>css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/test.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
-    </head><link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/recruiter/recruiter.css'); ?>">
+       <?php
+        if (IS_REC_CSS_MINIFY == '0') {
+            ?>
+           <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/recruiter.css'); ?>">
+            <?php
+        } else {
+            ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/recruiter/rec_common_header.min.css?ver=' . time()); ?>">
+        <?php } ?>
+    </head>
     <body class="page-container-bg-solid page-boxed pushmenu-push">
-        <?php echo $header; ?>
+        <?php echo $header;?>
         <?php if ($recdata[0]['re_step'] == 3) { ?>
             <?php echo $recruiter_header2_border; ?>
         <?php } ?>
@@ -90,7 +94,7 @@
                                                                                     <?php echo ucfirst(strtolower($row['fname'])) . ' ' . ucfirst(strtolower($row['lname'])); ?></a>
                                                                             </li>
                                                                             <li class="show">
-                                                                                <a  style="font-size: 19px;" href="javascript: void(0)">
+                                                                                <a  style="font-size: 13px;" href="javascript: void(0)">
                                                                                     <?php
                                                                                     if ($row['designation']) {
                                                                                         ?>
@@ -255,7 +259,7 @@
                                                                         <li>
                                                                             <b>Degree</b><span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
+                                                                                $cache_time = $this->db->select('degree_name')->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -268,7 +272,7 @@
                                                                         <li><b>Stream</b>
                                                                             <span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
+                                                                                $cache_time = $this->db->select('stream_name')->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -284,7 +288,7 @@
 
 
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
+                                                                                $cache_time = $this->db->select('degree_name')->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -297,7 +301,7 @@
                                                                         <li><b>Stream</b>
                                                                             <span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
+                                                                                $cache_time = $this->db->select('stream_name')->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -314,7 +318,7 @@
                                                                         <li>
                                                                             <b>Degree</b><span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
+                                                                                $cache_time = $this->db->select('degree_name')->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -327,7 +331,7 @@
                                                                         <li><b>Stream</b>
                                                                             <span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
+                                                                                $cache_time = $this->db->select('stream_name')->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -342,7 +346,7 @@
                                                                         <li>
                                                                             <b>Degree</b><span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
+                                                                                $cache_time = $this->db->select('degree_name')->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -355,7 +359,7 @@
                                                                         <li><b>Stream</b>
                                                                             <span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
+                                                                                $cache_time = $this->db->select('stream_name')->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -369,7 +373,7 @@
                                                                         <li>
                                                                             <b>Degree</b><span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
+                                                                                $cache_time = $this->db->select('degree_name')->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -382,7 +386,7 @@
                                                                         <li><b>Stream</b>
                                                                             <span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
+                                                                                $cache_time = $this->db->select('stream_name')->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -452,7 +456,7 @@
 
 
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
+                                                                                $cache_time = $this->db->select('degree_name')->get_where('degree', array('degree_id' => $graduation_data[0]['degree']))->row()->degree_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -465,7 +469,7 @@
                                                                         <li><b>Stream</b>
                                                                             <span>
                                                                                 <?php
-                                                                                $cache_time = $this->db->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
+                                                                                $cache_time = $this->db->select('stream_name')->get_where('stream', array('stream_id' => $graduation_data[0]['stream']))->row()->stream_name;
                                                                                 if ($cache_time) {
                                                                                     echo $cache_time;
                                                                                 } else {
@@ -551,7 +555,7 @@
                                                                     $userid = $this->session->userdata('aileenuser');
                                                                     if ($userid != $row['userid']) {
 
-                                                                        $contition_array = array('from_id' => $userid, 'to_id' => $row['userid'], 'save_type' => 1, 'status' => '0');
+                                                                        $contition_array = array('from_id' => $userid, 'to_id' => $row['userid'], 'save_type' => '1', 'status' => '0');
                                                                         $savedata = $this->common->select_data_by_condition('save', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
                                                                         ?>
 
@@ -594,7 +598,7 @@
                                                 <div class="art-img-nn">
                                                     <div class="art_no_post_img">
 
-                                                        <img src="<?php echo base_url('img/job-no1.png') ?>">
+                                                        <img src="<?php echo base_url('assets/img/job-no1.png') ?>">
 
                                                     </div>
                                                     <div class="art_no_post_text">
@@ -637,23 +641,23 @@
         <?php echo $footer; ?>
         <!-- END FOOTER -->
         <!-- FIELD VALIDATION JS START -->
-        <script src="<?php echo base_url('js/jquery.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery.wallform.js'); ?>"></script>
-        <script src="<?php echo base_url('js/jquery-ui.min.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-1.9.1.js'); ?>"></script>
-        <script src="<?php echo base_url('js/demo/jquery-ui-1.9.1.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/jquery.validate.min.js') ?>"></script>
-        <script type="text/javascript" src="<?php echo base_url('js/additional-methods1.15.0.min.js'); ?>"></script>
-
-        <script src="<?php echo base_url('js/jquery.fancybox.js'); ?>"></script>
-
-        <!-- THIS SCRIPT ALWAYS PUT UNDER FANCYBOX JS-->
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script> 
-
+        
+        <?php
+        if (IS_REC_JS_MINIFY == '0') {
+            ?>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js') ?>"></script>
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script> 
         <!--SCRIPT FOR DATE START-->
+        <script src="<?php echo base_url('assets/js/jquery.date-dropdowns.js'); ?>"></script>
 
-        <script src="<?php echo base_url('js/jquery.date-dropdowns.js'); ?>"></script>
-
+            <?php
+        } else {
+            ?>
+            <script type="text/javascript" defer="defer" src="<?php echo base_url('assets/js_min/val_boot_drop.min.js?ver=' . time()); ?>"></script>
+        <?php } ?>
+        
+        
+       
         <script>
                                                                                 var base_url = '<?php echo base_url(); ?>';
                                                                                 var data1 = <?php echo json_encode($de); ?>;
@@ -663,7 +667,7 @@
                                                                                 var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>
         <!-- FIELD VALIDATION JS END -->
-        <script type="text/javascript" src="<?php echo base_url('js/webpage/recruiter/search.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/recruiter/search.js'); ?>"></script>
           <script type="text/javascript">
    
 
@@ -736,7 +740,7 @@
 }
 </script>
                     
-        <!--<script type="text/javascript" src="<?php //echo base_url('js/webpage/recruiter/saved_candidate.js'); ?>"></script>-->
+        <!--<script type="text/javascript" src="<?php //echo base_url('assets/js/webpage/recruiter/saved_candidate.js'); ?>"></script>-->
 
 
         <style type="text/css">

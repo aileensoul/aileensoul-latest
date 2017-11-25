@@ -48,7 +48,7 @@
                               <div class="content mCustomScrollbar light notifications" id="notification_main_in" data-mcs-theme="minimal-dark">
                                  <div>
                                     <ul class="notification_data_in_h2">
-                                        <div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
+                                        <div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
                                     </ul>
                                  </div>
                               </div>
@@ -84,7 +84,7 @@
    </div>
 </header>
 <!-- Bid-modal  -->
-<div class="modal message-box biderror" id="bidmodal" role="dialog">
+<div class="modal fade message-box biderror" id="bidmodal" role="dialog">
    <div class="modal-dialog modal-lm deactive">
       <div class="modal-content">
          <button type="button" class="modal-close" data-dismiss="modal">&times;</button>       
@@ -102,5 +102,5 @@
     var seg='<?php $this->uri->segment(3) ?>';
 </script>
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/job/job_header2_border.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/job/job_header2_border.js?ver='.time()); ?>"></script>
 

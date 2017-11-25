@@ -27,9 +27,7 @@ if ($_SERVER['HTTP_HOST'] != "localhost") {
     <?php
 }
 ?>
-<script>
-    fbq('track', 'Lead');
-</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, 
       minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <!-- SEO CHANGES END -->
@@ -38,50 +36,52 @@ if ($_SERVER['HTTP_HOST'] != "localhost") {
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
 <meta name="description" content=" " />
 <meta name="keywords" content=" " />
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
+<!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+<!--<script>
     (adsbygoogle = window.adsbygoogle || []).push({
         google_ad_client: "ca-pub-6060111582812113",
         enable_page_level_ads: true
     });
-</script>
+</script>-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<link rel="icon" href="<?php echo base_url('images/favicon.png?ver=' . time()); ?>">
+<link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
+<?php
+if(IS_CSS_MINIFY == '0'){
+?>
 <!-- CSS START -->
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/common-style.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/media.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/animate.css?ver=' . time()) ?>" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-style.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/header.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/style.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/font-awesome.min.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/sprite_img.css?ver=' . time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/mobile.css?ver=' . time()) ?>" />
-
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/common-style.css?ver=' . time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/media.css?ver=' . time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/animate.css?ver=' . time()) ?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver=' . time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/header.css?ver=' . time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css?ver=' . time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/font-awesome.min.css?ver=' . time()); ?>">
 <!--SCRIPT USE FOR NOTIFICATION SCROLLBAR-->
-<link rel="stylesheet" href="<?php echo base_url('js/scrollbar/style.css') ?>">
-<link rel="stylesheet" href="<?php echo base_url('js/scrollbar/jquery.mCustomScrollbar.css') ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/js/scrollbar/style.css') ?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/js/scrollbar/jquery.mCustomScrollbar.css') ?>">
 <!--SCRIPT USE FOR NOTIFICATION SCROLLBAR-->
-
-<!--<script type="text/javascript" src="<?php //  echo base_url('js/jquery-1.11.1.min.js?ver='.time());     ?>"></script>-->
-
+<?php
+}else{ ?>
+<link rel="stylesheet"  type="text/css" href="<?php echo base_url('assets/css_min/common-header.min.css?ver=' . time()); ?>">    
+<?php }
+?>
 <?php
 if ($this->uri->segment(1) == 'dashboard') {
     ?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <!--<script type="text/javascript" src="<?php echo base_url('js/jquery-2.0.3.min.js?ver=' . time()); ?>"></script>--> 
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js" async></script>-->
+    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-2.0.3.min.js?ver=' . time()); ?>"></script> 
     <?php
 } else {
     ?>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!--<script type="text/javascript" src="<?php echo base_url('js/jquery-3.2.1.min.js?ver=' . time()); ?>" ></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" async></script>-->
+    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-3.2.1.min.js?ver=' . time()); ?>" ></script>
 <?php }
 ?>
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-crossorigin="anonymous"></script>
-<!--<script type="text/javascript" src="<?php echo base_url('js/jquery-ui.min-1.12.1.js?ver=' . time()); ?>"></script>-->  
-<!--<script src="<?php // echo base_url('js/fb_login.js?ver='.time());    ?>"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous" async></script>-->
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+crossorigin="anonymous"></script>-->
+<script type="text/javascript" src="<?php echo base_url('assets/js/jquery-ui.min-1.12.1.js?ver=' . time()); ?>"></script>  
+<!--<script src="<?php // echo base_url('assets/js/fb_login.js?ver='.time());    ?>"></script>-->
 

@@ -9,7 +9,7 @@
             type: "POST",
             dataType: 'json',
             beforeSend: function () {
-                $(".as").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
+                $(".as").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
             },
             success: function (data) {
                 $('.as').html(data.return_html);
@@ -27,6 +27,13 @@
         });
 
         $('body').on('click', function (e) {
+            if (!$(e.target).closest('.dropbtn_common').length)
+            {
+                $('.dropbtn_common').next().removeClass('show');
+            }
+
+        });
+        $(window).on('click', function (e) {
             if (!$(e.target).closest('.dropbtn_common').length)
             {
                 $('.dropbtn_common').next().removeClass('show');
@@ -83,7 +90,7 @@
             data: '',
             beforeSend: function () {
                 $('#gen_not_loader').show();
-                $('ul.notification_data_in').html('<div class="fw" id="gen_not_loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>');
+                $('ul.notification_data_in').html('<div class="fw" id="gen_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>');
             },
 
             complete: function () {
@@ -102,9 +109,9 @@
     jQuery(document).ready(function ($) {
         if (screen.width <= 767) {
             $("ul.left-form-each").on("click", ".init", function () {
-                $(this).closest("ul").children('li:not(.init)').toggle();
+                console.log($(this).closest("ul").children('li:not(.init)').toggle());
             });
-            var allOptions = $("ul").children('li:not(.init)');
+            var allOptions = $("ul.left-form-each").children('li:not(.init)');
             $("ul.left-form-each").on("click", "li:not(.init)", function () {
                 allOptions.removeClass('selected');
                 $(this).addClass('selected');
@@ -173,8 +180,8 @@
         $.ajax({
             type: "GET",
             url: "<?php echo base_url(); ?>notification/select_notification",
-            async: true,
-            cache: false,
+            //async: true,
+            //cache: false,
             timeout: 50000,
 
             success: function (data) {
@@ -195,7 +202,7 @@
 </script>
 <!-- footer end -->
 <!--SCRIPT USE FOR NOTIFICATION SCROLLBAR-->
-<script type="text/javascript" src="<?php echo base_url('js/scrollbar/jquery.mCustomScrollbar.concat.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/scrollbar/jquery.mCustomScrollbar.concat.min.js'); ?>"></script>
 <!--SCRIPT USE FOR NOTIFICATION SCROLLBAR-->
 
 <!-- preload img -->

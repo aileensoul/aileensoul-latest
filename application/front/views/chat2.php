@@ -10,29 +10,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <meta charset="utf-8">
         <title>Chat | Aileensoul</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <link rel="icon" href="<?php echo base_url('images/favicon.png'); ?>">
+        <link rel="icon" href="<?php echo base_url('assets/images/favicon.png'); ?>">
         <!--<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
         <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
-        <!--<link rel="stylesheet" type="text/css" href="<?php //echo base_url('css/1.10.3.jquery-ui.css'); ?>">-->
+        <!--<link rel="stylesheet" type="text/css" href="<?php //echo base_url('assets/css/1.10.3.jquery-ui.css'); ?>">-->
         <!--<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
-        <script src="<?php echo base_url('js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
         <!-- http://bootsnipp.com/snippets/4jXW -->
 
-       <!--  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/common-style.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style_new.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/style_harshad.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/media.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/sprite_img.css'); ?>">
- -->
- 
- <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/style.css'); ?>">
-                <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/header.css'); ?>">
+ <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css'); ?>">
+                <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/header.css'); ?>">
 
-			  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/style.css'); ?>">
-              <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/header.css'); ?>">
-              <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/font-awesome.min.css'); ?>">
-			  <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/sprite_img.css'); ?>">
+			  <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/style.css'); ?>">
+              <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/header.css'); ?>">
+              <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/font-awesome.min.css'); ?>">
               
         <style type="text/css">
             .msg_right:hover .messagedelete{ visibility: visible;opacity: 1;}
@@ -101,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                                 if ($message_from_profile == 2) {
                                     $last_user_image = $last_user_data['user_image'];
-                                    $slug= $this->db->get_where('job_reg', array('user_id' =>$id,'is_delete'=>0,'status'=>1))->row()->slug;
+                                    $slug= $this->db->get_where('job_reg', array('user_id' =>$id,'is_delete'=>'0','status'=>'1'))->row()->slug;
                                     $profile_url = base_url() . 'job/job_printpreview/' . $slug . '?page=recruiter';
                                 }
                                 if ($message_from_profile == 3) {
@@ -119,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 }
                                 if ($message_from_profile == 6) {
                                     $last_user_image = $last_user_data['user_image'];
-                                    $profile_url = base_url() . 'artistic/art_manage_post/' . $id;
+                                    $profile_url = base_url() . 'artist/art_manage_post/' . $id;
                                 }
                                 ?>
                                 <a href="<?php echo $profile_url; ?>">
@@ -152,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </a>
 
                                 <div class="chat_drop">
-                                    <a onclick="myFunction()" class="chatdropbtn fr"> <img src="<?php echo base_url('img/t_dot.png') ?>" onclick="myFunction()"></a>
+                                    <a onclick="myFunction()" class="chatdropbtn fr"> <img src="<?php echo base_url('assets/img/t_dot.png') ?>" onclick="myFunction()"></a>
                                     <div id="mychat_dropdown" class="chatdropdown-content">
                                         <a href="javascript:void(0);" onClick="delete_history()">
                                             <span class="h4-img h2-srrt"></span>  Delete All
@@ -249,6 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php } ?>
                     <!-- chat start -->
                 </div>
+
 <?php echo $footer; ?>
                 </body>
                 </html>
@@ -1517,7 +1509,7 @@ $(function () {
             minLength: 2,
             source: function( request, response ) { 
                 // delegate back to autocomplete, but extract the last term
-                $.getJSON(base_url + "artistic/artistic_search_keyword", { term : extractLast( request.term )},response);
+                $.getJSON(base_url + "artist/artistic_search_keyword", { term : extractLast( request.term )},response);
             },
             focus: function() {
                 // prevent value inserted on focus
@@ -1569,7 +1561,7 @@ $(function () {
             minLength: 2,
             source: function( request, response ) { 
                 // delegate back to autocomplete, but extract the last term
-                $.getJSON(base_url + "artistic/artistic_search_city", { term : extractLast( request.term )},response);
+                $.getJSON(base_url + "artist/artistic_search_city", { term : extractLast( request.term )},response);
             },
             focus: function() {
                 // prevent value inserted on focus
@@ -2250,7 +2242,7 @@ $(function () {
             minLength: 2,
             source: function( request, response ) { 
                 // delegate back to autocomplete, but extract the last term
-                $.getJSON(base_url + "artistic/artistic_search_keyword", { term : extractLast( request.term )},response);
+                $.getJSON(base_url + "artist/artistic_search_keyword", { term : extractLast( request.term )},response);
             },
             focus: function() {
                 // prevent value inserted on focus
@@ -2302,7 +2294,7 @@ $(function () {
             minLength: 2,
             source: function( request, response ) { 
                 // delegate back to autocomplete, but extract the last term
-                $.getJSON(base_url + "artistic/artistic_search_city", { term : extractLast( request.term )},response);
+                $.getJSON(base_url + "artist/artistic_search_city", { term : extractLast( request.term )},response);
             },
             focus: function() {
                 // prevent value inserted on focus

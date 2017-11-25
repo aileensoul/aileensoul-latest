@@ -8,6 +8,10 @@ class MY_Controller extends CI_Controller {
     function __construct() {
         parent::__construct();
 
+
+        //    $this->output->cache(1);
+        //$this->output->enable_profiler(TRUE);
+
         $segment_check = $this->uri->segment(2);
 
         $segment_dynamicpost = substr($segment_check, 0, strrpos($segment_check, "-"));
@@ -19,14 +23,36 @@ class MY_Controller extends CI_Controller {
             $segment2 = $this->uri->segment(2);
         }
 
-        $segment2_names = array('search', 'dashboard', 'details', 'execute_search', 'ajax_user_search', 'ajax_job_search', 'ajax_freelancer_hire_search', 'ajax_freelancer_post_search', 'recruiter_search_candidate', 'business_search', 'ajax_business_user_login_search', 'post', 'ajax_rec_post');
+//        jobs live link start
+        $jobs = array('0' => 'jobs');
+        $jobin = explode('-', $this->uri->segment(1));
+        $jobsearchresult = array_intersect((array) $jobs, (array) $jobin);
+        if (count($jobsearchresult) > 0) {
+            $segment2 = $this->uri->segment(1);
+            $segjobloc = $this->uri->segment(1);
+        }
+        //jobs live link end
+//freelancer search live link start
+        $projects = array('0' => 'project');
+        $projectin = explode('-', $this->uri->segment(1));
+        $freelancersearchresult = array_intersect((array) $projects, (array) $projectin);
+        if (count($freelancersearchresult) > 0) {
+            $segment2 = $this->uri->segment(1);
+            $segfreelancerloc = $this->uri->segment(1);
+        }
+//freelancer search live link end  
+        $segment2_names = array('search', 'dashboard', 'details', 'execute_search', 'ajax_user_search', 'ajax_job_search', 'ajax_freelancer_hire_search', 'ajax_freelancer_post_search', 'recruiter_search_candidate', 'business_search', 'ajax_business_user_login_search', 'post', 'ajax_rec_post', 'jobpost', 'project', 'postlocation', $segjobloc, $segfreelancerloc);
 
         $segment1 = $this->uri->segment(1);
-        $segment1_names = array('job', 'business-profile', 'freelancer-hire', 'artistic', 'search', 'freelancer-work', 'recruiter', 'business_userprofile');
+
+        $segment1_names = array('job', 'business-profile', 'freelancer-hire', 'artist', 'search', 'freelancer-work', 'recruiter', 'business_userprofile', $segjobloc, $segfreelancerloc);
+
+        $actual_link = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+        $actual_link = base64_encode(str_replace('index.php/', '', $actual_link));
 
         if ((!in_array($segment2, $segment2_names)) || (!in_array($segment1, $segment1_names))) {
             if (!$this->session->userdata('aileenuser')) {
-                redirect('login', 'refresh');
+                redirect('login?redirect_url=' . $actual_link, 'refresh');
             } else {
                 $this->data['userid'] = $this->session->userdata('aileenuser');
             }
@@ -36,7 +62,7 @@ class MY_Controller extends CI_Controller {
 
         $user_id = $this->data['userid'];
         $condition_array = array('status' => '1');
-        $this->data['loged_in_user'] = $this->common->select_data_by_id('user', 'user_id', $user_id, 'user_name,user_image', $condition_array);
+        $this->data['loged_in_user'] = $this->common->select_data_by_id('user', 'user_id', $user_id, 'user_image', $condition_array);
         date_default_timezone_set('Asia/Calcutta');
     }
 
@@ -189,6 +215,30 @@ class MY_Controller extends CI_Controller {
                 break;
             default:
                 imagejpeg($thumb_create, $thumbnail, 100);
+        }
+    }
+
+    public function is_validate_name($name = '') {
+        if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function is_validate_email($email = '') {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function is_validate_url($url = '') {
+        if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $url)) {
+            return FALSE;
+        } else {
+            return TRUE;
         }
     }
 

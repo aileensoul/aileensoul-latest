@@ -38,26 +38,24 @@
                                 </li>
                                 <li id="Inbox_link">
                                         <?php if ($message_count) { ?>
-                                                                   <!--  <span class="badge bg-theme"><?php //echo $message_count;    ?></span> -->
+                                                                   <!--  <span class="badge bg-theme"><?php //echo $message_count;   ?></span> -->
                                         <?php } ?>
-                                        <a class="action-button shadow animate dropbtn_common" href="javascript:void(0);" id="InboxLink" onclick = "return getmsgNotification()"><em class="hidden-xs"> </em> <span class="message3-24x24-h"></span>
-                                            <span id="message_count" class="message_count"></span>
+                                        <a class="action-button shadow animate dropbtn_common" href="#" id="InboxLink" onclick = "return getmsgNotification()"><em class="hidden-xs"> </em> <span class="message3-24x24-h"></span>
+
+                                            <span id="message_count"></span>
                                         </a>
 
                                         <div id="InboxContainer" class="dropdown2_content">
                                             <div id="InboxBody" class="Inbox">
-                                                <!--<div id="notificationTitle">Messages   <span class="see_link"> <a href="<?php //echo base_url('chat/abc/5/5'); ?>">See All</a></span></div>-->
-                                                <div id="notificationTitle">Messages   <span class="see_link" id="seemsg"> </span></div>
-<!-- <div class="content mCustomScrollbar light notifications" id="notification_main_in" data-mcs-theme="minimal-dark"> -->
+                                                <div id="notificationTitle">Messages<span class="see_link" id="seemsg"> </span></div>
+                                                <div class="content mCustomScrollbar light notifications" id="notification_main_in" data-mcs-theme="minimal-dark">
 
-<div>
-    <!--<ul class="notification_data_in_h2" style="text-align: center; width: 100%;">-->
-    <ul class="notification_data_in_h2">
-        <div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('images/loader.gif?ver='.time()) ?>" /></div>
-    </ul>
-    </div>
+                                                    <div>
+                                                        <ul class="notification_data_in_h2">
+<div class="fw" id="msg_not_loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>
+                                                        </ul></div>
 
-                                             <!--    </div> -->
+                                                </div>
                                             </div>
                                     </li> 
                                 <!-- Friend Request Start-->
@@ -102,7 +100,7 @@
     </div>
 </div>
 <!-- Model Popup Close -->
-<script src="<?php echo base_url('js/bootstrap.min.js?ver=' . time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>" ></script>
 <script type="text/javascript">
                                                 function deactivate(clicked_id) {
                                                    
@@ -165,7 +163,7 @@
     {
         $.ajax({
             type: "GET",
-            url: "<?php echo base_url(); ?>notification/select_msg_noti/3",
+            url: "<?php echo base_url(); ?>notification/select_msg_noti/4",
 
             async: true,
             cache: false,
@@ -206,29 +204,7 @@
 
 </script>
 <!-- script for fetch all unread message notification end-->
-<!--SCRIPT FOR LOAD IMAGES BEFORE PAGE LOAD START-->
-<script type="text/javascript">
-    $(document).ready(function() {
-var images = new Array()
-            function preload(image) {
-              
-                for (i = 0; i < preload.arguments.length; i++) {
-                    images[i] = new Image()
-                    images[i].src = preload.arguments[i]
-                }
-            }
-            preload(
-                    
-                
-                      '<?php echo base_url(); ?>img/h3.png',
-                      '<?php echo base_url(); ?>img/index.png',
-                      '<?php echo base_url(); ?>img/edit_profile.png',
 
-                   
-            )
-});
-</script>
-<!--SCRIPT FOR LOAD IMAGES BEFORE PAGE LOAD END-->
 <!-- script for update all read msg notification start-->
 <script type="text/javascript">
     
@@ -261,7 +237,7 @@ var images = new Array()
                     $('#seemsg').html(data.seeall);
                  setTimeout(
                         chatmsg,
-                       100000
+                       10000000000000
                         );
                 },
              error: function (XMLHttpRequest, textStatus, errorThrown) {

@@ -3,14 +3,12 @@
 <head>
 <title><?php echo $title; ?></title>
 <?php echo $head; ?>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bootstrap.min.css?ver='.time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/1.10.3.jquery-ui.css?ver='.time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('dragdrop/fileinput.css?ver='.time()); ?>">
-<link href="<?php echo base_url('dragdrop/themes/explorer/theme.css?ver='.time()); ?>" media="all" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/video.css?ver='.time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/custom-style.css?ver='.time()); ?>">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/artistic/artistic.css?ver='.time()); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/profiles/common/mobile.css?ver='.time()) ;?>" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/1.10.3.jquery-ui.css?ver='.time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/dragdrop/fileinput.css?ver='.time()); ?>">
+<link href="<?php echo base_url('assets/dragdrop/themes/explorer/theme.css?ver='.time()); ?>" media="all" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/video.css?ver='.time()); ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/artistic.css?ver='.time()); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/profiles/common/mobile.css?ver='.time()) ;?>" />
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       
    </head>
@@ -24,12 +22,31 @@
       <div class="left_fixed"> 
          <?php ?>
 <?php echo $left_artistic; ?>
+  
+   <!-- <div class="right_middle_side_posrt animated fadeInRightBig fixed_right_display" id="hideuserlist" style="display: none">
+      -->
+         <div class="full-box-module_follow" style="margin-top: 0px;">
+            <!-- follower list start  -->  
+            <div class="common-form">
+               <h3 class="user_list_head">User List</h3>
+               <div class="seeall">
+                  <a href="<?php echo base_url('artist/userlist'); ?>">All User</a>
+               </div>
+               <div class="profile-boxProfileCard_follow fw  module">     
+               </div>
+               <!-- follower list end  -->
+            </div>
+         </div>
+     
+ <!--      </div>
+ -->
+
           <div class="full-box-module_follow fixed_right_display_none">
           
             <div class="common-form">
                <h3 class="user_list_head">User List</h3>
                <div class="seeall">
-                  <a href="<?php //echo base_url('artistic/userlist'); ?>">All User</a>
+                  <a href="<?php //echo base_url('artist/userlist'); ?>">All User</a>
                </div>
                <div class="profile-boxProfileCard_follow_mobile  module">     
                </div>
@@ -37,20 +54,38 @@
             </div>
          </div>
 
-         <div class="custom_footer_left fw">
+         <div class="tablate-potrat-add">
+                  <div class="fw text-center pt10">
+                  <script type="text/javascript">
+                    ( function() {
+                    if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+                    var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+                    var placement_id = window.CHITIKA.units.length;
+                    window.CHITIKA.units.push(unit);
+                    document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                  }());
+                  </script>
+                  <script  type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                  </div>
+                </div>
+
+
+
+
+        <div class="custom_footer_left fw">
           <div class="fl">
-            <ul>
-              <li><a href="<?php echo base_url('about_us'); ?>"> About Us </a></li>
-              <span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span>
-              <li><a href="<?php echo base_url('contact_us'); ?>">Contact Us</a></li>
-              <span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span>
-              <li><a href="<?php echo base_url('blog'); ?>">Blogs</a></li>
-              <span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span>
-              <li><a href="">Terms &amp; Condition </a></li>
-              <span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span>
-              <li><a href="">Privacy Policy</a></li>
-              <span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span>
-              <li><a href="<?php echo base_url('feedback'); ?>">Send Us Feedback</a></li>
+             <ul>
+             <li><a href="<?php echo base_url('about-us'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> About Us </a></li>
+              
+              <li><a href="<?php echo base_url('contact-us'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Contact Us</a></li>
+              
+              <li><a href="<?php echo base_url('blog'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Blogs</a></li>
+              
+			  <li><a href="<?php echo base_url('privacy-policy'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Privacy Policy</a></li>
+			  
+              <li><a href="<?php echo base_url('terms-and-condition'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Terms &amp; Condition </a></li>
+        
+              <li><a href="<?php echo base_url('feedback'); ?>" target="_blank"><span class="custom_footer_dot" role="presentation" aria-hidden="true"> · </span> Send Us Feedback</a></li>
             </ul>
           </div>
         <div>
@@ -70,17 +105,29 @@
                      $userimage = $this->db->get_where('art_reg', array('user_id' => $this->session->userdata('aileenuser')))->row()->art_user_image;
                      $userimageposted = $this->db->get_where('art_reg', array('user_id' => $this->session->userdata('aileenuser')))->row()->art_user_image;
                      ?>
-                     <?php if($artisticdata[0]['art_user_image']){?>
+                    
                       <?php 
-if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image'])) { ?>
-                                                                 <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+
+                       if (IMAGEPATHFROM == 'upload') {
+                                          if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image'])) { ?>
+                                       
+                                        <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                                        
+                                    <?php } else { ?>
+                                        <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $artisticdata[0]['art_user_image']; ?>"  alt="">
+                                   <?php }
+                                } else{
+
+                      $filename = $this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image'];
+                      $s3 = new S3(awsAccessKey, awsSecretKey);
+                      $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                      if ($info) { ?>
+                      <img src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $artisticdata[0]['art_user_image'] ?>"  alt="">
                                                                 <?php
                                                             } else { ?>
-<img  src="<?php echo base_url($this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image']); ?>"  alt="">
-                  <?php }?>
-                  <?php }else{ ?>
-                     <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
-                  <?php }?>
+                              <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                  <?php } }?>
+          
                </div>
                <div id="myBtn"  class="editor-content popup-text">
                   <span > Post Your Art....</span> 
@@ -98,7 +145,42 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                                     </div>
                                 </div>
          </div>
+
+         <div class="custom-user-list">
+
+        <div class="full-box-module_follow">
+        <div class="common-form">
+           <h3 class="user_list_head">User List</h3>
+           <div class="seeall">
+            <a href="<?php echo base_url('artist/userlist'); ?>">All User</a>
+           </div>
+           <div class="profile-boxProfileCard_follow fw  module">
+          <div class="fw" id="loader" style="text-align:center;"><img src="<?php echo base_url('assets/images/loader.gif?ver='.time()) ?>" /></div>     
+           </div>
+         
+        </div>
+       </div>
+       
+    </div>
+
+
                              <div class="art-all-post">
+
+
+                                <div class="mob-add">
+                    <div class="fw text-center pt10 pb5">
+                      <script type="text/javascript">
+                    ( function() {
+                    if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+                    var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+                    var placement_id = window.CHITIKA.units.length;
+                    window.CHITIKA.units.push(unit);
+                    document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                  }());
+                  </script>
+                  <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                    </div>
+                  </div>
                              <?php
                     if (count($art_data) > 0) {
                        
@@ -118,46 +200,159 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                               <div class="post-design-top col-md-12" id= "showpost">  
                                   <div class="post-design-pro-img "> 
                                    <?php
-                                        $art_userimage = $this->db->get_where('art_reg', array('user_id' => $art_data[0]['user_id'], 'status' => 1))->row()->art_user_image;
+                                        $art_userimage = $this->db->get_where('art_reg', array('user_id' => $art_data[0]['user_id'], 'status' => '1'))->row()->art_user_image;
 
-                                        $art_slug = $this->db->get_where('art_reg', array('user_id' => $art_data[0]['posted_user_id'], 'status' => 1))->row()->slug;
+                                        $art_slug = $this->db->get_where('art_reg', array('user_id' => $art_data[0]['posted_user_id'], 'status' => '1'))->row()->slug;
 
                                         $userimageposted = $this->db->get_where('art_reg', array('user_id' => $art_data[0]['posted_user_id']))->row()->art_user_image;
 
                                         $slugid = $this->db->get_where('art_reg', array('user_id' => $art_data[0]['user_id']))->row()->slug;
 
+
+              $contition_array = array('user_id' => $art_data[0]['user_id'], 'status' => '1');
+              $arturl = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id,art_city,art_skill,other_skill,slug', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+               $city_url = $this->db->select('city_name')->get_where('cities', array('city_id' => $arturl[0]['art_city'], 'status' => '1'))->row()->city_name;
+
+                $art_othercategory = $this->db->select('other_category')->get_where('art_other_category', array('other_category_id' => $arturl[0]['other_skill']))->row()->other_category;
+
+                                    $category = $arturl[0]['art_skill'];
+                                    $category = explode(',' , $category);
+
+                                    foreach ($category as $catkey => $catval) {
+                                       $art_category = $this->db->select('art_category')->get_where('art_category', array('category_id' => $catval))->row()->art_category;
+                                       $categorylist[] = $art_category;
+                                     } 
+
+                                    $listfinal1 = array_diff($categorylist, array('other'));
+                                    $listFinal = implode('-', $listfinal1);
+
+                                    if(!in_array(26, $category)){
+                                     $category_url =  $this->common->clean($listFinal);
+                                   }else if($arturl[0]['art_skill'] && $arturl[0]['other_skill']){
+
+                                    $trimdata = $this->common->clean($listFinal) .'-'.$this->common->clean($art_othercategory);
+                                    $category_url = trim($trimdata, '-');
+                                   }
+                                   else{
+                                     $category_url = $this->common->clean($art_othercategory);  
+                                  }
+
+                                   $city_get =  $this->common->clean($city_url);
+
+                 $url_id = $arturl[0]['slug'] .'-' . $category_url . '-'. $city_get.'-'.$arturl[0]['art_id'];
+
+
+              $contition_array = array('user_id' => $art_data[0]['posted_user_id'], 'status' => '1');
+              $arturl = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id,art_city,art_skill,other_skill,slug', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+               $city_url = $this->db->select('city_name')->get_where('cities', array('city_id' => $arturl[0]['art_city'], 'status' => '1'))->row()->city_name;
+
+                $art_othercategory = $this->db->select('other_category')->get_where('art_other_category', array('other_category_id' => $arturl[0]['other_skill']))->row()->other_category;
+
+                                    $category = $arturl[0]['art_skill'];
+                                    $category = explode(',' , $category);
+
+                                    foreach ($category as $catkey => $catval) {
+                                       $art_category = $this->db->select('art_category')->get_where('art_category', array('category_id' => $catval))->row()->art_category;
+                                       $categorylist[] = $art_category;
+                                     } 
+
+                                    $listfinal1 = array_diff($categorylist, array('other'));
+                                    $listFinal = implode('-', $listfinal1);
+
+                                    if(!in_array(26, $category)){
+                                     $category_url =  $this->common->clean($listFinal);
+                                   }else if($arturl[0]['art_skill'] && $arturl[0]['other_skill']){
+
+                                    $trimdata = $this->common->clean($listFinal) .'-'.$this->common->clean($art_othercategory);
+                                    $category_url = trim($trimdata, '-');
+                                   }
+                                   else{
+                                     $category_url = $this->common->clean($art_othercategory);  
+                                  }
+
+                                   $city_get =  $this->common->clean($city_url);
+
+
+                 $url_postid = $arturl[0]['slug'] .'-' . $category_url . '-'. $city_get.'-'.$arturl[0]['art_id'];
+
                                                     ?>
 
                                         <?php if ($art_data[0]['posted_user_id']) { ?>
 
-                                        <a class="post_dot" title="<?php echo ucwords($firstnameposted) . ' ' . ucwords($lastnameposted); ?>" href="<?php echo base_url('artistic/dashboard/' . $art_slug); ?>">
+                                        
 
-                                                <?php if($userimageposted){?>
+                          <?php 
 
-                                                 <a href="<?php echo base_url('artistic/dashboard/' . $art_slug . ''); ?>">
+                          if (IMAGEPATHFROM == 'upload') {
+                                          if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $userimageposted)) { ?>
+                                       
+                                        <a class="post_dot" title="<?php echo ucfirst(strtolower($firstnameposted)) . ' ' . ucfirst(strtolower($lastnameposted)); ?>" href="<?php echo base_url('artist/dashboard/' . $url_postid); ?>">
+                                        <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                                      </a>
+                                        
+                                    <?php } else { ?>
+                                     <a class="post_dot" title="<?php echo ucfirst(strtolower($firstnameposted)) . ' ' . ucfirst(strtolower($lastnameposted)); ?>" href="<?php echo base_url('artist/dashboard/' . $url_postid); ?>">
+                                        <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $userimageposted; ?>"  alt="">
+                                      </a>
+                                   <?php }
+                                } else{
 
-                                                <img src="<?php echo base_url($this->config->item('art_profile_thumb_upload_path') . $userimageposted); ?>" name="image_src" id="image_src" />
+
+                            $filename = $this->config->item('art_profile_thumb_upload_path') . $userimageposted;
+                            $s3 = new S3(awsAccessKey, awsSecretKey);
+                            $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+                            if ($info) { ?>
+
+                                                 <a class="post_dot" title="<?php echo ucfirst(strtolower($firstnameposted)) . ' ' . ucfirst(strtolower($lastnameposted)); ?>" href="<?php echo base_url('artist/dashboard/' . $url_postid); ?>">
+
+                                                <img src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $userimageposted; ?>" name="image_src" id="image_src" />
                                               </a>
+                          <?php }else{?>
 
-                                                <?php }else{?>
-                                                 <a href="<?php echo base_url('artistic/dashboard/' . $art_slug . ''); ?>">
-<img src="<?php echo base_url(NOARTIMAGE); ?>" alt="<?php echo ucwords($artisticdata[0]['art_name']) . ' ' . ucwords($artisticdata[0]['art_lastname']); ?>"></a>
+                          <a class="post_dot" title="<?php echo ucfirst(strtolower($firstnameposted)) . ' ' . ucfirst(strtolower($lastnameposted)); ?>" href="<?php echo base_url('artist/dashboard/' . $url_postid); ?>">
 
-                                                <?php }?>
-                                            </a>
+                         <img src="<?php echo base_url(NOARTIMAGE); ?>" alt="<?php echo ucfirst(strtolower($firstnameposted)) . ' ' . ucfirst(strtolower($lastnameposted)); ?>">  
+
+                          </a>
+
+                          <?php } }?>
+                                                
+                                          
 
                                         <?php } else { ?>
 
-                                          <a  class="post_dot" title="" href="<?php echo base_url('artistic/dashboard/' . $slugid); ?>">
+                                          <a  class="post_dot" title="" href="<?php echo base_url('artist/dashboard/' . $url_id); ?>">
 
-               <?php if($art_userimage){?>
-                <img  src="<?php echo base_url($this->config->item('art_profile_thumb_upload_path') . $art_userimage); ?>"  alt="">
+               <?php
+
+               if (IMAGEPATHFROM == 'upload') {
+                                          if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $art_userimage)) { ?>
+                                       
+                                       
+                                        <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                                     
+                                        
+                                    <?php } else { ?>
+                                     
+                                        <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $art_userimage; ?>"  alt="">
+                                      
+                                   <?php }
+                                } else{
+
+               $filename = $this->config->item('art_profile_thumb_upload_path') . $art_userimage;
+              $s3 = new S3(awsAccessKey, awsSecretKey);
+              $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+
+                if($info){?>
+                <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $art_userimage; ?>"  alt="">
                 <?php }else{?>
 
-                 <img src="<?php echo base_url(NOARTIMAGE); ?>" alt="<?php echo ucwords($art_data[0]['art_name']) . ' ' . ucwords($art_data[0]['art_lastname']); ?>">
+                 <img src="<?php echo base_url(NOARTIMAGE); ?>" alt="<?php echo ucfirst(strtolower($art_data[0]['art_name'])) . ' ' . ucfirst(strtolower($art_data[0]['art_lastname'])); ?>">
                 <?php }?>
                  </a>
-         <?php } ?>
+         <?php } }?>
         </div>
                  <div class="post-design-name fl col-md-10">
                     <ul>
@@ -197,9 +392,9 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                                 <?php if ($art_data[0]['posted_user_id']) { ?>
                                                                     <div class="else_post_d">
-                                                                        <a style="max-width: 30%;" class="post_dot" title="<?php echo ucwords($firstnameposted) . ' ' . ucwords($lastnameposted); ?>" href="<?php echo base_url('artistic/dashboard/' . $slugposted); ?>"><?php echo ucwords($firstnameposted) . ' ' . ucwords($lastnameposted); ?> </a>
+                                                                        <a style="max-width: 30%;" class="post_dot" title="<?php echo ucfirst(strtolower($firstnameposted)) . ' ' . ucfirst(strtolower($lastnameposted)); ?>" href="<?php echo base_url('artist/dashboard/' . $url_postid); ?>"><?php echo ucfirst(strtolower($firstnameposted)) . ' ' . ucfirst(strtolower($lastnameposted)); ?> </a>
                                                                         <p class="posted_with" > Posted With </p>
-                                                                        <a  class="post_dot1 padding_less_left" href="<?php echo base_url('artistic/dashboard/' . $slugid); ?>"><?php echo ucwords($firstname) . ' ' . ucwords($lastname); ?></a>
+                                                                        <a  class="post_dot1 padding_less_left" href="<?php echo base_url('artist/dashboard/' . $url_id); ?>"><?php echo ucfirst(strtolower($firstname)) . ' ' . ucfirst(strtolower($lastname)); ?></a>
 
                                                                 <span role="presentation" aria-hidden="true"> · </span>
                                                                         <span class="ctre_date"> 
@@ -211,13 +406,13 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
 
                                                                     <a title="<?php
-                                                                    echo ucwords($firstname);
+                                                                    echo ucfirst(strtolower($firstname));
                                                                     print "&nbsp;&nbsp;";
-                                                                    echo ucwords($lastname);
-                                                                    ?>" class="post_dot" href="<?php echo base_url('artistic/dashboard/' . $slugid); ?>"><?php
-                                                                       echo ucwords($firstname);
+                                                                    echo ucfirst(strtolower($lastname));
+                                                                    ?>" class="post_dot" href="<?php echo base_url('artist/dashboard/' . $url_id); ?>"><?php
+                                                                       echo ucfirst(strtolower($firstname));
                                                                        print "&nbsp;&nbsp;";
-                                                                       echo ucwords($lastname);
+                                                                       echo ucfirst(strtolower($lastname));
                                                                        ?> </a>
 <span role="presentation" aria-hidden="true"> · </span>
                                                                     <div class="datespan">
@@ -232,7 +427,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                                                          
                                                         <li><div class="post-design-product">
                                                                 <a><?php if($designation)
-                                                                    {echo $designation;
+                                                                    {echo ucfirst(strtolower($designation));
                                                                     
                                                                     }else{
                                                                         echo "Current Work";
@@ -261,7 +456,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                                 <!--<a id="<?php echo $art_data[0]['art_post_id']; ?>" onClick="deleteownpostmodel(this.id)"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete Post</a>-->
 
-                                                             <!--    <a href="<?php echo base_url('artistic/artistic_contactperson/' . $art_data[0]['user_id'] . ''); ?>"><i class="fa fa-user" aria-hidden="true"></i> Contact Person</a> -->
+                                                             <!--    <a href="<?php echo base_url('artist/artistic_contactperson/' . $art_data[0]['user_id'] . ''); ?>"><i class="fa fa-user" aria-hidden="true"></i> Contact Person</a> -->
 
                                                             <?php
                                                             }
@@ -284,7 +479,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                 <?php } else { ?>
 
                                                     <a id="<?php echo $art_data[0]['art_post_id']; ?>" onClick="deletepostmodel(this.id)"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete Post</a>
-                                                                <!-- <a href="<?php echo base_url('artistic/artistic_contactperson/' . $art_data[0]['user_id'] . ''); ?>"><i class="fa fa-user" aria-hidden="true"></i> Contact Person</a> -->
+                                                                <!-- <a href="<?php echo base_url('artist/artistic_contactperson/' . $art_data[0]['user_id'] . ''); ?>"><i class="fa fa-user" aria-hidden="true"></i> Contact Person</a> -->
                                                             <?php
                                                             }
                                                         }
@@ -358,7 +553,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                             <!-- one image start -->
                                                             <div class="one-image">
-                                                                <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img  src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[0]['file_name']) ?>" > </a>
+                                                                <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img  src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[0]['file_name']) ?>" > </a>
                                                             </div>
                                                             <!-- one image end -->
 
@@ -366,8 +561,8 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                             <!-- one pdf start -->
                                                             <div>
-                                                                <a href="<?php echo base_url('artistic/creat_pdf/' . $artmultiimage[0]['post_files_id']) ?>"><div class="pdf_img">
-                                                                        <img src="<?php echo base_url('images/PDF.jpg') ?>">
+                                                                <a href="<?php echo base_url('artist/creat_pdf/' . $artmultiimage[0]['post_files_id']) ?>"><div class="pdf_img">
+                                                                        <img src="<?php echo base_url('assets/images/PDF.jpg') ?>">
                                                                     </div></a>
                                                             </div>
                                                             <!-- one pdf end -->
@@ -392,7 +587,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                                                            
                                                                 <div class="audio_main_div">
                                                                     <div class="audio_img">
-                                                                        <img src="<?php echo base_url('images/music-icon.png') ?> ">  
+                                                                        <img src="<?php echo base_url('assets/images/music-icon.png') ?> ">  
                                                                     </div>
                                                                     <div class="audio_source">
                                                                         <audio  controls>
@@ -418,7 +613,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                             <!-- two image start -->
                                               <div class="two-images" >
-                                            <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="two-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $multiimage['file_name']) ?>" > </a>
+                                            <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="two-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $multiimage['file_name']) ?>" > </a>
                                             </div>
 
                                             <!-- two image end -->
@@ -430,13 +625,13 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                             <!-- three image start -->
                                                             <div class="three-image-top" >
-                                                                <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="three-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[0]['file_name']) ?>"> </a>
+                                                                <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="three-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[0]['file_name']) ?>"> </a>
                                                             </div>
                                                               <div class="three-image" >
-                                                                <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="three-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[1]['file_name']) ?>" > </a>
+                                                                <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="three-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[1]['file_name']) ?>" > </a>
                                                             </div>
                                                             <div class="three-image" >
-                                                                <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="three-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[2]['file_name']) ?>" > </a>
+                                                                <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="three-columns" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[2]['file_name']) ?>" > </a>
                                                             </div>
 
                                                             <!-- three image end -->
@@ -449,7 +644,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                                 <!-- four image start -->
                                                               <div class="four-image" >
-                                                                    <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="breakpoint" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $multiimage['file_name']) ?>" > </a>
+                                                                    <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img class="breakpoint" src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $multiimage['file_name']) ?>" > </a>
 
                                                                 </div>
 
@@ -469,7 +664,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                             <!-- five image start -->
                             <div>
                              <div class="four-image" >
-                                    <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $multiimage['file_name']) ?>" > </a>
+                                    <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $multiimage['file_name']) ?>" > </a>
                                 </div>
                                  </div>
 
@@ -485,9 +680,9 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                                                         <div>
                                                                  <div class="four-image" >
-                                                                    <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[3]['file_name']) ?>"> </a></div>
+                                                                    <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>"><img src="<?php echo base_url($this->config->item('art_post_thumb_upload_path') . $artmultiimage[3]['file_name']) ?>"> </a></div>
 
-                                                                    <a href="<?php echo base_url('artistic/postnewpage/' . $art_data[0]['art_post_id']) ?>" >
+                                                                    <a href="<?php echo base_url('artist/postnewpage/' . $art_data[0]['art_post_id']) ?>" >
 
                                                                 <div class="more-image" >
 
@@ -606,8 +801,8 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                                                         $likelistarray = explode(',', $likeuser);
                                                         //  $likelistarray = array_reverse($likelistarray);
                                                         foreach ($likelistarray as $key => $value) {
-                                                            $art_fname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => 1))->row()->art_name;
-                                                            $art_lname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => 1))->row()->art_lastname;
+                                                            $art_fname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => '1'))->row()->art_name;
+                                                            $art_lname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => '1'))->row()->art_lastname;
                                                             ?>
                                                             <?php } ?>
                                                         <!-- pop up box end-->
@@ -621,8 +816,8 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                             $likelistarray = explode(',', $likeuser);
                                                             $likelistarray = array_reverse($likelistarray);
-                                                            $art_fname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => 1))->row()->art_name;
-                                                            $art_lname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => 1))->row()->art_lastname;
+                                                            $art_fname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => '1'))->row()->art_name;
+                                                            $art_lname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => '1'))->row()->art_lastname;
                                                             ?>
                                                             <div class="like_one_other">
                                                                 <?php
@@ -632,9 +827,9 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                                     echo "You";
                                                                 } else {
-                                                                    echo ucwords($art_fname);
+                                                                    echo ucfirst(strtolower($art_fname));
                                                                     echo "&nbsp;";
-                                                                    echo ucwords($art_lname);
+                                                                    echo ucfirst(strtolower($art_lname));
                                                                     echo "&nbsp;";
                                                                 }
                                                                 ?>
@@ -666,8 +861,8 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                                                     $likelistarray = explode(',', $likeuser);
                                                     // $likelistarray = array_reverse($likelistarray);
                                                     foreach ($likelistarray as $key => $value) {
-                                                        $art_fname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => 1))->row()->art_name;
-                                                        $art_lname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => 1))->row()->art_lastname;
+                                                        $art_fname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => '1'))->row()->art_name;
+                                                        $art_lname1 = $this->db->get_where('art_reg', array('user_id' => $value, 'status' => '1'))->row()->art_lastname;
                                                         ?>
                                                         <?php } ?>
                                                     <!-- pop up box end-->
@@ -681,14 +876,14 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
 
                                                         $likelistarray = explode(',', $likeuser);
                                                         $likelistarray = array_reverse($likelistarray);
-                                                        $art_fname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => 1))->row()->art_name;
-                                                        $art_lname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => 1))->row()->art_lastname;
+                                                        $art_fname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => '1'))->row()->art_name;
+                                                        $art_lname = $this->db->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => '1'))->row()->art_lastname;
                                                         ?>
                                                         <div class="like_one_other">
                                                             <?php
-                                                            echo ucwords($art_fname);
+                                                            echo ucfirst(strtolower($art_fname));
                                                             echo "&nbsp;";
-                                                            echo ucwords($art_lname);
+                                                            echo ucfirst(strtolower($art_lname));
                                                             echo "&nbsp;";
                                                             ?>
                                                             <?php
@@ -727,6 +922,40 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                                            $artname = $this->db->get_where('art_reg', array('user_id' => $rowdata['user_id']))->row()->art_name;
                                             $artlastname = $this->db->get_where('art_reg', array('user_id' => $rowdata['user_id']))->row()->art_lastname;
                                             $artslug = $this->db->get_where('art_reg', array('user_id' => $rowdata['user_id']))->row()->slug;
+
+              $contition_array = array('user_id' => $rowdata['user_id'], 'status' => '1');
+              $arturl = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id,art_city,art_skill,other_skill,slug', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+               $city_url = $this->db->select('city_name')->get_where('cities', array('city_id' => $arturl[0]['art_city'], 'status' => '1'))->row()->city_name;
+
+                $art_othercategory = $this->db->select('other_category')->get_where('art_other_category', array('other_category_id' => $arturl[0]['other_skill']))->row()->other_category;
+
+                                    $category = $arturl[0]['art_skill'];
+                                    $category = explode(',' , $category);
+
+                                    foreach ($category as $catkey => $catval) {
+                                       $art_category = $this->db->select('art_category')->get_where('art_category', array('category_id' => $catval))->row()->art_category;
+                                       $categorylist[] = $art_category;
+                                     } 
+
+                                    $listfinal1 = array_diff($categorylist, array('other'));
+                                    $listFinal = implode('-', $listfinal1);
+
+                                    if(!in_array(26, $category)){
+                                     $category_url =  $this->common->clean($listFinal);
+                                   }else if($arturl[0]['art_skill'] && $arturl[0]['other_skill']){
+
+                                    $trimdata = $this->common->clean($listFinal) .'-'.$this->common->clean($art_othercategory);
+                                    $category_url = trim($trimdata, '-');
+                                   }
+                                   else{
+                                     $category_url = $this->common->clean($art_othercategory);  
+                                  }
+
+                                  $city_get =  $this->common->clean($city_url); 
+
+                                  $url_data = $arturl[0]['slug'] .'-' . $category_url . '-'. $city_get.'-'.$arturl[0]['art_id'];
+
                                         ?>
 
 
@@ -736,35 +965,64 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                         <div class="post-design-pro-comment-img">
 
                         <?php
-                    $art_userimage = $this->db->get_where('art_reg', array('user_id' => $rowdata['user_id'], 'status' => 1))->row()->art_user_image;
+                    $art_userimage = $this->db->get_where('art_reg', array('user_id' => $rowdata['user_id'], 'status' => '1'))->row()->art_user_image;
                     ?>
-                              <?php if ($art_userimage) { ?>
+                              <?php 
 
-                               <a href="<?php echo base_url('artistic/dashboard/' . $artslug . ''); ?>">
+                              if (IMAGEPATHFROM == 'upload') {
 
-                                    <img  src="<?php echo base_url($this->config->item('art_profile_thumb_upload_path') . $art_userimage); ?>"  alt="">
+                                  if($art_userimage){
+                                          if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $art_userimage)) { ?>
+                                       
+                                         <a href="<?php echo base_url('artist/dashboard/' . $url_data . ''); ?>">
+                                        <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                                      </a>
+                                        
+                                    <?php } else { ?>
+                                     <a href="<?php echo base_url('artist/dashboard/' . $url_data . ''); ?>">
+                                        <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $art_userimage; ?>"  alt="">
+                                      </a>
+                                   <?php }
+                                 }else{ ?>
+
+                                  <a href="<?php echo base_url('artist/dashboard/' . $url_data . ''); ?>">
+                                        <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                                      </a>
+
+                                 <?php }
+                                } else{
+
+                              $filename = $this->config->item('art_profile_thumb_upload_path') . $art_userimage;
+                            $s3 = new S3(awsAccessKey, awsSecretKey);
+                            $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+
+                              if ($info) { ?>
+
+                               <a href="<?php echo base_url('artist/dashboard/' . $url_data . ''); ?>">
+
+                                    <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL. $art_userimage; ?>"  alt="">
                                   </a>
                         <?php
                     } else {
                         ?>
-                          <a href="<?php echo base_url('artistic/dashboard/' . $artslug . ''); ?>">
+                          <a href="<?php echo base_url('artist/dashboard/' . $url_data . ''); ?>">
 
                            <img src="<?php echo base_url(NOARTIMAGE); ?>" alt="">
                          </a>
                         <?php
-                    }
+                    } }
                     ?>
                                                                     
                         </div>
 
 
                               <div class="comment-name">
-                                      <b title=" <?php echo ucwords($artname); echo "&nbsp;"; echo ucwords($artlastname); ?>">
-                                      <a href="<?php echo base_url('artistic/dashboard/' . $artslug . ''); ?>">
+                                      <b title=" <?php echo ucfirst(strtolower($artname)); echo "&nbsp;"; echo ucfirst(strtolower($artlastname)); ?>">
+                                      <a href="<?php echo base_url('artist/dashboard/' . $url_data . ''); ?>">
                                               <?php
-                                               echo ucwords($artname);
+                                               echo ucfirst(strtolower($artname));
                                                 echo "&nbsp;";
-                                                echo ucwords($artlastname);
+                                                echo ucfirst(strtolower($artlastname));
                                                  ?></b><?php echo '</br>'; ?>
                                                </a>
 
@@ -839,7 +1097,7 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                                                                 <?php
                                                                             $userid = $this->session->userdata('aileenuser');
 
-                                                                            $art_userid = $this->db->get_where('art_post', array('art_post_id' => $rowdata['art_post_id'], 'status' => 1))->row()->user_id;
+                                                                            $art_userid = $this->db->get_where('art_post', array('art_post_id' => $rowdata['art_post_id'], 'status' => '1'))->row()->user_id;
 
 
                                                                             if ($rowdata['user_id'] == $userid || $art_userid == $userid) {
@@ -884,20 +1142,40 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                            <div class="post-design-commnet-box col-md-12">
                                                     <?php
                                                     $userid = $this->session->userdata('aileenuser');
-                                                    $art_userimage = $this->db->get_where('art_reg', array('user_id' => $userid, 'status' => 1))->row()->art_user_image;
+                                                    $art_userimage = $this->db->get_where('art_reg', array('user_id' => $userid, 'status' => '1'))->row()->art_user_image;
                                                     ?>
                                                 <div class="post-design-proo-img">
-                                                    <?php if ($art_userimage) { ?>
-                                                     <a href="<?php echo base_url('artistic/dashboard/' . $artslug . ''); ?>">
-                                                        <img src="<?php echo base_url($this->config->item('art_profile_thumb_upload_path') . $art_userimage); ?>" name="image_src" id="image_src" />
+                                                    <?php 
+
+                                                     if (IMAGEPATHFROM == 'upload') {
+                                          if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $art_userimage)) { ?>
+                                       
+                                        <a href="<?php echo base_url('artist/dashboard/' . $get_url . ''); ?>">
+                                        <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                                      </a>
+                                        
+                                    <?php } else { ?>
+                                    <a href="<?php echo base_url('artist/dashboard/' . $get_url . ''); ?>">
+                                        <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $art_userimage; ?>"  alt="">
+                                      </a>
+                                   <?php }
+                                } else{
+
+                                                    $filename = $this->config->item('art_profile_thumb_upload_path') . $art_userimage;
+                            $s3 = new S3(awsAccessKey, awsSecretKey);
+                            $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+
+                            if ($info) { ?>
+                                                     <a href="<?php echo base_url('artist/dashboard/' . $get_url . ''); ?>">
+                                                        <img src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL. $art_userimage; ?>" name="image_src" id="image_src" />
                                                       </a>
                                                         <?php
                                                     } else {
                                                         ?>
-                                                         <a href="<?php echo base_url('artistic/dashboard/' . $artslug . ''); ?>">
+                                                         <a href="<?php echo base_url('artist/dashboard/' . $get_url . ''); ?>">
                                                         <img src="<?php echo base_url(NOARTIMAGE); ?>" alt="No Image"></a>
                 <?php
-            }
+            } }
             ?>
                                                 </div>
                                                 <div class="">
@@ -946,24 +1224,46 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
       
         
 
-    </div> 
-    <div class="right_middle_side_posrt animated fadeInRightBig fixed_right_display" id="hideuserlist" style="display: none">
+    </div>
+    <div class="right_middle_side_posrt animated fadeInRightBig fixed_right_display" id="hideuserlist" >
      
-         <div class="full-box-module_follow" style="margin-top: 0px;">
-            <!-- follower list start  -->  
-            <div class="common-form">
-               <h3 class="user_list_head">User List</h3>
-               <div class="seeall">
-                  <a href="<?php echo base_url('artistic/userlist'); ?>">All User</a>
-               </div>
-               <div class="profile-boxProfileCard_follow  module">     
-               </div>
-               <!-- follower list end  -->
-            </div>
-         </div>
+          <div class="fw text-center">
+                        <script type="text/javascript">
+              ( function() {
+              if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+              var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":300,"height":250,"sid":"Chitika Default"};
+              var placement_id = window.CHITIKA.units.length;
+              window.CHITIKA.units.push(unit);
+              document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+            }());
+            </script>
+<script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+          
+            <div class="fw pt10">
+                  <a href="http://www.chitika.com/publishers/apply?refid=aileensoul"><img src="http://images.chitika.net/ref_banners/300x250_hidden_ad.png" /></a>
+                </div>
+          </div>
+          
+          
      
-      </div>
-  <!-- Bid-modal  -->
+      </div> 
+       <div class="tablate-add">
+
+                            <script type="text/javascript">
+              ( function() {
+              if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+              var unit = {"calltype":"async[2]","publisher":"Aileensoul","width":160,"height":600,"sid":"Chitika Default"};
+              var placement_id = window.CHITIKA.units.length;
+              window.CHITIKA.units.push(unit);
+              document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+            }());
+            </script>
+            <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
+                        </div>
+
+
+
+     <!-- Bid-modal  -->
                     <div class="modal fade message-box biderror" id="bidmodal-limit" role="dialog">
                         <div class="modal-dialog modal-lm deactive">
                             <div class="modal-content">
@@ -1031,20 +1331,33 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
             <div class="modal-content-post">
                <span class="close1">&times;</span>
                   <div class="post-editor col-md-12 post-edit-popup" id="close">
-                  <?php echo form_open_multipart(base_url('artistic/art_post_insert/'), array('id' => 'artpostform', 'name' => 'artpostform', 'class' => 'clearfix upload-image-form', 'onsubmit' => "return imgval(event)")); ?>
+                  <?php echo form_open_multipart(base_url('artist/art_post_insert/'), array('id' => 'artpostform', 'name' => 'artpostform', 'class' => 'clearfix upload-image-form', 'onsubmit' => "return imgval(event)")); ?>
                   <div class="main-text-area " >
                      <div class="popup-img-in "> 
-                     <?php if($artisticdata[0]['art_user_image']){?>
-                   <?php 
-if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image'])) { ?>
-                                                                <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
-                                                                <?php
-                                                            } else { ?>
-                     <img  src="<?php echo base_url($this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image']); ?>"  alt="">
-                     <?php }?>
-                     <?php }else{?>
-                                    <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
-                     <?php }?>
+                     <?php 
+                      if (IMAGEPATHFROM == 'upload') {
+                                          if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image'])) { ?>
+                                       
+                                      
+                                        <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">
+                                      
+                                        
+                                    <?php } else { ?>
+                                    
+                                        <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL . $artisticdata[0]['art_user_image']; ?>"  alt="">
+                                     
+                                   <?php }
+                                } else{
+
+                     $filename = $this->config->item('art_profile_thumb_upload_path') . $artisticdata[0]['art_user_image'];
+                            $s3 = new S3(awsAccessKey, awsSecretKey);
+                            $this->data['info'] = $info = $s3->getObjectInfo(bucket, $filename);
+
+                     if($info){?>
+                     <img  src="<?php echo ART_PROFILE_THUMB_UPLOAD_URL. $artisticdata[0]['art_user_image']; ?>"  alt="">
+                      <?php }else{?>
+                      <img  src="<?php echo base_url(NOARTIMAGE); ?>"  alt="">                                       
+                     <?php } }?>
                      </div>
                      <div id="myBtn"  class="editor-content col-md-10 popup-text" >
                         <textarea id= "test-upload_product" placeholder="Post Your Art...."   onKeyPress=check_length(this.form); onKeyDown=check_length(this.form); onKeyup=check_length(this.form); onblur="check_length(this.form)" name=my_text rows=4 cols=30 class="post_product_name" style="position: relative;"></textarea>
@@ -1086,18 +1399,18 @@ if (!file_exists($this->config->item('art_profile_thumb_upload_path') . $artisti
                </div>
             </div>
          </div>
-<footer>
+
 <?php echo $footer; ?>
-</footer>
-<script src="<?php echo base_url('js/jquery.wallform.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/bootstrap.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/jquery.form.3.51.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('js/mediaelement-and-player.min.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('dragdrop/js/plugins/sortable.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('dragdrop/js/fileinput.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('dragdrop/js/locales/fr.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('dragdrop/js/locales/es.js?ver='.time()); ?>"></script>
-<script src="<?php echo base_url('dragdrop/themes/explorer/theme.js?ver='.time()); ?>"></script>
+
+<!-- <script src="<?php //echo base_url('assets/js/jquery.wallform.js?ver='.time()); ?>"></script> -->
+<script src="<?php echo base_url('assets/js/bootstrap.min.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.form.3.51.js?ver='.time()); ?>"></script>
+<!-- <script src="<?php //echo base_url('assets/js/mediaelement-and-player.min.js?ver='.time()); ?>"></script> -->
+<script src="<?php echo base_url('assets/dragdrop/js/plugins/sortable.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/dragdrop/js/fileinput.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/dragdrop/js/locales/fr.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/dragdrop/js/locales/es.js?ver='.time()); ?>"></script>
+<script src="<?php echo base_url('assets/dragdrop/themes/explorer/theme.js?ver='.time()); ?>"></script>
 <script type="text/javascript">
 var base_url = '<?php echo base_url(); ?>';   
 var data= <?php echo json_encode($demo); ?>;
@@ -1107,8 +1420,8 @@ var textarea = document.getElementById("textarea");
 </script>
 
 
-<script type="text/javascript" src="<?php echo base_url('js/webpage/artistic/notification-home.js?ver='.time()); ?>"></script>
-<script type="text/javascript" src="<?php echo base_url('js/webpage/artistic/search.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/artist/notification-home.js?ver='.time()); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/webpage/artist/search.js?ver='.time()); ?>"></script>
 
 </body>
 </html>
