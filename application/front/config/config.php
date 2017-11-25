@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 if ($_SERVER['HTTP_HOST'] == "localhost") {
-    $config['base_url'] = 'http://localhost/aileensoul-new/';
+    $config['base_url'] = 'http://localhost/aileensoul-latest/';
 } else {
     $config['base_url'] = 'https://www.aileensoul.com/';
 }
@@ -450,8 +450,8 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
 $config['csrf_protection'] = FALSE;
-$config['csrf_token_name'] = 'aileensoulnewfrontcsrf';
-$config['csrf_cookie_name'] = 'aileensoulnewfrontcsrf';
+$config['csrf_token_name'] = 'aileensoullatestfrontcsrf';
+$config['csrf_cookie_name'] = 'aileensoullatestfrontcsrf';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = FALSE;
 $config['csrf_exclude_uris'] = array();
