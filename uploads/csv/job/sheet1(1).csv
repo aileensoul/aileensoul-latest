@@ -1,0 +1,89 @@
+user_id,user_name,first_name,last_name,user_email,user_password,user_dob,user_image,user_gender,user_agree,is_delete,status,created_date,modified_date,edit_ip,verify_date,user_verify,profile_background,profile_background_main,fb_id,user_slider,password_code,mobile no,keyskill,experience,work_job_title,work_job_industry,work_job_city
+,,vinay ,patel,vin4vinay.87@gmail.com,12345,29-Apr-87,,M,1,0,1,,,192.168.2.47,,1,,,,0,0,9099022821,"PRODUCTION ENGINEER,analyse",Fresher,CHEMICAL ENGG.,"Projects/Infrastructure/Power/Energy, Petroleum/Oil and Gas/Power",ahmedabad
+,,Pallav ,Shah,pallavshh2005@yahoo.com,12345,01-Aug-87,,M,1,0,1,,,192.168.2.48,,1,,,,0,0,9998643707,"Auto-cad,pro engineering, Diploma in computer application.",Fresher,B.Tech/Diploma Plastics & Polymer engg.,,Ahmedabad
+,,kuldip,pandya,kmpandya13@yahoo.com,12345,13-Oct-87,,M,1,0,1,,,192.168.1.87,,1,,,,0,0,9099929581,Maa,Fresher,CURRICULUM VITAE,Government Sector,Ahmedabad
+,,tanuj ,shah,tanujshah81@yahoo.com,12345,26-Mar-89,,M,1,0,1,,,192.168.1.88,,1,,,,0,0,9904411053,"Networking, Linux, MCSA, MS access",Fresher,BCA,IT-Hardware/Networking,Anywhere in West India
+,,Elmer ,Coelho,elmer_coelho87@hotmail.com,12345,27-Mar-87,,M,1,0,1,,,192.168.1.89,,1,,,,0,0,9724498303,"PLC Programming, developing SCADA.",Fresher,Fresher- B.E.(elecronics and comm.),Educational/Training,Ahmedabad
+,,naitik,thaker,myselfnt@yahoo.co.in,12345,20-Mar-87,,M,1,0,1,,,192.168.1.90,,1,,,,0,0,9925740538,metallurgy engineer,Fresher,C.V OF A SKILLED PRESONALITY,Construction/Cement/Metal/Steel/Iron,"Bengaluru/ Bangalore,Anywhere in Gujarat,Gandhidham"
+,,pankaj,panchal,pankajpanchal74@gmaill.com,12345,20-May-88,,M,1,0,1,,,192.168.1.91,,1,,,,0,0,9727656743,"i ma good in architecture walkthrough, in interior, exterior, sence.",Experience,freelance work in 3d,Architecture/Interior Design,Anywhere in India
+,,kunal,patel,patel_bapasitaram88@yahoo.com,12345,02-Oct-88,,M,1,0,1,,,192.168.1.92,,1,,,,0,0,9974243346,"d.c.a perator,, pc+naetworking a+ hardware n+ networking ms office internet oracle visual basic.net\",Fresher,"computer operator,1year experiance in geet STELL",Real Estate,Ahmedabad
+,,sagar,ranpura,kashisheng_4105@yahoo.co.in,12345,17-Sep-86,,M,1,0,1,,,192.168.1.93,,1,,,,0,0,9825753202,"Engineering/Manufacturing,",Fresher,"Diploma, Engg. project Mgmt./site Engg./Civil Engg., 1-Year/",Engineering/Projects,Ahmedabad
+,,riteshkumar,agarwal,ritesh1989@rocketmail.com,12345,08-Aug-89,,M,1,0,1,,,192.168.1.94,,1,,,,0,0,9974719723,Microsoft Office Tally 7.2 and aslo GRAM Software,Experience,"B.com (running),1.5 Years Experience in C.A`s Firm",Accounting-Tax/Consulting,"Ahmedabad,Gandhinagar,Mehsana"
+,,nikesh,mistry,niks_pharma007@yahoo.co.in,12345,07-Oct-86,,M,1,0,1,,,192.168.1.95,,1,,,,0,0,9909995763,"# M.S.Office , C + Languag",Fresher,dharmik,Biotechnology/Pharmaceutical/Medicine,"Ahmedabad,Surat,Vadodara"
+,,DHAVAL ,AGRAWAL,d.dhavalagrawal@rediffmail.com,12345,29-Mar-89,,M,1,0,1,,,192.168.1.96,,1,,,,0,0,9909685307,"COMPLETE KNOWLEDGE OF LINUX OPERATING SYSTEM ,CAPABLE OF HANDLING LINUX BASE SERVERS. ALSO GOOD KNOWLEDGE OF HARDWARE & NETWORKING",Experience,EXPERT IN HARDWARE AND NETWORKING.,IT-Hardware/Networking,Ahmedabad
+,,GAURAV ,PATEL,gaurav_14787@yahoo.co.in,12345,14-Jul-87,,M,1,0,1,,,192.168.1.97,,1,,,,0,0,9727070842,Programming Languages,Fresher,"B.Tech. In Chemical Engineering, Fresher","IT-Software, Software Services",Anywhere in India
+,,jigar ,modi,howrujig@hotmail.com,12345,30-Jul-88,,M,1,0,1,,,192.168.1.98,,1,,,,0,0,9998034292,"c,html,asp,office",Fresher,resume,Educational/Training,Anywhere in India
+,,Joseph ,Dias,josephdias1812@gmail.com,12345,18-Dec-86,,M,1,0,1,,,192.168.1.99,,1,,,,0,0,9879921569,"ms office, SAP",Fresher,fresh mechanical engineer,"Government Sector, Manufacturing/Industrial","Ahmedabad,Anand,Mehsana"
+,,MEHUL ,SONI,mehul.soni3@gmail.com,12345,29-Nov-86,,M,1,0,1,,,192.168.1.100,,1,,,,0,0,9428664316,.net,Fresher,job,"IT-Hardware/Networking, IT-Software","Anywhere in India,UK"
+,,mohanlal tarachand ,singhal,mohanstarsinghal@yahoo.com,12345,20-May-88,,M,1,0,1,,,192.168.1.101,,1,,,,0,0,9714351497,"Insttal o.s. win98,2k,2k3,xp,vista etc.",Fresher,resume,IT-Hardware/Networking,Ahmedabad
+,,Naresh ,Kumar,naresh_007_m@yahoo.co.in,12345,01-Dec-87,,M,1,0,1,,,192.168.1.102,,1,,,,0,0,9375314280,Expert in Hardware troubleshoting & Networking,Fresher,Naresh C. Sen,IT-Hardware/Networking,Ahmedabad
+,,SIKANDAR ,CHAUHAN,satyamdgna_157@yahoo.com,12345,15-Jul-88,,M,1,0,1,,,192.168.1.103,,1,,,,0,0,9998399401,,Fresher,SIKANDAR,Accounting-Tax/Consulting,Ahmedabad
+,,shameem ,pasha,shameem_pasha@yahoo.com,12345,06-Jul-87,,M,1,0,1,,,192.168.1.104,,1,,,,0,0,9391294596,pgdca,Fresher,cumputer operater,Software Services,Anywhere in North India
+,,devendra ,dave,swadev_22@yahoo.co.in.com,12345,18-Jan-87,,M,1,0,1,,,192.168.1.105,,1,,,,0,0,9904772611,,Experience,DEVENDRA DAVE,Engineering/Projects,Ahmedabad
+,,VACHHETA ,JIGAR,jigar_vachheta1@indiatimes.com,12345,11-Jul-87,,M,1,0,1,,,192.168.1.106,,1,,,,0,0,9925847415,"Calibration, Maintanance, Machine operation",Fresher,Machine operator / Instrument techanician with 3 year exp,Healthcare,Ahmedabad
+,,vishal ,patel,vishal_gp@yahoo.com,12345,13-Dec-86,,M,1,0,1,,,192.168.1.107,,1,,,,0,0,9725175296,3dsmax&autocad,Fresher,architectural job,Architecture/Interior Design,Israel
+,,darshan ,patel,dnpatel_177@yahoo.com,12345,17-Jul-87,,M,1,0,1,,,192.168.1.108,,1,,,,0,0,9925371247,Computer Hardwere,Experience,Computer Hardwere,IT-Hardware/Networking,Ahmedabad
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9898727174,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9725042162,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9099011611,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9428262200,,,,,
+,,,,,,,,,,,,,,,,,,,,,,7895512381,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9904511203,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9428807780,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9953472505,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9724151468,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9879778820,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9428043671,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9879809918,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9376661766,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9913636474,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9898997530,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9428351918,,,,,
+,,,,,,,,,,,,,,,,,,,,,,-26860170,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9427955235,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9327015927,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9724799427,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9724077600,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9428238205,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9727729083,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9999999999,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9978948911,,,,,
+,,,,,,,,,,,,,,,,,,,,,,9276810418,,,,,
