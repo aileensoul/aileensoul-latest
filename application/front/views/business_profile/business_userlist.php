@@ -56,16 +56,16 @@
                                                 <div class="mob-add">
                                                     <div class="fw text-center pt10 pb10">
                                                         <script type="text/javascript">
-                                                            (function () {
-                                                                if (window.CHITIKA === undefined) {
-                                                                    window.CHITIKA = {'units': []};
-                                                                }
-                                                                ;
-                                                                var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
-                                                                var placement_id = window.CHITIKA.units.length;
-                                                                window.CHITIKA.units.push(unit);
-                                                                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
-                                                            }());
+                                        (function () {
+                                            if (window.CHITIKA === undefined) {
+                                                window.CHITIKA = {'units': []};
+                                            }
+                                            ;
+                                            var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                            var placement_id = window.CHITIKA.units.length;
+                                            window.CHITIKA.units.push(unit);
+                                            document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                        }());
                                                         </script>
                                                         <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
                                                     </div>
@@ -84,16 +84,16 @@
 
                             <div class="fw text-center">
                                 <script type="text/javascript">
-                                                                            (function () {
-                                                                                if (window.CHITIKA === undefined) {
-                                                                                    window.CHITIKA = {'units': []};
-                                                                                }
-                                                                                ;
-                                                                                var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
-                                                                                var placement_id = window.CHITIKA.units.length;
-                                                                                window.CHITIKA.units.push(unit);
-                                                                                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
-                                                                            }());
+                                        (function () {
+                                            if (window.CHITIKA === undefined) {
+                                                window.CHITIKA = {'units': []};
+                                            }
+                                            ;
+                                            var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 300, "height": 250, "sid": "Chitika Default"};
+                                            var placement_id = window.CHITIKA.units.length;
+                                            window.CHITIKA.units.push(unit);
+                                            document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                        }());
                                 </script>
                                 <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
                                 <div class="fw pt10">
@@ -104,16 +104,16 @@
                         <div class="tablate-add">
 
                             <script type="text/javascript">
-                                                                            (function () {
-                                                                                if (window.CHITIKA === undefined) {
-                                                                                    window.CHITIKA = {'units': []};
-                                                                                }
-                                                                                ;
-                                                                                var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 160, "height": 600, "sid": "Chitika Default"};
-                                                                                var placement_id = window.CHITIKA.units.length;
-                                                                                window.CHITIKA.units.push(unit);
-                                                                                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
-                                                                            }());
+                                        (function () {
+                                            if (window.CHITIKA === undefined) {
+                                                window.CHITIKA = {'units': []};
+                                            }
+                                            ;
+                                            var unit = {"calltype": "async[2]", "publisher": "Aileensoul", "width": 160, "height": 600, "sid": "Chitika Default"};
+                                            var placement_id = window.CHITIKA.units.length;
+                                            window.CHITIKA.units.push(unit);
+                                            document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                                        }());
                             </script>
                             <script type="text/javascript" src="//cdn.chitika.net/getads.js" async></script>
                         </div>
@@ -122,7 +122,7 @@
             </div>
         </section>
         <!-- <footer> -->
-            <?php echo $footer; ?>
+        <?php echo $footer; ?>
         <!-- </footer> -->
         <!-- Bid-modal  -->
         <div class="modal fade message-box biderror" id="bidmodal" role="dialog">
@@ -159,13 +159,13 @@
         </div>
         <!-- Model Popup Close -->
         <!-- script for skill textbox automatic end (option 2)-->
-        <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
+        <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/croppie.js?ver=' . time()); ?>"></script>
         <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js?ver=' . time()); ?>"></script>
         <!-- script for business autofill -->
         <script>
-                                                                            var base_url = '<?php echo base_url(); ?>';
+                                        var base_url = '<?php echo base_url(); ?>';
         </script>
         <?php if (IS_BUSINESS_JS_MINIFY == '0') { ?>
             <script type="text/javascript" src="<?php echo base_url('assets/js/webpage/business-profile/userlist.js?ver=' . time()); ?>"></script>
